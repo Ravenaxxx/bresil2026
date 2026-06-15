@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Brésil 2026">
+<title>🇧🇷 Brésil 2026</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{
+  --bg:#F7F3EC;--surf:#FFFFFF;--surf2:#F0EBE0;
+  --t1:#1A1512;--t2:#6B5E52;--t3:#A8988B;
+  --border:rgba(0,0,0,0.09);
+  --nav:#0B3D2E;--nav-ht:60px;
+  --c1:#1B7FCC;--c1b:#E3F0FB;
+  --tog:#0B8C5E;--togb:#DFF5EC;
+  --c2:#CC7000;--c2b:#FDEFD8;
+  --sep:#E8452C;--sepb:#FDEAEA;
+  --r:12px;--rs:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--t1);font-size:15px;overscroll-behavior:none}
+.app{display:flex;flex-direction:column;height:100vh;max-width:480px;margin:0 auto;background:var(--bg)}
+
+/* HEADER */
+.hdr{background:var(--nav);color:#fff;padding:env(safe-area-inset-top,14px) 16px 12px;flex-shrink:0}
+.hdr-row{display:flex;align-items:center;justify-content:space-between}
+.hdr h1{font-size:18px;font-weight:700;letter-spacing:-.4px}
+.hdr-sub{font-size:11px;opacity:.65;margin-top:2px}
+.hdr-pills{display:flex;gap:6px}
+.hdr-pill{font-size:10px;padding:2px 9px;border-radius:20px;font-weight:600;background:rgba(255,255,255,.15)}
+
+/* CONTENT */
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--nav-ht) + env(safe-area-inset-bottom,8px) + 8px)}
+
+/* BOTTOM NAV */
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--nav);display:flex;z-index:900;padding-bottom:env(safe-area-inset-bottom,0px);border-top:1px solid rgba(255,255,255,.1)}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px 6px;border:none;background:none;color:rgba(255,255,255,.45);cursor:pointer;transition:color .2s;font-family:inherit;min-width:0}
+.nb.on{color:#fff}
+.nb-ico{font-size:19px;line-height:1}
+.nb-lbl{font-size:9px;font-weight:600;margin-top:3px;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap}
+
+/* PANES */
+.pane{display:none;padding:12px}
+.pane.on{display:block}
+
+/* LABELS */
+.sec-lbl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;padding:10px 2px 5px;margin-top:2px}
+.sec-lbl:first-child{margin-top:0;padding-top:2px}
+
+/* LEGEND */
+.legend{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.lpill{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.lp-c1{background:var(--c1b);color:var(--c1)}
+.lp-tog{background:var(--togb);color:var(--tog)}
+.lp-c2{background:var(--c2b);color:var(--c2)}
+
+/* CALENDAR */
+.dr{display:flex;background:var(--surf);border-radius:var(--rs);margin-bottom:3px;overflow:hidden}
+.ds{width:4px;flex-shrink:0}
+.ds-c1{background:var(--c1)}.ds-tog{background:var(--tog)}.ds-c2{background:var(--c2)}.ds-sep{background:var(--sep)}
+.di{flex:1;padding:8px 10px;display:flex;gap:8px;align-items:flex-start}
+.dd{font-size:10px;color:var(--t3);min-width:56px;padding-top:2px;line-height:1.45;flex-shrink:0}
+.dm{flex:1}
+.dest{font-size:13px;font-weight:600;line-height:1.3;color:var(--t1)}
+.dnote{font-size:11px;color:var(--t2);margin-top:2px;line-height:1.4}
+.dtag{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;margin-top:3px;letter-spacing:.02em;text-transform:uppercase}
+.dt-c1{background:var(--c1b);color:var(--c1)}.dt-tog{background:var(--togb);color:var(--tog)}.dt-c2{background:var(--c2b);color:var(--c2)}.dt-sep{background:var(--sepb);color:var(--sep)}
+
+/* MAP */
+#map{height:400px;border-radius:var(--r);overflow:hidden;border:1px solid var(--border)}
+.mtgs{display:flex;gap:6px;margin-bottom:10px}
+.mtbtn{flex:1;padding:9px 6px;font-size:12px;font-weight:700;border-radius:var(--rs);border:1.5px solid var(--border);background:var(--surf);color:var(--t2);cursor:pointer;font-family:inherit;transition:all .15s;text-align:center}
+.mtbtn.on{border-color:transparent;color:#fff}
+.mb1.on{background:var(--c1)}.mb0.on{background:var(--tog)}.mb2.on{background:var(--c2)}
+.mleg{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+.mli{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2)}
+.mline{width:20px;height:2.5px;border-radius:2px}
+
+/* CARDS */
+.card{background:var(--surf);border-radius:var(--r);border:1px solid var(--border);margin-bottom:10px;overflow:hidden}
+.card-hd{padding:10px 14px;font-size:12px;font-weight:700;color:#fff;display:flex;align-items:center;gap:6px}
+.ch-c1{background:var(--c1)}.ch-tog{background:var(--tog)}.ch-c2{background:var(--c2)}.ch-gray{background:#4B5563}
+
+/* TRAJETS */
+.tj{display:flex;gap:10px;padding:10px 14px;border-top:1px solid var(--border);align-items:flex-start}
+.tj:first-of-type{border-top:none}
+.tj-ico{width:34px;height:34px;border-radius:var(--rs);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.ti-intl{background:var(--c1b)}.ti-int{background:var(--togb)}.ti-gnd{background:var(--c2b)}
+.tj-body{flex:1}
+.tj-route{font-size:13px;font-weight:600;color:var(--t1)}
+.tj-detail{font-size:11px;color:var(--t2);margin-top:2px;line-height:1.4}
+.tj-r{text-align:right;flex-shrink:0}
+.tj-price{font-size:12px;font-weight:700;color:var(--t1)}
+.tj-type{font-size:10px;color:var(--t3);margin-top:2px}
+
+/* ACCORDION */
+.ac-item{border-top:1px solid var(--border)}
+.ac-item:first-child{border-top:none}
+.ac-hd{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;cursor:pointer;user-select:none;-webkit-user-select:none}
+.ac-title{font-size:14px;font-weight:700;color:var(--t1)}
+.ac-meta{font-size:11px;color:var(--t3);margin-top:1px}
+.ac-arr{font-size:14px;color:var(--t3);transition:transform .2s;line-height:1;flex-shrink:0}
+.ac-item.open .ac-arr{transform:rotate(180deg)}
+.ac-body{display:none;padding:0 14px 12px}
+.ac-item.open .ac-body{display:block}
+.act{display:flex;gap:9px;padding:8px 0;border-top:1px solid var(--border)}
+.act:first-child{border-top:none}
+.act-ico{font-size:20px;width:26px;flex-shrink:0}
+.act-body{flex:1}
+.act-name{font-size:13px;font-weight:600;color:var(--t1)}
+.act-desc{font-size:11px;color:var(--t2);margin-top:2px;line-height:1.5}
+.chips{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.chip{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:600}
+.ch-wow{background:var(--togb);color:var(--tog)}.ch-tip{background:var(--c2b);color:var(--c2)}.ch-red{background:var(--sepb);color:var(--sep)}
+
+/* BUDGET */
+.btabs{display:flex;gap:6px;margin-bottom:12px}
+.btab{flex:1;padding:8px;font-size:12px;font-weight:700;border-radius:var(--rs);border:1.5px solid var(--border);background:var(--surf);color:var(--t2);cursor:pointer;font-family:inherit;transition:all .15s;text-align:center}
+.btab.on{background:var(--t1);color:#fff;border-color:var(--t1)}
+.bpane{display:none}.bpane.on{display:block}
+.kgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.kpi{background:var(--surf);border-radius:var(--r);padding:12px;border:1px solid var(--border)}
+.kpi-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:4px}
+.kpi-val{font-size:22px;font-weight:800;color:var(--t1);letter-spacing:-.5px}
+.kpi-sub{font-size:10px;color:var(--t3);margin-top:3px}
+.brow{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--border)}
+.brow:first-child{border-top:none}
+.bico{font-size:20px;width:26px;text-align:center;flex-shrink:0}
+.bwrap{flex:1}
+.btop{display:flex;justify-content:space-between;margin-bottom:5px}
+.bname{font-size:13px;font-weight:600;color:var(--t1)}
+.bval{font-size:13px;font-weight:700;color:var(--t1)}
+.btrack{height:5px;background:var(--surf2);border-radius:3px;overflow:hidden}
+.bfill{height:5px;border-radius:3px}
+.bhint{font-size:10px;color:var(--t3);margin-top:3px}
+
+/* INFOS */
+.irow{display:flex;gap:10px;padding:9px 0;border-top:1px solid var(--border)}
+.irow:first-child{border-top:none}
+.iico{font-size:20px;width:26px;flex-shrink:0;margin-top:1px}
+.ibody{flex:1}
+.iname{font-size:13px;font-weight:600;color:var(--t1)}
+.idesc{font-size:11px;color:var(--t2);margin-top:2px;line-height:1.5}
+
+.pb{height:12px}
+.cp{padding:12px 14px}
+.cp-body{padding:0 14px 12px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ══ HEADER ══════════════════════════════════════════════════════ -->
+<header class="hdr">
+  <div class="hdr-row">
+    <div><h1>🇧🇷 Brésil 2026</h1><div class="hdr-sub">17 oct. → 18 nov. · 2 couples · 33 jours</div></div>
+    <div class="hdr-pills"><span class="hdr-pill">C1 · 25j</span><span class="hdr-pill">C2 · 24j</span></div>
+  </div>
+</header>
+
+<main class="content">
+
+<!-- ══ CALENDRIER ══════════════════════════════════════════════════ -->
+<div id="pane-cal" class="pane on">
+  <div class="legend">
+    <span class="lpill lp-c1">● Couple 1 seul</span>
+    <span class="lpill lp-tog">● Les 4 ensemble</span>
+    <span class="lpill lp-c2">● Couple 2 seul</span>
+  </div>
+
+  <div class="sec-lbl">Semaine 1 · 17–23 oct.</div>
+  <div class="dr"><div class="ds ds-c1"></div><div class="di"><div class="dd">J1 · Sam 17</div><div class="dm"><div class="dest">Manaus — Amazonie</div><div class="dnote">Arrivée · Installation Anavilhanas ou Juma Lodge</div><span class="dtag dt-c1">Couple 1</span></div></div></div>
+  <div class="dr"><div class="ds ds-c1"></div><div class="di"><div class="dd">J2 · Dim 18</div><div class="dm"><div class="dest">Manaus</div><div class="dnote">Pirogue au lever du soleil · Dauphins roses du rio Negro</div><span class="dtag dt-c1">Couple 1</span></div></div></div>
+  <div class="dr"><div class="ds ds-c1"></div><div class="di"><div class="dd">J3 · Lun 19</div><div class="dm"><div class="dest">Manaus</div><div class="dnote">Pêche aux piranhas · Observation caïmans nocturne</div><span class="dtag dt-c1">Couple 1</span></div></div></div>
+  <div class="dr"><div class="ds ds-c1"></div><div class="di"><div class="dd">J4 · Mar 20</div><div class="dm"><div class="dest">Manaus → Porto de Galinhas</div><div class="dnote">Vol interne Manaus → Recife · Arrivée Nannai Resort</div><span class="dtag dt-c1">Couple 1</span></div></div></div>
+  <div class="dr"><div class="ds ds-c1"></div><div class="di"><div class="dd">J5 · Mer 21</div><div class="dm"><div class="dest">Porto de Galinhas</div><div class="dnote">Jangada vers piscines naturelles · Marée basse obligatoire</div><span class="dtag dt-c1">Couple 1</span></div></div></div>
+  <div class="dr"><div class="ds ds-c1"></div><div class="di"><div class="dd">J6 · Jeu 22</div><div class="dm"><div class="dest">Porto de Galinhas</div><div class="dnote">Plage de Carneiros · Snorkeling dans les récifs</div><span class="dtag dt-c1">Couple 1</span></div></div></div>
+  <div class="dr"><div class="ds ds-c1"></div><div class="di"><div class="dd">J7 · Ven 23</div><div class="dm"><div class="dest">Porto de Galinhas</div><div class="dnote">Farniente · Soirée à Recife</div><span class="dtag dt-c1">Couple 1</span></div></div></div>
+
+  <div class="sec-lbl">Semaine 2 · 24–30 oct.</div>
+  <div class="dr"><div class="ds ds-c1"></div><div class="di"><div class="dd">J8 · Sam 24</div><div class="dm"><div class="dest">Porto de Galinhas → Foz do Iguaçu</div><div class="dnote">Vol Recife → Foz · Arrivée Belmond Das Cataratas</div><span class="dtag dt-c1">Couple 1</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J9 · Dim 25 🤝</div><div class="dm"><div class="dest">Chutes d'Iguazu — Côté brésilien</div><div class="dnote">Retrouvailles ! Couple 2 arrive de Paris · Vue panoramique</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J10 · Lun 26</div><div class="dm"><div class="dest">Chutes d'Iguazu — Côté argentin</div><div class="dnote">Garganta del Diablo · Passerelles immersives</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J11 · Mar 27</div><div class="dm"><div class="dest">Iguazu — Jungle & faune</div><div class="dnote">Toucans · Coatis · Papillons géants · Option hélicoptère</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J12 · Mer 28</div><div class="dm"><div class="dest">Foz → Salvador de Bahia</div><div class="dnote">Vol Foz → Salvador · Arrivée Fasano ou Fera Palace Hotel</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J13 · Jeu 29</div><div class="dm"><div class="dest">Salvador de Bahia</div><div class="dnote">Pelourinho UNESCO · Église São Francisco · Capoeira en rue</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J14 · Ven 30</div><div class="dm"><div class="dest">Salvador de Bahia</div><div class="dnote">Musée Afro-Brésilien · Soirée Olodum (percussions)</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+
+  <div class="sec-lbl">Semaine 3 · 31 oct.–6 nov.</div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J15 · Sam 31</div><div class="dm"><div class="dest">Salvador de Bahia</div><div class="dnote">Croisière baie de Todos os Santos · Déjeuner à bord</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J16 · Dim 1 nov.</div><div class="dm"><div class="dest">Salvador → Morro de São Paulo</div><div class="dnote">Marché Rio Vermelho · Catamaran 14h (2h30 de traversée)</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J17 · Lun 2</div><div class="dm"><div class="dest">Morro de São Paulo</div><div class="dnote">Forteresse portugaise · 2e plage · Coucher de soleil remparts</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J18 · Mar 3</div><div class="dm"><div class="dest">Morro — Excursion Boipeba</div><div class="dnote">Bateau 45 min · Piscines naturelles récifs · Snorkeling</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J19 · Mer 4</div><div class="dm"><div class="dest">Morro → Rio de Janeiro</div><div class="dnote">4e plage (sauvage) · Catamaran → Salvador → vol Rio</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J20 · Jeu 5</div><div class="dm"><div class="dest">Rio de Janeiro</div><div class="dnote">Christ Rédempteur (7h30) · Pain de Sucre coucher de soleil ☀️</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J21 · Ven 6</div><div class="dm"><div class="dest">Rio de Janeiro</div><div class="dnote">Santa Teresa · Jardin botanique · Samba à Lapa 🎵</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+
+  <div class="sec-lbl">Semaine 4 · 7–13 nov.</div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J22 · Sam 7</div><div class="dm"><div class="dest">Rio de Janeiro</div><div class="dnote">Ipanema · Favela tour Vidigal · Bar Mirante do Arvrão</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J23 · Dim 8</div><div class="dm"><div class="dest">Rio de Janeiro</div><div class="dnote">Copacabana · Museu do Amanhã · Grand dîner gastronomique</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J24 · Lun 9</div><div class="dm"><div class="dest">Rio → Paraty</div><div class="dnote">Forêt de Tijuca · Van privatif Rio → Paraty (~4h)</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-tog"></div><div class="di"><div class="dd">J25 · Mar 10</div><div class="dm"><div class="dest">Paraty → Ilha Grande</div><div class="dnote">Village colonial · Cachaça artisanale · Bateau vers l'île</div><span class="dtag dt-tog">Les 4 ensemble</span></div></div></div>
+  <div class="dr"><div class="ds ds-sep"></div><div class="di"><div class="dd">J26 · Mer 11 ✈️</div><div class="dm"><div class="dest">Ilha Grande — Séparation</div><div class="dnote">Lopes Mendes 🏖️ · Dîner d'adieu à 4 · C1→Paris · C2→SP</div><span class="dtag dt-sep">Séparation</span></div></div></div>
+  <div class="dr"><div class="ds ds-c2"></div><div class="di"><div class="dd">J27 · Jeu 12</div><div class="dm"><div class="dest">São Paulo</div><div class="dnote">Van Angra → SP · Rosewood · Quartier Pinheiros</div><span class="dtag dt-c2">Couple 2</span></div></div></div>
+  <div class="dr"><div class="ds ds-c2"></div><div class="di"><div class="dd">J28 · Ven 13</div><div class="dm"><div class="dest">São Paulo</div><div class="dnote">MASP · Vila Madalena · Beco do Batman (street art)</div><span class="dtag dt-c2">Couple 2</span></div></div></div>
+
+  <div class="sec-lbl">Semaine 5 · 14–18 nov.</div>
+  <div class="dr"><div class="ds ds-c2"></div><div class="di"><div class="dd">J29 · Sam 14</div><div class="dm"><div class="dest">São Paulo</div><div class="dnote">Ibirapuera · Gastronomie mondiale · Liberdade</div><span class="dtag dt-c2">Couple 2</span></div></div></div>
+  <div class="dr"><div class="ds ds-c2"></div><div class="di"><div class="dd">J30 · Dim 15</div><div class="dm"><div class="dest">São Paulo → Ilhabela</div><div class="dnote">Mercado Municipal · Ferry → Ilhabela · DPNY Hotel</div><span class="dtag dt-c2">Couple 2</span></div></div></div>
+  <div class="dr"><div class="ds ds-c2"></div><div class="di"><div class="dd">J31 · Lun 16</div><div class="dm"><div class="dest">Ilhabela</div><div class="dnote">Plage do Curral · Cascades · Forêt Atlantique</div><span class="dtag dt-c2">Couple 2</span></div></div></div>
+  <div class="dr"><div class="ds ds-c2"></div><div class="di"><div class="dd">J32 · Mar 17</div><div class="dm"><div class="dest">Ilhabela</div><div class="dnote">Plages sauvages sud · Snorkeling · Détente finale</div><span class="dtag dt-c2">Couple 2</span></div></div></div>
+  <div class="dr"><div class="ds ds-c2"></div><div class="di"><div class="dd">J33 · Mer 18 ✈️</div><div class="dm"><div class="dest">Ilhabela → Paris</div><div class="dnote">Ferry → São Paulo GRU · Vol GRU → CDG (~12h direct)</div><span class="dtag dt-c2">Couple 2</span></div></div></div>
+  <div class="pb"></div>
+</div>
+
+<!-- ══ CARTE ════════════════════════════════════════════════════════ -->
+<div id="pane-map" class="pane">
+  <div class="mtgs">
+    <button class="mtbtn mb1 on" id="mb1" onclick="setMap(1)">🔵 Couple 1</button>
+    <button class="mtbtn mb0" id="mb0" onclick="setMap(0)">🟢 Ensemble</button>
+    <button class="mtbtn mb2" id="mb2" onclick="setMap(2)">🟠 Couple 2</button>
+  </div>
+  <div id="map"></div>
+  <div class="mleg">
+    <div class="mli"><div class="mline" style="background:var(--c1)"></div> C1 solo (trait pointillé)</div>
+    <div class="mli"><div class="mline" style="background:var(--tog)"></div> Ensemble</div>
+    <div class="mli"><div class="mline" style="background:var(--c2)"></div> C2 solo (trait pointillé)</div>
+  </div>
+  <div class="pb"></div>
+</div>
+
+<!-- ══ TRAJETS ══════════════════════════════════════════════════════ -->
+<div id="pane-traj" class="pane">
+  <div class="card">
+    <div class="card-hd ch-c1">✈️ Couple 1 — 6 vols</div>
+    <div class="tj"><div class="tj-ico ti-intl">🌍</div><div class="tj-body"><div class="tj-route">Paris CDG → Manaus</div><div class="tj-detail">17 oct. · Via São Paulo GRU · ~16h · LATAM / Air France</div></div><div class="tj-r"><div class="tj-price">750–1 200€</div><div class="tj-type">Intl · /pers</div></div></div>
+    <div class="tj"><div class="tj-ico ti-int">🇧🇷</div><div class="tj-body"><div class="tj-route">Manaus → Recife</div><div class="tj-detail">20 oct. · ~3h30 · LATAM / Azul</div></div><div class="tj-r"><div class="tj-price">120–250€</div><div class="tj-type">Interne · /pers</div></div></div>
+    <div class="tj"><div class="tj-ico ti-int">🇧🇷</div><div class="tj-body"><div class="tj-route">Recife → Foz do Iguaçu</div><div class="tj-detail">24 oct. · Avec escale ~4h · LATAM / Gol</div></div><div class="tj-r"><div class="tj-price">150–280€</div><div class="tj-type">Interne · /pers</div></div></div>
+    <div class="tj"><div class="tj-ico ti-int">🇧🇷</div><div class="tj-body"><div class="tj-route">Foz do Iguaçu → Salvador</div><div class="tj-detail">28 oct. · Avec escale ~3h30 · LATAM</div></div><div class="tj-r"><div class="tj-price">120–220€</div><div class="tj-type">Interne · /pers</div></div></div>
+    <div class="tj"><div class="tj-ico ti-int">🇧🇷</div><div class="tj-body"><div class="tj-route">Salvador → Rio de Janeiro</div><div class="tj-detail">4 nov. · Direct ~2h · LATAM / Azul</div></div><div class="tj-r"><div class="tj-price">80–160€</div><div class="tj-type">Interne · /pers</div></div></div>
+    <div class="tj"><div class="tj-ico ti-intl">🌍</div><div class="tj-body"><div class="tj-route">Rio GIG → Paris CDG</div><div class="tj-detail">11 nov. · ~12h direct ou escale · Air France</div></div><div class="tj-r"><div class="tj-price">700–1 100€</div><div class="tj-type">Intl · /pers</div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hd ch-c2">✈️ Couple 2 — 4 vols</div>
+    <div class="tj"><div class="tj-ico ti-intl">🌍</div><div class="tj-body"><div class="tj-route">Paris CDG → Foz do Iguaçu</div><div class="tj-detail">25 oct. · Via São Paulo GRU · ~17h · LATAM</div></div><div class="tj-r"><div class="tj-price">750–1 150€</div><div class="tj-type">Intl · /pers</div></div></div>
+    <div class="tj"><div class="tj-ico ti-int">🇧🇷</div><div class="tj-body"><div class="tj-route">Foz do Iguaçu → Salvador</div><div class="tj-detail">28 oct. · Avec escale ~3h30 · LATAM</div></div><div class="tj-r"><div class="tj-price">120–220€</div><div class="tj-type">Interne · /pers</div></div></div>
+    <div class="tj"><div class="tj-ico ti-int">🇧🇷</div><div class="tj-body"><div class="tj-route">Salvador → Rio de Janeiro</div><div class="tj-detail">4 nov. · Direct ~2h · LATAM / Azul</div></div><div class="tj-r"><div class="tj-price">80–160€</div><div class="tj-type">Interne · /pers</div></div></div>
+    <div class="tj"><div class="tj-ico ti-intl">🌍</div><div class="tj-body"><div class="tj-route">São Paulo GRU → Paris CDG</div><div class="tj-detail">18 nov. · ~12h direct · Air France / LATAM</div></div><div class="tj-r"><div class="tj-price">650–1 050€</div><div class="tj-type">Intl · /pers</div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hd ch-gray">🚌 Transfers terrestres & maritimes</div>
+    <div class="tj"><div class="tj-ico ti-gnd">⛵</div><div class="tj-body"><div class="tj-route">Catamaran Salvador ↔ Morro de São Paulo</div><div class="tj-detail">1 nov. (aller) · 4 nov. (retour) · 2h30 · Biotur</div></div><div class="tj-r"><div class="tj-price">~30€</div><div class="tj-type">/pers/sens</div></div></div>
+    <div class="tj"><div class="tj-ico ti-gnd">⛵</div><div class="tj-body"><div class="tj-route">Bateau Morro → Boipeba (excursion)</div><div class="tj-detail">3 nov. · A/R 45 min · Tour guidé inclus</div></div><div class="tj-r"><div class="tj-price">~40€</div><div class="tj-type">/pers A/R</div></div></div>
+    <div class="tj"><div class="tj-ico ti-gnd">🚐</div><div class="tj-body"><div class="tj-route">Van privatif Rio → Paraty</div><div class="tj-detail">9 nov. · ~4h · Costa Verde · 4 personnes</div></div><div class="tj-r"><div class="tj-price">~150€</div><div class="tj-type">/véhicule</div></div></div>
+    <div class="tj"><div class="tj-ico ti-gnd">⛵</div><div class="tj-body"><div class="tj-route">Bateau Paraty → Ilha Grande</div><div class="tj-detail">10 nov. · 45 min · Départs réguliers</div></div><div class="tj-r"><div class="tj-price">~25€</div><div class="tj-type">/pers</div></div></div>
+    <div class="tj"><div class="tj-ico ti-gnd">🚐</div><div class="tj-body"><div class="tj-route">Van Angra dos Reis → São Paulo [C2]</div><div class="tj-detail">11 nov. · ~3h depuis Angra après l'île</div></div><div class="tj-r"><div class="tj-price">~40€</div><div class="tj-type">/pers</div></div></div>
+    <div class="tj"><div class="tj-ico ti-gnd">⛴️</div><div class="tj-body"><div class="tj-route">Ferry São Paulo ↔ Ilhabela [C2]</div><div class="tj-detail">15 nov. · 15 min · Très fréquent</div></div><div class="tj-r"><div class="tj-price">~5€</div><div class="tj-type">/pers</div></div></div>
+  </div>
+  <div class="pb"></div>
+</div>
+
+<!-- ══ ACTIVITÉS ════════════════════════════════════════════════════ -->
+<div id="pane-act" class="pane">
+  <div class="card">
+
+    <div class="ac-item" id="ac-manaus">
+      <div class="ac-hd" onclick="toggleAc('manaus')"><div><div class="ac-title">🌿 Manaus — Amazonie</div><div class="ac-meta">Couple 1 · J1–J3 · 17–19 oct.</div></div><span class="ac-arr">▾</span></div>
+      <div class="ac-body">
+        <div class="act"><div class="act-ico">🌅</div><div class="act-body"><div class="act-name">Pirogue au lever du soleil</div><div class="act-desc">Excursion guidée dès 5h30 sur le rio Negro · Brume matinale · Oiseaux tropicaux rares</div><div class="chips"><span class="chip ch-wow">Incontournable</span></div></div></div>
+        <div class="act"><div class="act-ico">🐬</div><div class="act-body"><div class="act-name">Dauphins roses du rio Negro</div><div class="act-desc">Boto cor-de-rosa · Unique au monde · Excursion depuis le lodge en pirogue</div><div class="chips"><span class="chip ch-wow">WOW</span></div></div></div>
+        <div class="act"><div class="act-ico">🎣</div><div class="act-body"><div class="act-name">Pêche aux piranhas</div><div class="act-desc">Expérience classique de l'Amazonie · Bord de rivière · Guide inclus dans le lodge</div></div></div>
+        <div class="act"><div class="act-ico">🌙</div><div class="act-body"><div class="act-name">Observation des caïmans de nuit</div><div class="act-desc">Pirogue nocturne · Lampe torche · Yeux qui brillent dans l'obscurité</div></div></div>
+        <div class="act"><div class="act-ico">🏛️</div><div class="act-body"><div class="act-name">Teatro Amazonas (optionnel)</div><div class="act-desc">Opéra historique de Manaus · Architecture coloniale · Si temps disponible</div></div></div>
+      </div>
+    </div>
+
+    <div class="ac-item" id="ac-porto">
+      <div class="ac-hd" onclick="toggleAc('porto')"><div><div class="ac-title">🏖️ Porto de Galinhas</div><div class="ac-meta">Couple 1 · J4–J7 · 20–23 oct.</div></div><span class="ac-arr">▾</span></div>
+      <div class="ac-body">
+        <div class="act"><div class="act-ico">🪸</div><div class="act-body"><div class="act-name">Piscines naturelles en jangada</div><div class="act-desc">Radeau traditionnel vers les bassins de récifs · Poissons tropicaux · Eaux turquoise · À marée basse uniquement — vérifier chaque matin !</div><div class="chips"><span class="chip ch-wow">Top 1</span><span class="chip ch-tip">Marée basse !</span></div></div></div>
+        <div class="act"><div class="act-ico">🤿</div><div class="act-body"><div class="act-name">Snorkeling dans les récifs</div><div class="act-desc">Masque & tuba · Eaux cristallines · Parfait pour les débutants</div></div></div>
+        <div class="act"><div class="act-ico">🌴</div><div class="act-body"><div class="act-name">Plage de Carneiros</div><div class="act-desc">30 km au sud · Eaux calmes turquoise · Cocotiers · La plus belle plage de la région</div><div class="chips"><span class="chip ch-wow">WOW</span></div></div></div>
+        <div class="act"><div class="act-ico">🏙️</div><div class="act-body"><div class="act-name">Soirée à Recife</div><div class="act-desc">Marché São José · Quartier Boa Viagem · Cuisine nordestine</div></div></div>
+      </div>
+    </div>
+
+    <div class="ac-item" id="ac-iguazu">
+      <div class="ac-hd" onclick="toggleAc('iguazu')"><div><div class="ac-title">💦 Chutes d'Iguazu</div><div class="ac-meta">Ensemble · J9–J11 · 25–27 oct.</div></div><span class="ac-arr">▾</span></div>
+      <div class="ac-body">
+        <div class="act"><div class="act-ico">🇧🇷</div><div class="act-body"><div class="act-name">Côté brésilien — vue panoramique</div><div class="act-desc">Passerelles surplombant les 275 chutes · Arriver à 8h30 · Vue d'ensemble spectaculaire</div><div class="chips"><span class="chip ch-tip">Billet en ligne obligatoire</span></div></div></div>
+        <div class="act"><div class="act-ico">🇦🇷</div><div class="act-body"><div class="act-name">Côté argentin — Garganta del Diablo</div><div class="act-desc">Immersion totale · Passerelles au cœur des chutes · Prévoir imperméable · Franchissement frontière simple</div><div class="chips"><span class="chip ch-wow">Frisson absolu</span></div></div></div>
+        <div class="act"><div class="act-ico">🐦</div><div class="act-body"><div class="act-name">Balade jungle & faune</div><div class="act-desc">Toucans · Coatis · Papillons géants · Aras · Sentier dans la forêt primaire du parc</div></div></div>
+        <div class="act"><div class="act-ico">🚁</div><div class="act-body"><div class="act-name">Survol hélicoptère (optionnel)</div><div class="act-desc">~15 min · Vue aérienne des 275 chutes · ~150€/pers · Depuis l'hélipad de l'hôtel</div><div class="chips"><span class="chip ch-tip">Option payante</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="ac-item" id="ac-salvador">
+      <div class="ac-hd" onclick="toggleAc('salvador')"><div><div class="ac-title">🎶 Salvador de Bahia</div><div class="ac-meta">Ensemble · J12–J15 · 28–31 oct.</div></div><span class="ac-arr">▾</span></div>
+      <div class="ac-body">
+        <div class="act"><div class="act-ico">🏛️</div><div class="act-body"><div class="act-name">Pelourinho (UNESCO)</div><div class="act-desc">Centre historique classé · Maisons coloniales colorées · Casa de Jorge Amado</div><div class="chips"><span class="chip ch-wow">Incontournable</span></div></div></div>
+        <div class="act"><div class="act-ico">⛪</div><div class="act-body"><div class="act-name">Église São Francisco</div><div class="act-desc">L'intérieur le plus doré du Brésil · Art baroque extrême · Ouvrir tôt le matin</div></div></div>
+        <div class="act"><div class="act-ico">🥁</div><div class="act-body"><div class="act-name">Olodum — percussions afro-brésiliennes</div><div class="act-desc">Groupe emblématique de Salvador · Très présent le dimanche · Spectacle gratuit en rue</div><div class="chips"><span class="chip ch-wow">Dimanche !</span></div></div></div>
+        <div class="act"><div class="act-ico">🥊</div><div class="act-body"><div class="act-name">Capoeira en rue</div><div class="act-desc">Roda de capoeira en plein air · Art martial afro-brésilien · Pelourinho</div></div></div>
+        <div class="act"><div class="act-ico">⛵</div><div class="act-body"><div class="act-name">Croisière baie de Todos os Santos</div><div class="act-desc">Goélette · Îles · Déjeuner à bord · Snorkeling · 2e plus grande baie du monde</div><div class="chips"><span class="chip ch-wow">Journée mémorable</span></div></div></div>
+        <div class="act"><div class="act-ico">🍤</div><div class="act-body"><div class="act-name">Acarajé — Acarajé de Dinha</div><div class="act-desc">Beignet de haricots frits · Spécialité baiana · Rio Vermelho · Institution locale</div></div></div>
+        <div class="act"><div class="act-ico">🌅</div><div class="act-body"><div class="act-name">Coucher de soleil — Phare de Barra</div><div class="act-desc">Spot iconique · Vue sur la mer et la baie · Quartier Barra · Verres à la main</div></div></div>
+      </div>
+    </div>
+
+    <div class="ac-item" id="ac-morro">
+      <div class="ac-hd" onclick="toggleAc('morro')"><div><div class="ac-title">🌊 Morro de São Paulo + Boipeba</div><div class="ac-meta">Ensemble · J16–J18 · 1–3 nov.</div></div><span class="ac-arr">▾</span></div>
+      <div class="ac-body">
+        <div class="act"><div class="act-ico">🏰</div><div class="act-body"><div class="act-name">Forteresse portugaise (17e s.)</div><div class="act-desc">Vue panoramique depuis les remparts · Coucher de soleil magique</div><div class="chips"><span class="chip ch-wow">Coucher de soleil</span></div></div></div>
+        <div class="act"><div class="act-ico">🏖️</div><div class="act-body"><div class="act-name">Les 4 plages numérotées</div><div class="act-desc">1ère : village · 2ème : animée avec bars · 3ème : calme · 4ème : sauvage (40 min à pied)</div></div></div>
+        <div class="act"><div class="act-ico">🪸</div><div class="act-body"><div class="act-name">Boipeba — piscines naturelles récifs</div><div class="act-desc">Bateau 45 min · Île quasi-vierge · Eaux turquoise extraordinaires · Snorkeling</div><div class="chips"><span class="chip ch-wow">WOW</span><span class="chip ch-tip">Marée basse !</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="ac-item" id="ac-rio">
+      <div class="ac-hd" onclick="toggleAc('rio')"><div><div class="ac-title">🏔️ Rio de Janeiro</div><div class="ac-meta">Ensemble · J19–J23 · 4–8 nov.</div></div><span class="ac-arr">▾</span></div>
+      <div class="ac-body">
+        <div class="act"><div class="act-ico">✝️</div><div class="act-body"><div class="act-name">Christ Rédempteur — Corcovado</div><div class="act-desc">7h30 maximum avant foule et nuages · Vue à 360° sur Rio · Billet en ligne obligatoire</div><div class="chips"><span class="chip ch-wow">Incontournable</span><span class="chip ch-tip">7h30 max !</span></div></div></div>
+        <div class="act"><div class="act-ico">🗻</div><div class="act-body"><div class="act-name">Pain de Sucre — Pão de Açúcar</div><div class="act-desc">Téléphérique 2 tronçons · Être à 17h pour le coucher de soleil + Rio by night</div><div class="chips"><span class="chip ch-wow">Coucher de soleil</span></div></div></div>
+        <div class="act"><div class="act-ico">🎵</div><div class="act-body"><div class="act-name">Samba à Lapa — vendredi soir</div><div class="act-desc">Arcos da Lapa · Carioca da Gema (meilleure samba de Rio) · À partir de 22h</div><div class="chips"><span class="chip ch-wow">Vendredi</span></div></div></div>
+        <div class="act"><div class="act-ico">🏘️</div><div class="act-body"><div class="act-name">Favela tour — Vidigal</div><div class="act-desc">Guide local obligatoire · Vue spectaculaire sur Rio · Street art · Jamais seul</div><div class="chips"><span class="chip ch-red">Guide local uniquement</span></div></div></div>
+        <div class="act"><div class="act-ico">🍸</div><div class="act-body"><div class="act-name">Bar Mirante do Arvrão (Vidigal)</div><div class="act-desc">Vue nocturne sur Rio · Spot secret des cariocas · Après favela tour</div><div class="chips"><span class="chip ch-wow">Vue nocturne</span></div></div></div>
+        <div class="act"><div class="act-ico">🏖️</div><div class="act-body"><div class="act-name">Ipanema — Poste 9</div><div class="act-desc">Le plus animé · Açaí au réveil · Aucun bijou visible · Sun, beach, people watching</div></div></div>
+        <div class="act"><div class="act-ico">🎨</div><div class="act-body"><div class="act-name">Museu do Amanhã</div><div class="act-desc">Architecture Santiago Calatrava · Futuriste · Bord de baie · 2h minimum · Ticket en ligne</div><div class="chips"><span class="chip ch-wow">Architecture wow</span></div></div></div>
+        <div class="act"><div class="act-ico">🌲</div><div class="act-body"><div class="act-name">Forêt de Tijuca + Cascade Taunay</div><div class="act-desc">Plus grande forêt urbaine du monde · Balade légère 1h A/R · Dernier matin avant Paraty</div></div></div>
+        <div class="act"><div class="act-ico">🎨</div><div class="act-body"><div class="act-name">Quartier Santa Teresa</div><div class="act-desc">Bohème · Rues pavées · Musée Chácara do Céu (Picasso, Dalí) · Vue sur la baie</div></div></div>
+      </div>
+    </div>
+
+    <div class="ac-item" id="ac-paraty">
+      <div class="ac-hd" onclick="toggleAc('paraty')"><div><div class="ac-title">🏝️ Paraty + Ilha Grande</div><div class="ac-meta">Ensemble · J24–J26 · 9–11 nov.</div></div><span class="ac-arr">▾</span></div>
+      <div class="ac-body">
+        <div class="act"><div class="act-ico">🏘️</div><div class="act-body"><div class="act-name">Paraty by night</div><div class="act-desc">Village colonial 17e siècle · Rues pavées inondables à marée haute · Très photogénique</div></div></div>
+        <div class="act"><div class="act-ico">🥃</div><div class="act-body"><div class="act-name">Cachaça artisanale — Alambique Mãe de Ouro</div><div class="act-desc">Parmi les meilleures cachaças du Brésil · Visite distillerie + dégustation</div></div></div>
+        <div class="act"><div class="act-ico">🏖️</div><div class="act-body"><div class="act-name">Plage de Lopes Mendes</div><div class="act-desc">Top 10 mondial · 3 km de sable blanc immaculé · Forêt primaire · 40 min à pied ou bateau-taxi</div><div class="chips"><span class="chip ch-wow">Top 10 mondial</span></div></div></div>
+        <div class="act"><div class="act-ico">🤿</div><div class="act-body"><div class="act-name">Snorkeling baie d'Ilha Grande</div><div class="act-desc">Depuis la plage ou excursion bateau · Eaux cristallines · Poissons tropicaux</div></div></div>
+      </div>
+    </div>
+
+    <div class="ac-item" id="ac-sp">
+      <div class="ac-hd" onclick="toggleAc('sp')"><div><div class="ac-title">🏙️ São Paulo + Ilhabela</div><div class="ac-meta">Couple 2 · J27–J33 · 12–18 nov.</div></div><span class="ac-arr">▾</span></div>
+      <div class="ac-body">
+        <div class="act"><div class="act-ico">🖼️</div><div class="act-body"><div class="act-name">MASP — Musée d'art de São Paulo</div><div class="act-desc">Parmi les plus grandes collections du monde · Bâtiment Lina Bo Bardi · Avenida Paulista</div><div class="chips"><span class="chip ch-wow">Incontournable</span></div></div></div>
+        <div class="act"><div class="act-ico">🎨</div><div class="act-body"><div class="act-name">Vila Madalena — Beco do Batman</div><div class="act-desc">Ruelle entièrement couverte de murales · Quartier le plus cool de SP · Bars, cafés, galeries</div></div></div>
+        <div class="act"><div class="act-ico">🍽️</div><div class="act-body"><div class="act-name">Gastronomie de rang mondial</div><div class="act-desc">SP = capitale gastronomique d'Amérique du Sud · Restaurants étoilés accessibles · Toutes cuisines</div><div class="chips"><span class="chip ch-wow">WOW</span></div></div></div>
+        <div class="act"><div class="act-ico">🌳</div><div class="act-body"><div class="act-name">Parc Ibirapuera</div><div class="act-desc">Poumon vert de SP · Musée d'art moderne · Dimanche = marché et cyclistes</div></div></div>
+        <div class="act"><div class="act-ico">🏝️</div><div class="act-body"><div class="act-name">Ilhabela — île sauvage pauliste</div><div class="act-desc">Ferry 15 min · Plages isolées · Forêt Atlantique · Cascades · Plage do Curral + plages sud</div><div class="chips"><span class="chip ch-wow">Fin en beauté</span></div></div></div>
+      </div>
+    </div>
+
+  </div>
+  <div class="pb"></div>
+</div>
+
+<!-- ══ BUDGET ════════════════════════════════════════════════════════ -->
+<div id="pane-bud" class="pane">
+  <div class="btabs">
+    <button class="btab on" onclick="showBud('c1')">Couple 1</button>
+    <button class="btab" onclick="showBud('c2')">Couple 2</button>
+    <button class="btab" onclick="showBud('all')">Total ×4</button>
+  </div>
+
+  <div id="bp-c1" class="bpane on">
+    <div class="kgrid">
+      <div class="kpi"><div class="kpi-lbl">Total couple 1</div><div class="kpi-val">~17 500€</div><div class="kpi-sub">Estimation médiane · 25 jours</div></div>
+      <div class="kpi"><div class="kpi-lbl">Par personne</div><div class="kpi-val">~8 750€</div><div class="kpi-sub">Fourchette 7 500–10 000€</div></div>
+    </div>
+    <div class="card"><div class="cp-body">
+      <div class="brow"><div class="bico">✈️</div><div class="bwrap"><div class="btop"><div class="bname">Vols (6)</div><div class="bval">5 200€</div></div><div class="btrack"><div class="bfill" style="width:65%;background:var(--c1)"></div></div><div class="bhint">3 840–6 420€ · 2 vols intl + 4 vols internes</div></div></div>
+      <div class="brow"><div class="bico">🏨</div><div class="bwrap"><div class="btop"><div class="bname">Hébergement</div><div class="bval">7 950€</div></div><div class="btrack"><div class="bfill" style="width:100%;background:var(--tog)"></div></div><div class="bhint">25 nuits · Lodges & hôtels haut de gamme</div></div></div>
+      <div class="brow"><div class="bico">🍽️</div><div class="bwrap"><div class="btop"><div class="bname">Restauration</div><div class="bval">2 000€</div></div><div class="btrack"><div class="bfill" style="width:25%;background:var(--c2)"></div></div><div class="bhint">~80€/jour pour 2 · Tous repas</div></div></div>
+      <div class="brow"><div class="bico">🎭</div><div class="bwrap"><div class="btop"><div class="bname">Activités & visites</div><div class="bval">1 000€</div></div><div class="btrack"><div class="bfill" style="width:13%;background:#9B59B6"></div></div><div class="bhint">Parcs Iguazu · Tours · Excursions · Billets</div></div></div>
+      <div class="brow"><div class="bico">🚐</div><div class="bwrap"><div class="btop"><div class="bname">Transfers terrestres & maritimes</div><div class="bval">700€</div></div><div class="btrack"><div class="bfill" style="width:9%;background:#E67E22"></div></div><div class="bhint">Vans privatifs · Bateaux · Taxis locaux</div></div></div>
+      <div class="brow"><div class="bico">🧴</div><div class="bwrap"><div class="btop"><div class="bname">Divers</div><div class="bval">650€</div></div><div class="btrack"><div class="bfill" style="width:8%;background:var(--t3)"></div></div><div class="bhint">Assurance ~300€ · SIM · Médicaments · Shopping</div></div></div>
+    </div></div>
+  </div>
+
+  <div id="bp-c2" class="bpane">
+    <div class="kgrid">
+      <div class="kpi"><div class="kpi-lbl">Total couple 2</div><div class="kpi-val">~16 200€</div><div class="kpi-sub">Estimation médiane · 24 jours</div></div>
+      <div class="kpi"><div class="kpi-lbl">Par personne</div><div class="kpi-val">~8 100€</div><div class="kpi-sub">Fourchette 7 000–9 500€</div></div>
+    </div>
+    <div class="card"><div class="cp-body">
+      <div class="brow"><div class="bico">✈️</div><div class="bwrap"><div class="btop"><div class="bname">Vols (4)</div><div class="bval">4 400€</div></div><div class="btrack"><div class="bfill" style="width:55%;background:var(--c2)"></div></div><div class="bhint">3 260–5 320€ · 2 vols intl + 2 vols internes</div></div></div>
+      <div class="brow"><div class="bico">🏨</div><div class="bwrap"><div class="btop"><div class="bname">Hébergement</div><div class="bval">7 950€</div></div><div class="btrack"><div class="bfill" style="width:100%;background:var(--tog)"></div></div><div class="bhint">Dont Rosewood SP (4n) · DPNY Ilhabela (3n)</div></div></div>
+      <div class="brow"><div class="bico">🍽️</div><div class="bwrap"><div class="btop"><div class="bname">Restauration</div><div class="bval">1 920€</div></div><div class="btrack"><div class="bfill" style="width:24%;background:var(--c2)"></div></div><div class="bhint">~80€/jour pour 2 · 24 jours</div></div></div>
+      <div class="brow"><div class="bico">🎭</div><div class="bwrap"><div class="btop"><div class="bname">Activités & visites</div><div class="bval">800€</div></div><div class="btrack"><div class="bfill" style="width:10%;background:#9B59B6"></div></div><div class="bhint">Parcs · Tours · Billets · Excursions</div></div></div>
+      <div class="brow"><div class="bico">🚐</div><div class="bwrap"><div class="btop"><div class="bname">Transfers terrestres & maritimes</div><div class="bval">600€</div></div><div class="btrack"><div class="bfill" style="width:8%;background:#E67E22"></div></div><div class="bhint">Vans · Bateaux · Ferry Ilhabela</div></div></div>
+      <div class="brow"><div class="bico">🧴</div><div class="bwrap"><div class="btop"><div class="bname">Divers</div><div class="bval">530€</div></div><div class="btrack"><div class="bfill" style="width:7%;background:var(--t3)"></div></div><div class="bhint">Assurance · SIM locale · Shopping</div></div></div>
+    </div></div>
+  </div>
+
+  <div id="bp-all" class="bpane">
+    <div class="kgrid">
+      <div class="kpi"><div class="kpi-lbl">Total 4 personnes</div><div class="kpi-val">~33 700€</div><div class="kpi-sub">Estimation médiane</div></div>
+      <div class="kpi"><div class="kpi-lbl">Par personne</div><div class="kpi-val">~8 425€</div><div class="kpi-sub">Moyenne 2 couples</div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd ch-gray">📊 Fourchette selon timing de réservation</div>
+      <div class="cp-body">
+        <div class="brow"><div class="bico">🟢</div><div class="bwrap"><div class="btop"><div class="bname">Maintenant (6 mois avant)</div><div class="bval">~27 000€</div></div><div class="btrack"><div class="bfill" style="width:64%;background:var(--tog)"></div></div><div class="bhint">Vols au meilleur prix · Tous hébergements disponibles</div></div></div>
+        <div class="brow"><div class="bico">🟡</div><div class="bwrap"><div class="btop"><div class="bname">Été 2026 (3 mois avant)</div><div class="bval">~33 700€</div></div><div class="btrack"><div class="bfill" style="width:80%;background:var(--c2)"></div></div><div class="bhint">Prix moyens · Quelques hôtels premium complets</div></div></div>
+        <div class="brow"><div class="bico">🔴</div><div class="bwrap"><div class="btop"><div class="bname">Automne 2026 (dernière minute)</div><div class="bval">~42 000€</div></div><div class="btrack"><div class="bfill" style="width:100%;background:var(--sep)"></div></div><div class="bhint">Vols internes doublés · Belmond complet depuis longtemps</div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd ch-tog">📌 Priorités de réservation</div>
+      <div class="cp" style="font-size:13px;line-height:1.9;color:var(--t2)">
+        <p>🔴 <strong style="color:var(--t1)">MAINTENANT</strong> — Belmond Das Cataratas, Nannai Resort, Anavilhanas Lodge</p>
+        <p>🟠 <strong style="color:var(--t1)">Dans 2–3 mois</strong> — Vol Recife→Foz, Pousadas Ilha Grande & Morro</p>
+        <p>🟡 <strong style="color:var(--t1)">Dans 4–5 mois</strong> — Vols internationaux (activer alertes Google Flights maintenant)</p>
+        <p>🟢 <strong style="color:var(--t1)">Avant départ</strong> — Billets parcs Iguazu, Christ Rédempteur, Pain de Sucre (en ligne)</p>
+      </div>
+    </div>
+  </div>
+  <div class="pb"></div>
+</div>
+
+<!-- ══ INFOS ══════════════════════════════════════════════════════════ -->
+<div id="pane-inf" class="pane">
+
+  <div class="card">
+    <div class="card-hd ch-gray">🏥 Santé & Documents</div>
+    <div class="cp-body">
+      <div class="irow"><div class="iico">💉</div><div class="ibody"><div class="iname">Vaccin fièvre jaune</div><div class="idesc">Obligatoire pour l'Amazonie · Recommandé partout · Minimum 10 jours avant départ · Centre de vaccination international</div></div></div>
+      <div class="irow"><div class="iico">💊</div><div class="ibody"><div class="iname">Antipaludéen</div><div class="idesc">Uniquement pour Manaus / Amazonie · Lariam ou Malarone · Consulter médecin 4–6 semaines avant</div></div></div>
+      <div class="irow"><div class="iico">🪪</div><div class="ibody"><div class="iname">Passeport</div><div class="idesc">Valide 6 mois après la date de retour · Aucun visa requis pour les Français au Brésil</div></div></div>
+      <div class="irow"><div class="iico">🛡️</div><div class="ibody"><div class="iname">Assurance voyage</div><div class="idesc">Avec rapatriement médical — obligatoire · AXA Travel ou Chapka recommandés · ~150€/personne</div></div></div>
+      <div class="irow"><div class="iico">🩹</div><div class="ibody"><div class="iname">Pharmacie de voyage</div><div class="idesc">DEET 30%+ (Amazonie) · SPF 50+ · Anti-diarrhéiques · Antibiotiques Cipro · Antidouleurs</div></div></div>
+      <div class="irow"><div class="iico">🌡️</div><div class="ibody"><div class="iname">Météo oct.–nov.</div><div class="idesc">Amazonie : 28–33°C humide · Nordeste/Bahia : sec et ensoleillé · Rio/SP : début été brésilien 25–30°C</div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd ch-tog">🏨 Hébergements recommandés</div>
+    <div class="cp-body">
+      <div class="irow"><div class="iico">🌿</div><div class="ibody"><div class="iname">Anavilhanas Jungle Lodge — Manaus</div><div class="idesc">AC + piscine + restaurant · Rio Negro · ~300€/nuit/couple · 🔴 Réserver maintenant !</div></div></div>
+      <div class="irow"><div class="iico">🌿</div><div class="ibody"><div class="iname">Juma Lodge — Manaus</div><div class="idesc">Ponton sur l'eau · Alternative Anavilhanas · ~250€/nuit/couple</div></div></div>
+      <div class="irow"><div class="iico">💦</div><div class="ibody"><div class="iname">Belmond Das Cataratas — Iguazu</div><div class="idesc">Seul hôtel dans le parc · Accès chutes au crépuscule · ~800€/nuit · 🔴 RÉSERVER MAINTENANT</div></div></div>
+      <div class="irow"><div class="iico">💦</div><div class="ibody"><div class="iname">Gran Meliá Iguazu</div><div class="idesc">Alternative au Belmond · Vue forêt · ~400€/nuit/couple</div></div></div>
+      <div class="irow"><div class="iico">🏖️</div><div class="ibody"><div class="iname">Nannai Resort & Spa — Porto de Galinhas</div><div class="idesc">Bungalows · Piscine · 5 étoiles · ~400€/nuit · 🔴 Réserver tôt</div></div></div>
+      <div class="irow"><div class="iico">🎶</div><div class="ibody"><div class="iname">Fasano Salvador ou Fera Palace Hotel</div><div class="idesc">Design + vue sur la baie · ~250€/nuit/couple</div></div></div>
+      <div class="irow"><div class="iico">🌊</div><div class="ibody"><div class="iname">Vila dos Orixás — Morro de São Paulo</div><div class="idesc">Piscine · Design · Capacité limitée · ~200€/nuit · Réserver 3–4 mois avant</div></div></div>
+      <div class="irow"><div class="iico">🏔️</div><div class="ibody"><div class="iname">Fasano Rio ou Santa Teresa Hotel MGallery</div><div class="idesc">Ipanema ou vue panoramique sur Rio · ~350€/nuit/couple</div></div></div>
+      <div class="irow"><div class="iico">🏝️</div><div class="ibody"><div class="iname">Sagu Mini Resort — Ilha Grande</div><div class="idesc">Ponton privatif · Vue mer · Charme total · ~300€/nuit/couple</div></div></div>
+      <div class="irow"><div class="iico">🏙️</div><div class="ibody"><div class="iname">Rosewood São Paulo [C2]</div><div class="idesc">Luxe absolu · Design · ~500€/nuit/couple</div></div></div>
+      <div class="irow"><div class="iico">🏝️</div><div class="ibody"><div class="iname">DPNY Beach Hotel — Ilhabela [C2]</div><div class="idesc">Bord de plage · Fin de voyage idéale · ~300€/nuit/couple</div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd ch-c2">🍽️ Restaurants à ne pas manquer</div>
+    <div class="cp-body">
+      <div class="irow"><div class="iico">🦐</div><div class="ibody"><div class="iname">Iemanjá ou Restaurante do Senac — Salvador</div><div class="idesc">Moqueca authentique · Vue sur Pelourinho · Spécialités baianas</div></div></div>
+      <div class="irow"><div class="iico">🍤</div><div class="ibody"><div class="iname">Acarajé de Dinha — Salvador (Rio Vermelho)</div><div class="idesc">Institution locale · Beignets de haricots frits avec crevettes · File normale et ça vaut le coup</div></div></div>
+      <div class="irow"><div class="iico">🎵</div><div class="ibody"><div class="iname">Carioca da Gema — Rio (Lapa)</div><div class="idesc">Meilleure samba live de Rio · Réserver le vendredi soir · Table avec vue sur la scène</div></div></div>
+      <div class="irow"><div class="iico">🌃</div><div class="ibody"><div class="iname">Mirante do Arvrão — Rio (Vidigal)</div><div class="idesc">Bar · Vue nocturne panoramique sur Rio · Spot secret des cariocas · Après favela tour</div></div></div>
+      <div class="irow"><div class="iico">🍷</div><div class="ibody"><div class="iname">Olympe ou Lasai — Rio</div><div class="idesc">Gastronomique franco-brésilien · Grand dîner du voyage à 4 · Réserver tôt</div></div></div>
+      <div class="irow"><div class="iico">🌴</div><div class="ibody"><div class="iname">Punto Divino — Paraty</div><div class="idesc">Terrasse sur les pavés · Pasta + fruits de mer · Cadre colonial magique la nuit</div></div></div>
+      <div class="irow"><div class="iico">🐟</div><div class="ibody"><div class="iname">Restaurante Lua e Mar — Ilha Grande</div><div class="idesc">Poisson grillé · Vue mer · Vila do Abraão · Parfait pour le dîner d'adieu</div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd ch-gray">📱 Applications & Pratique</div>
+    <div class="cp-body">
+      <div class="irow"><div class="iico">🗺️</div><div class="ibody"><div class="iname">Google Maps</div><div class="idesc">Télécharger les cartes hors-ligne du Brésil AVANT le départ · Indispensable</div></div></div>
+      <div class="irow"><div class="iico">🚕</div><div class="ibody"><div class="iname">99 (VTC brésilien)</div><div class="idesc">Équivalent Uber · Plus fiable dans certaines villes · Télécharger à l'avance</div></div></div>
+      <div class="irow"><div class="iico">💸</div><div class="ibody"><div class="iname">Revolut ou Wise</div><div class="idesc">Carte sans frais de change · Retirer des reais sans commissions · 1€ ≈ 5,5 BRL</div></div></div>
+      <div class="irow"><div class="iico">🌊</div><div class="ibody"><div class="iname">Tábua de Marés (app marées)</div><div class="idesc">Indispensable pour Porto de Galinhas et Boipeba · Vérifier chaque matin</div></div></div>
+      <div class="irow"><div class="iico">📶</div><div class="ibody"><div class="iname">SIM Claro / Vivo ou eSIM Airalo</div><div class="idesc">Meilleure couverture au Brésil · ~30€/30j illimités · eSIM : configurer avant le départ</div></div></div>
+      <div class="irow"><div class="iico">🔌</div><div class="ibody"><div class="iname">Prises type N — adaptateur universel</div><div class="idesc">127V ou 220V selon la ville · Emporter un adaptateur universel</div></div></div>
+      <div class="irow"><div class="iico">💬</div><div class="ibody"><div class="iname">Google Translate</div><div class="idesc">Mode appareil photo pour menus · Télécharger le pack portugais hors-ligne</div></div></div>
+      <div class="irow"><div class="iico">🏧</div><div class="ibody"><div class="iname">Banco do Brasil — meilleur DAB</div><div class="idesc">Limite parfois 500 BRL · Retirer à l'aéroport à l'arrivée · Cash utile dans les îles</div></div></div>
+    </div>
+  </div>
+
+  <div class="pb"></div>
+</div>
+
+</main>
+
+<!-- ══ BOTTOM NAV ══════════════════════════════════════════════════ -->
+<nav class="nav">
+  <button class="nb on" id="nb-cal" onclick="showTab('cal')"><span class="nb-ico">📅</span><span class="nb-lbl">Calendrier</span></button>
+  <button class="nb" id="nb-map" onclick="showTab('map')"><span class="nb-ico">🗺️</span><span class="nb-lbl">Carte</span></button>
+  <button class="nb" id="nb-traj" onclick="showTab('traj')"><span class="nb-ico">✈️</span><span class="nb-lbl">Trajets</span></button>
+  <button class="nb" id="nb-act" onclick="showTab('act')"><span class="nb-ico">⭐</span><span class="nb-lbl">Activités</span></button>
+  <button class="nb" id="nb-bud" onclick="showTab('bud')"><span class="nb-ico">💰</span><span class="nb-lbl">Budget</span></button>
+  <button class="nb" id="nb-inf" onclick="showTab('inf')"><span class="nb-ico">💡</span><span class="nb-lbl">Infos</span></button>
+</nav>
+
+</div><!-- .app -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+// ── TABS ──────────────────────────────────────────────────────────
+function showTab(id){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+id).classList.add('on');
+  document.getElementById('nb-'+id).classList.add('on');
+  document.querySelector('.content').scrollTop=0;
+  if(id==='map') setTimeout(initMap,80);
+}
+
+// ── BUDGET TABS ───────────────────────────────────────────────────
+function showBud(id){
+  document.querySelectorAll('.bpane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.btab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('bp-'+id).classList.add('on');
+  event.currentTarget.classList.add('on');
+}
+
+// ── ACCORDION ─────────────────────────────────────────────────────
+function toggleAc(id){
+  document.getElementById('ac-'+id).classList.toggle('open');
+}
+
+// ── LEAFLET MAP ───────────────────────────────────────────────────
+let map,layers={},mapReady=false;
+const COL={c1:'#1B7FCC',tog:'#0B8C5E',c2:'#CC7000'};
+
+const cities=[
+  {n:'Manaus',            lat:-3.119, lng:-60.022,p:'c1', i:'<b>Manaus — Amazonie</b><br>J1–J3 · 17–19 oct.<br>Lodge rio Negro · Dauphins roses<br>Pêche piranhas · Caïmans nuit'},
+  {n:'Porto de Galinhas', lat:-8.507, lng:-35.006,p:'c1', i:'<b>Porto de Galinhas</b><br>J4–J7 · 20–23 oct.<br>Piscines naturelles récifs<br>Nannai Resort & Spa'},
+  {n:'Foz do Iguaçu',    lat:-25.517,lng:-54.585,p:'tog',i:'<b>Chutes d\'Iguazu</b><br>J9–J11 · 25–27 oct.<br>Côtés brésilien + argentin<br>Garganta del Diablo · Belmond'},
+  {n:'Salvador de Bahia', lat:-12.974,lng:-38.510,p:'tog',i:'<b>Salvador de Bahia</b><br>J12–J15 · 28–31 oct.<br>Pelourinho UNESCO · Olodum<br>Fasano · Croisière baie'},
+  {n:'Morro de São Paulo',lat:-13.382,lng:-38.912,p:'tog',i:'<b>Morro de São Paulo</b><br>J16–J18 · 1–3 nov.<br>Île sans voitures · Boipeba<br>Vila dos Orixás'},
+  {n:'Rio de Janeiro',    lat:-22.907,lng:-43.173,p:'tog',i:'<b>Rio de Janeiro</b><br>J19–J23 · 4–8 nov.<br>Christ · Pain de Sucre · Samba<br>Fasano Rio'},
+  {n:'Paraty',            lat:-23.220,lng:-44.717,p:'tog',i:'<b>Paraty</b><br>J24 · 9 nov.<br>Village colonial · Cachaça<br>Pousada do Sandi'},
+  {n:'Ilha Grande',       lat:-23.152,lng:-44.229,p:'tog',i:'<b>Ilha Grande</b><br>J25–J26 · 10–11 nov.<br>Lopes Mendes top 10 mondial<br>Séparation le 11 nov.'},
+  {n:'São Paulo',         lat:-23.541,lng:-46.632,p:'c2', i:'<b>São Paulo</b><br>J27–J30 · 12–15 nov.<br>MASP · Vila Madalena<br>Rosewood São Paulo'},
+  {n:'Ilhabela',          lat:-23.817,lng:-45.367,p:'c2', i:'<b>Ilhabela</b><br>J31–J33 · 16–18 nov.<br>Île sauvage · DPNY Hotel<br>Vol retour GRU→CDG'},
+];
+
+const r1=[[-3.119,-60.022],[-8.507,-35.006],[-25.517,-54.585],[-12.974,-38.510],[-13.382,-38.912],[-22.907,-43.173],[-23.220,-44.717],[-23.152,-44.229]];
+const r2=[[-25.517,-54.585],[-12.974,-38.510],[-13.382,-38.912],[-22.907,-43.173],[-23.220,-44.717],[-23.152,-44.229],[-23.541,-46.632],[-23.817,-45.367]];
+
+function mkIco(col){
+  return L.divIcon({html:`<div style="width:13px;height:13px;background:${col};border:2.5px solid #fff;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,.4)"></div>`,iconSize:[13,13],iconAnchor:[6.5,6.5],className:''});
+}
+
+function initMap(){
+  if(mapReady)return;
+  mapReady=true;
+  map=L.map('map',{zoomControl:true}).setView([-15,-47],4);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:17,attribution:'© OpenStreetMap'}).addTo(map);
+
+  layers.c1=L.layerGroup();
+  layers.c2=L.layerGroup();
+  layers.all=L.layerGroup();
+
+  // Couple 1: dashed blue solo + solid green shared
+  L.polyline(r1.slice(0,3),{color:COL.c1,weight:3.5,dashArray:'10 6',opacity:.9}).addTo(layers.c1);
+  L.polyline(r1.slice(2),  {color:COL.tog,weight:3.5,opacity:.9}).addTo(layers.c1);
+
+  // Couple 2: solid green shared + dashed amber solo
+  L.polyline(r2.slice(0,6),{color:COL.tog,weight:3.5,opacity:.9}).addTo(layers.c2);
+  L.polyline(r2.slice(5),  {color:COL.c2,weight:3.5,dashArray:'10 6',opacity:.9}).addTo(layers.c2);
+
+  // All together
+  L.polyline(r1.slice(0,3),{color:COL.c1,weight:3,dashArray:'10 6',opacity:.8}).addTo(layers.all);
+  L.polyline(r1.slice(2,8),{color:COL.tog,weight:3,opacity:.8}).addTo(layers.all);
+  L.polyline(r2.slice(5),  {color:COL.c2,weight:3,dashArray:'10 6',opacity:.8}).addTo(layers.all);
+
+  cities.forEach(c=>{
+    const col=COL[c.p];
+    const mkr=()=>L.marker([c.lat,c.lng],{icon:mkIco(col)}).bindPopup(`<b>${c.n}</b><br>${c.i}`,{maxWidth:200});
+    if(c.p==='c1'){mkr().addTo(layers.c1);mkr().addTo(layers.all);}
+    else if(c.p==='c2'){mkr().addTo(layers.c2);mkr().addTo(layers.all);}
+    else{mkr().addTo(layers.c1);mkr().addTo(layers.c2);mkr().addTo(layers.all);}
+  });
+
+  layers.c1.addTo(map);
+  map.fitBounds(L.latLngBounds(r1).pad(.08));
+}
+
+function setMap(n){
+  if(!mapReady){initMap();setTimeout(()=>setMap(n),300);return;}
+  Object.values(layers).forEach(l=>map.removeLayer(l));
+  document.querySelectorAll('.mtbtn').forEach(b=>b.classList.remove('on'));
+  if(n===1){layers.c1.addTo(map);document.getElementById('mb1').classList.add('on');map.fitBounds(L.latLngBounds(r1).pad(.08));}
+  else if(n===2){layers.c2.addTo(map);document.getElementById('mb2').classList.add('on');map.fitBounds(L.latLngBounds(r2).pad(.08));}
+  else{layers.all.addTo(map);document.getElementById('mb0').classList.add('on');map.fitBounds(L.latLngBounds([...r1,...r2]).pad(.05));}
+}
+</script>
+</body>
+</html>
