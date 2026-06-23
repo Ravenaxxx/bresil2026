@@ -50,9 +50,9 @@ body.view-qt [data-c="mx"]{display:none!important}
 body.view-all [data-c="mx"]{display:none!important}
 body.view-all [data-c="qt"]{display:none!important}
 /* HEADER — glass */
-.hdr{background:var(--nav);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);padding:env(safe-area-inset-top,14px) 16px 0;flex-shrink:0;border-bottom:1px solid var(--bd2);position:relative;z-index:10}
-.hdr-row{display:flex;align-items:center;justify-content:space-between;padding-bottom:10px}
-.hdr-title{font-size:17px;font-weight:800;letter-spacing:-.5px;color:var(--t1)}
+.hdr{background:var(--nav);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);padding:env(safe-area-inset-top,0px) 16px 0;flex-shrink:0;border-bottom:1px solid var(--bd2);position:relative;z-index:10}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;padding:16px 0 12px}
+.hdr-title{font-size:19px;font-weight:800;letter-spacing:-.5px;color:var(--t1)}
 .hdr-sub{font-size:10px;color:var(--t3);margin-top:2px;letter-spacing:.02em}
 .ctabs{display:flex;gap:4px;padding-bottom:11px}
 .ctab{flex:1;padding:6px 6px;font-size:10px;font-weight:700;border-radius:20px;border:1px solid var(--bd);background:var(--s2);color:var(--t3);cursor:pointer;font-family:inherit;text-align:center;letter-spacing:.06em;text-transform:uppercase;transition:all .2s}
@@ -849,7 +849,7 @@ const CITIES = {
     v:['Pelourinho — centre historique UNESCO, ruelles coloniales (gratuit)','Église São Francisco — intérieur baroque doré unique au Brésil','Olodum — percussions afro en rue le dimanche (gratuit)','Croisière baie Todos os Santos (~30–50€/pers)','Phare de Barra — coucher de soleil iconique (gratuit)','Praia do Flamengo et Itapuã — plages sauvages locales (bus ~1€)'],
     f:['Acarajé de Dinha (Rio Vermelho) — institution (~5 BRL/pièce)','Moqueca baiana — ragoût crevettes lait de coco (~35 BRL)','Vatapá et caruru — spécialités afro-baianas de rue','Bars do Rio Vermelho — caipirinhas et ambiance locale authentique'],
     t:'Loger à Rio Vermelho (plus local et sûr la nuit que Pelourinho) · Appart partagé ×4 recommandé'},
-  'Morro de São Paulo':{p:'tog',ph:'Les 4 · J16–J18',dt:'1 – 3 nov.',
+  'Morro de São Paulo':{p:'tog',ph:'Les 4 · J15–J18',dt:'31 oct. – 3 nov.',
     img:'https://images.unsplash.com/photo-1559494007-e9f57b2ce7b7?w=600&q=80',
     v:['Forteresse portugaise — coucher de soleil depuis les remparts (gratuit)','2e plage — la plus animée avec bars et restaurants','4e plage — 40 min à pied, quasi-déserte et sauvage','Excursion Boipeba — piscines naturelles récifs (bateau ~12€ A/R)','Snorkeling dans les récifs à marée basse (gratuit avec masque)'],
     f:['Restaurantes de plage — poisson grillé frais (~30 BRL)','Caldinho de sururu — soupe de moules locales (~10 BRL)','Caipirinha de cachaça artisanale (~12 BRL)','Açaí na tigela com frutas da época'],
@@ -905,21 +905,26 @@ function closeSheet(){
 
 // ── MAP ───────────────────────────────────────────────────────────
 let map,layers={},mapReady=false;
-const C={mx:'#4FA3F0',tog:'#28C98A',qt:'#E89C2A'};
+const C={mx:'#34D96A',tog:'#F5A623',qt:'#FF6B6B'};
 const cities=[
   {n:'Manaus',lat:-3.119,lng:-60.022,p:'mx'},
   {n:'Porto de Galinhas',lat:-8.507,lng:-35.006,p:'mx'},
   {n:'Foz do Iguaçu',lat:-25.517,lng:-54.585,p:'tog'},
   {n:'Salvador de Bahia',lat:-12.974,lng:-38.510,p:'tog'},
   {n:'Morro de São Paulo',lat:-13.382,lng:-38.912,p:'tog'},
+  {n:'Boipeba',lat:-13.623,lng:-38.938,p:'tog'},
   {n:'Rio de Janeiro',lat:-22.907,lng:-43.173,p:'tog'},
-  {n:'Paraty',lat:-23.220,lng:-44.717,p:'tog'},
-  {n:'Ilha Grande',lat:-23.152,lng:-44.229,p:'tog'},
+  {n:'Paraty',lat:-23.220,lng:-44.717,p:'qt'},
+  {n:'Ilha Grande',lat:-23.152,lng:-44.229,p:'qt'},
   {n:'São Paulo',lat:-23.541,lng:-46.632,p:'qt'},
   {n:'Ubatuba',lat:-23.433,lng:-45.083,p:'qt'},
 ];
-const r1=[[-3.119,-60.022],[-8.507,-35.006],[-25.517,-54.585],[-12.974,-38.510],[-13.382,-38.912],[-22.907,-43.173],[-23.220,-44.717],[-23.152,-44.229]];
-const r2=[[-25.517,-54.585],[-12.974,-38.510],[-13.382,-38.912],[-22.907,-43.173],[-23.220,-44.717],[-23.152,-44.229],[-23.541,-46.632],[-23.433,-45.083]];
+// r1 = M×M : Manaus→Porto→Foz→Salvador→Morro→Boipeba→Rio
+const r1=[[-3.119,-60.022],[-8.507,-35.006],[-25.517,-54.585],[-12.974,-38.510],[-13.382,-38.912],[-13.623,-38.938],[-22.907,-43.173]];
+// r2 = Q×T : Foz→Salvador→Morro→Boipeba→Rio→Paraty→Ilha Grande→SP→Ubatuba
+const r2=[[-25.517,-54.585],[-12.974,-38.510],[-13.382,-38.912],[-13.623,-38.938],[-22.907,-43.173],[-23.220,-44.717],[-23.152,-44.229],[-23.541,-46.632],[-23.433,-45.083]];
+// ensemble = route partagée : Foz→Salvador→Morro→Boipeba→Rio
+const rAll=[[-25.517,-54.585],[-12.974,-38.510],[-13.382,-38.912],[-13.623,-38.938],[-22.907,-43.173]];
 function mkIco(col){
   return L.divIcon({html:`<div style="width:14px;height:14px;background:${col};border:2.5px solid rgba(255,255,255,.9);border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.7);cursor:pointer;transition:transform .15s" onmouseenter="this.style.transform='scale(1.4)'" onmouseleave="this.style.transform='scale(1)'"></div>`,iconSize:[14,14],iconAnchor:[7,7],className:''});
 }
@@ -928,11 +933,14 @@ function initMap(){
   map=L.map('map',{zoomControl:true}).setView([-15,-47],4);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:17,attribution:'© CartoDB'}).addTo(map);
   layers.mx=L.layerGroup(); layers.qt=L.layerGroup(); layers.all=L.layerGroup();
+  // M×M : Manaus→Porto en pointillés (solo), Foz→Rio en plein (commun)
   L.polyline(r1.slice(0,3),{color:C.mx,weight:3,dashArray:'8 5',opacity:.9}).addTo(layers.mx);
   L.polyline(r1.slice(2),{color:C.tog,weight:3,opacity:.9}).addTo(layers.mx);
-  L.polyline(r2.slice(0,6),{color:C.tog,weight:3,opacity:.9}).addTo(layers.qt);
-  L.polyline(r2.slice(5),{color:C.qt,weight:3,dashArray:'8 5',opacity:.9}).addTo(layers.qt);
-  L.polyline(r1.slice(2,8),{color:C.tog,weight:3.5,opacity:.95}).addTo(layers.all); // Ensemble = route partagée uniquement
+  // Q×T : Foz→Rio en plein (commun), Paraty→Ubatuba en pointillés (solo)
+  L.polyline(r2.slice(0,5),{color:C.tog,weight:3,opacity:.9}).addTo(layers.qt);
+  L.polyline(r2.slice(4),{color:C.qt,weight:3,dashArray:'8 5',opacity:.9}).addTo(layers.qt);
+  // Ensemble : route partagée uniquement Foz→Salvador→Morro→Boipeba→Rio
+  L.polyline(rAll,{color:C.tog,weight:3.5,opacity:.95}).addTo(layers.all);
   cities.forEach(c=>{
     const col=C[c.p];
     const mkr=()=>{
@@ -953,7 +961,7 @@ function setMap(n){
   document.querySelectorAll('.mtbtn').forEach(b=>b.classList.remove('on'));
   if(n===1){layers.mx.addTo(map);document.getElementById('mb1').classList.add('on');map.fitBounds(L.latLngBounds(r1).pad(.08));}
   else if(n===2){layers.qt.addTo(map);document.getElementById('mb2').classList.add('on');map.fitBounds(L.latLngBounds(r2).pad(.08));}
-  else{layers.all.addTo(map);document.getElementById('mb0').classList.add('on');map.fitBounds(L.latLngBounds(r1.slice(2)).pad(.08));} // Ensemble = bounds route partagée
+  else{layers.all.addTo(map);document.getElementById('mb0').classList.add('on');map.fitBounds(L.latLngBounds(rAll).pad(.12));}
 }
 </script>
 </body>
