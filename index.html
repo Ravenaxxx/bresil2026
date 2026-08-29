@@ -11,31 +11,31 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
 :root{
-  /* Glass — visionOS / iOS 18 */
-  --bg:#263D2B;
-  --s1:rgba(15,28,18,.75);
-  --s2:rgba(12,24,15,.65);
-  --s3:rgba(10,20,12,.55);
-  --t1:#F2F2F0;--t2:#C0CCBB;--t3:#8AA886;
-  --bd:rgba(255,255,255,.12);--bd2:rgba(255,255,255,.20);
-  /* M×M — menthe vive */
-  --mx:#34D96A;--mxd:rgba(52,217,106,.14);
-  /* Ensemble — ambre doux */
-  --tog:#F5A623;--togd:rgba(245,166,35,.14);
-  /* Q×T — corail */
-  --qt:#FF6B6B;--qtd:rgba(255,107,107,.14);
-  /* Séparation */
-  --sep:#A78BFA;--sepd:rgba(167,139,250,.14);
-  --nav:rgba(10,18,11,.82);--r:14px;--rs:10px;--nh:62px;
-  --blur:blur(24px) saturate(180%);
+ /* Glass — visionOS / iOS 18 */
+ --bg:#263D2B;
+ --s1:rgba(15,28,18,.75);
+ --s2:rgba(12,24,15,.65);
+ --s3:rgba(10,20,12,.55);
+ --t1:#F2F2F0;--t2:#C0CCBB;--t3:#8AA886;
+ --bd:rgba(255,255,255,.12);--bd2:rgba(255,255,255,.20);
+ /* M×M — menthe vive */
+ --mx:#34D96A;--mxd:rgba(52,217,106,.14);
+ /* Ensemble — ambre doux */
+ --tog:#F5A623;--togd:rgba(245,166,35,.14);
+ /* Q×T — corail */
+ --qt:#FF6B6B;--qtd:rgba(255,107,107,.14);
+ /* Séparation */
+ --sep:#A78BFA;--sepd:rgba(167,139,250,.14);
+ --nav:rgba(10,18,11,.82);--r:14px;--rs:10px;--nh:62px;
+ --blur:blur(24px) saturate(180%);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--t1);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;overscroll-behavior:none}
 /* Fond : dégradé jungle subtil */
 body::before{content:'';position:fixed;inset:0;background:
-  radial-gradient(ellipse 70% 50% at 20% 10%,rgba(52,217,106,.18) 0%,transparent 60%),
-  radial-gradient(ellipse 60% 40% at 80% 80%,rgba(245,166,35,.10) 0%,transparent 55%),
-  radial-gradient(ellipse 80% 80% at 50% 50%,rgba(28,46,32,1) 0%,transparent 100%);
+ radial-gradient(ellipse 70% 50% at 20% 10%,rgba(52,217,106,.18) 0%,transparent 60%),
+ radial-gradient(ellipse 60% 40% at 80% 80%,rgba(245,166,35,.10) 0%,transparent 55%),
+ radial-gradient(ellipse 80% 80% at 50% 50%,rgba(28,46,32,1) 0%,transparent 100%);
 pointer-events:none;z-index:0}
 .app{display:flex;flex-direction:column;height:100vh;max-width:480px;margin:0 auto}
 /* Masquer le filtre couple sur les onglets avec leur propre filtre */
@@ -202,6 +202,7 @@ body.view-all [data-c="qt"]{display:none!important}
 .lp{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase}
 .lp-mx{background:var(--mxd);color:var(--mx)}.lp-tog{background:var(--togd);color:var(--tog)}.lp-qt{background:var(--qtd);color:var(--qt)}
 
+
 /* BOTTOM SHEET */
 .sh-ov{position:fixed;inset:0;background:rgba(5,10,6,.55);z-index:1000;display:none;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .sh-ov.open{display:block}
@@ -229,695 +230,743 @@ body.view-all [data-c="qt"]{display:none!important}
 <body class="view-all">
 <div class="app">
 
+
 <header class="hdr">
-  <div class="hdr-row">
-    <div>
-      <div style="display:flex;align-items:center;gap:9px">
-      <svg class="br-flag" viewBox="0 0 720 504" width="34" height="24" xmlns="http://www.w3.org/2000/svg">
-        <rect width="720" height="504" fill="#009C3B" rx="3"/>
-        <polygon points="360,58 658,252 360,446 62,252" fill="#FEDF00"/>
-        <circle cx="360" cy="252" r="110" fill="#002776"/>
-        <path d="M252,288 a115,115 0 0,1 216,0" stroke="white" stroke-width="20" fill="none"/>
-        <text x="360" y="270" fill="white" font-size="38" font-family="Arial" text-anchor="middle" font-weight="bold" letter-spacing="2">ORDEM E PROGRESSO</text>
-      </svg>
-      <div class="hdr-title">Brésil 2026</div>
-    </div>
-      <div class="hdr-sub">On lâche tout · M×M &amp; Q×T · 33 jours de folie douce 🍋</div>
-    </div>
-  </div>
-  <div class="ctabs">
-    <button class="ctab" id="ct-mx" onclick="setCouple('mx')">M × M</button>
-    <button class="ctab on" id="ct-all" onclick="setCouple('all')">Ensemble</button>
-    <button class="ctab" id="ct-qt" onclick="setCouple('qt')">Q × T</button>
-  </div>
+ <div class="hdr-row">
+ <div>
+ <div style="display:flex;align-items:center;gap:9px">
+ <svg class="br-flag" viewBox="0 0 720 504" width="34" height="24" xmlns="http://www.w3.org/2000/svg">
+ <rect width="720" height="504" fill="#009C3B" rx="3"/>
+ <polygon points="360,58 658,252 360,446 62,252" fill="#FEDF00"/>
+ <circle cx="360" cy="252" r="110" fill="#002776"/>
+ <path d="M252,288 a115,115 0 0,1 216,0" stroke="white" stroke-width="20" fill="none"/>
+ <text x="360" y="270" fill="white" font-size="38" font-family="Arial" text-anchor="middle" font-weight="bold" letter-spacing="2">ORDEM E PROGRESSO</text>
+ </svg>
+ <div class="hdr-title">Brésil 2026</div>
+ </div>
+ <div class="hdr-sub">On lâche tout · M×M &amp; Q×T · 33 jours de folie douce 🍋</div>
+ </div>
+ </div>
+ <div class="ctabs">
+ <button class="ctab" id="ct-mx" onclick="setCouple('mx')">M × M</button>
+ <button class="ctab on" id="ct-all" onclick="setCouple('all')">Ensemble</button>
+ <button class="ctab" id="ct-qt" onclick="setCouple('qt')">Q × T</button>
+ </div>
 </header>
+
 
 <main class="content">
 
+
 <!-- ══ CALENDRIER ══════════════════════════════════════════════════ -->
 <div id="pane-cal" class="pane on">
-  <div class="legend">
-    <span class="lp lp-mx">M × M seuls</span>
-    <span class="lp lp-tog">Les 4 ensemble</span>
-    <span class="lp lp-qt">Q × T seuls</span>
-  </div>
+ <div class="legend">
+ <span class="lp lp-mx">M × M seuls</span>
+ <span class="lp lp-tog">Les 4 ensemble</span>
+ <span class="lp lp-qt">Q × T seuls</span>
+ </div>
 
-  <div class="slbl" data-c="mx">M × M partent en éclaireurs · 17 → 24 oct.</div>
-  <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J1 · Sam 17 ✈</div><div class="dm"><div class="dest">Paris → Manaus</div><div class="dnote">Vol nuit CDG → GRU → MAO · ~16h de trajet</div><span class="dtag dt-mx">M × M</span></div></div></div>
-  <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J2 · Dim 18</div><div class="dm"><div class="dest">Manaus — Amazonie</div><div class="dnote">Arrivée matinée · Installation Anavilhanas ou Juma Lodge</div><span class="dtag dt-mx">M × M</span></div></div></div>
-  <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J3 · Lun 19</div><div class="dm"><div class="dest">Manaus</div><div class="dnote">Pirogue lever du soleil · Dauphins roses</div><span class="dtag dt-mx">M × M</span></div></div></div>
-  <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J4 · Mar 20</div><div class="dm"><div class="dest">Manaus</div><div class="dnote">Pêche aux piranhas · Caïmans nocturnes</div><span class="dtag dt-mx">M × M</span></div></div></div>
-  <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J5 · Mer 21 ✈</div><div class="dm"><div class="dest">Manaus → Porto de Galinhas</div><div class="dnote">Vol Azul via Belém ~5h · Arrivée Recife soir · Nannai Resort</div><span class="dtag dt-mx">M × M</span></div></div></div>
-  <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J6 · Jeu 22</div><div class="dm"><div class="dest">Porto de Galinhas</div><div class="dnote">Jangada → piscines naturelles · Marée basse !</div><span class="dtag dt-mx">M × M</span></div></div></div>
-  <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J7 · Ven 23</div><div class="dm"><div class="dest">Porto de Galinhas</div><div class="dnote">Plage de Carneiros · SUP &amp; kayak · Balade à cheval</div><span class="dtag dt-mx">M × M</span></div></div></div>
-  <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J8 · Sam 24 ✈</div><div class="dm"><div class="dest">Recife → Foz do Iguaçu</div><div class="dnote">Vol Azul direct ~3h · Arrivée · Hostel Puerto Iguazu</div><span class="dtag dt-mx">M × M</span></div></div></div>
 
-  <div class="slbl" data-c="both">Retrouvailles · Les 4 face aux chutes · 24 → 28 oct.</div>
-  <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J9 · Dim 25</div><div class="dm"><div class="dest">Chutes d'Iguazu — Côté brésilien</div><div class="dnote">Retrouvailles — Q×T arrive de Paris via GRU</div><span class="dtag dt-tog">Les 4</span></div></div></div>
-  <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J10 · Lun 26</div><div class="dm"><div class="dest">Chutes d'Iguazu — Côté argentin</div><div class="dnote">Garganta del Diablo · Sentiers immersifs</div><span class="dtag dt-tog">Les 4</span></div></div></div>
-  <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J11 · Mar 27</div><div class="dm"><div class="dest">Iguazu — Jungle &amp; faune</div><div class="dnote">Toucans · Coatis · Option hélicoptère</div><span class="dtag dt-tog">Les 4</span></div></div></div>
+ <div class="slbl" data-c="mx">M × M partent en éclaireurs · 17 → 24 oct.</div>
+ <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J1 · Sam 17 ✈</div><div class="dm"><div class="dest">Paris → Manaus</div><div class="dnote">Vol nuit CDG → GRU → MAO · ~16h de trajet</div><span class="dtag dt-mx">M × M</span></div></div></div>
+ <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J2 · Dim 18</div><div class="dm"><div class="dest">Manaus — Amazonie</div><div class="dnote">Arrivée matinée · Installation Anavilhanas ou Juma Lodge</div><span class="dtag dt-mx">M × M</span></div></div></div>
+ <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J3 · Lun 19</div><div class="dm"><div class="dest">Manaus</div><div class="dnote">Pirogue lever du soleil · Dauphins roses</div><span class="dtag dt-mx">M × M</span></div></div></div>
+ <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J4 · Mar 20</div><div class="dm"><div class="dest">Manaus</div><div class="dnote">Pêche aux piranhas · Caïmans nocturnes</div><span class="dtag dt-mx">M × M</span></div></div></div>
+ <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J5 · Mer 21 ✈</div><div class="dm"><div class="dest">Manaus → Porto de Galinhas</div><div class="dnote">Vol Azul via Belém ~5h · Arrivée Recife soir · Nannai Resort</div><span class="dtag dt-mx">M × M</span></div></div></div>
+ <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J6 · Jeu 22</div><div class="dm"><div class="dest">Porto de Galinhas</div><div class="dnote">Jangada → piscines naturelles · Marée basse !</div><span class="dtag dt-mx">M × M</span></div></div></div>
+ <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J7 · Ven 23</div><div class="dm"><div class="dest">Porto de Galinhas</div><div class="dnote">Plage de Carneiros · SUP &amp; kayak · Balade à cheval</div><span class="dtag dt-mx">M × M</span></div></div></div>
+ <div class="dr" data-c="mx"><div class="ds ds-mx"></div><div class="di"><div class="dd">J8 · Sam 24 ✈</div><div class="dm"><div class="dest">Recife → Foz do Iguaçu</div><div class="dnote">Vol Azul direct ~3h · Arrivée · Hostel Puerto Iguazu</div><span class="dtag dt-mx">M × M</span></div></div></div>
 
-  <div class="slbl" data-c="both">La grande aventure commune · 28 oct. → 7 nov.</div>
-  <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J12 · Mer 28 ✈</div><div class="dm"><div class="dest">Foz → Salvador de Bahia</div><div class="dnote">Vol ~3h30 · Arrivée début d'après-midi · Installation appart Rio Vermelho</div><span class="dtag dt-tog">Les 4</span></div></div></div>
-  <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J13 · Jeu 29</div><div class="dm"><div class="dest">Salvador de Bahia</div><div class="dnote">Pelourinho UNESCO · Église São Francisco · Capoeira</div><span class="dtag dt-tog">Les 4</span></div></div></div>
-  <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J14 · Ven 30</div><div class="dm"><div class="dest">Salvador de Bahia</div><div class="dnote">Musée Afro-Brésilien · Soirée Olodum · Phare de Barra</div><span class="dtag dt-tog">Les 4</span></div></div></div>
-  <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J15 · Sam 31 ⛵</div><div class="dm"><div class="dest">Salvador → Morro de São Paulo</div><div class="dnote">Catamaran 14h · 2h30 de traversée · Arrivée · Pousada plage</div><span class="dtag dt-tog">Les 4</span></div></div></div>
-  <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J16 · Dim 1 nov.</div><div class="dm"><div class="dest">Morro de São Paulo</div><div class="dnote">Forteresse · Coucher de soleil remparts · 2e plage · Zipline</div><span class="dtag dt-tog">Les 4</span></div></div></div>
-  <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J17 · Lun 2 ⛵</div><div class="dm"><div class="dest">Morro → Boipeba</div><div class="dnote">Bateau 45 min · Piscines naturelles récifs · Snorkeling · Nuit sur place</div><span class="dtag dt-tog">Les 4</span></div></div></div>
-  <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J18 · Mar 3 ⛵✈</div><div class="dm"><div class="dest">Boipeba → Salvador → Rio de Janeiro</div><div class="dnote">Retour Morro · Catamaran → Salvador · Vol ~2h10 · Arrivée Rio soir</div><span class="dtag dt-tog">Les 4</span></div></div></div>
-  <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J19 · Mer 4</div><div class="dm"><div class="dest">Rio de Janeiro</div><div class="dnote">Christ Rédempteur (7h30) · Pain de Sucre coucher de soleil</div><span class="dtag dt-tog">Les 4</span></div></div></div>
-  <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J20 · Jeu 5</div><div class="dm"><div class="dest">Rio de Janeiro</div><div class="dnote">Favela tour Vidigal · Santa Teresa · Samba Lapa</div><span class="dtag dt-tog">Les 4</span></div></div></div>
-  <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J21 · Ven 6</div><div class="dm"><div class="dest">Rio de Janeiro</div><div class="dnote">Copacabana · Museu do Amanhã · Grand dîner à 4</div><span class="dtag dt-tog">Les 4</span></div></div></div>
-  <div class="dr" data-c="both"><div class="ds ds-sep"></div><div class="di"><div class="dd">J22 · Sam 7 ✈</div><div class="dm"><div class="dest">Rio — Séparation M×M</div><div class="dnote">Matinée libre · M×M : vol GIG → CDG ~11h35 · Air France direct 🇫🇷</div><span class="dtag dt-sep">Séparation M×M</span></div></div></div>
-  <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J23 · Dim 8</div><div class="dm"><div class="dest">Rio de Janeiro</div><div class="dnote">Q×T · Ipanema · Santa Teresa · Musée Chácara do Céu</div><span class="dtag dt-qt">Q × T</span></div></div></div>
-  <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J24 · Lun 9</div><div class="dm"><div class="dest">Rio → Paraty</div><div class="dnote">Bus Rio → Paraty (4h, ~25€/pers) · Village colonial</div><span class="dtag dt-qt">Q × T</span></div></div></div>
-  <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J25 · Mar 10</div><div class="dm"><div class="dest">Paraty → Ilha Grande</div><div class="dnote">Cachaça artisanale · Bateau → île · Lopes Mendes</div><span class="dtag dt-qt">Q × T</span></div></div></div>
-  <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J26 · Mer 11</div><div class="dm"><div class="dest">Ilha Grande</div><div class="dnote">Lopes Mendes 🏖 · Snorkeling · Dîner d'adieu île</div><span class="dtag dt-qt">Q × T</span></div></div></div>
 
-  <div class="slbl" data-c="qt">Q × T prolongent · Famille &amp; nature · 12 → 18 nov.</div>
-  <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J27 · Jeu 12</div><div class="dm"><div class="dest">Ilha Grande → São Paulo</div><div class="dnote">Van Angra → SP · Chez la famille · MASP · Vila Madalena</div><span class="dtag dt-qt">Q × T</span></div></div></div>
-  <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J28 · Ven 13</div><div class="dm"><div class="dest">São Paulo</div><div class="dnote">Beco do Batman · Gastronomie · Famille</div><span class="dtag dt-qt">Q × T</span></div></div></div>
-  <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J29 · Sam 14</div><div class="dm"><div class="dest">São Paulo</div><div class="dnote">Ibirapuera · Liberdade · Repas en famille</div><span class="dtag dt-qt">Q × T</span></div></div></div>
-  <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J30 · Dim 15</div><div class="dm"><div class="dest">São Paulo → Ubatuba</div><div class="dnote">Bus SP → Ubatuba (4h, 18€) · Pousada surf</div><span class="dtag dt-qt">Q × T</span></div></div></div>
-  <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J31 · Lun 16</div><div class="dm"><div class="dest">Ubatuba</div><div class="dnote">Plages sauvages · Tortues marines · Cascades</div><span class="dtag dt-qt">Q × T</span></div></div></div>
-  <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J32 · Mar 17</div><div class="dm"><div class="dest">Ubatuba</div><div class="dnote">Snorkeling · Randos Serra do Mar · Détente</div><span class="dtag dt-qt">Q × T</span></div></div></div>
-  <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J33 · Mer 18</div><div class="dm"><div class="dest">Ubatuba → Paris</div><div class="dnote">Bus Ubatuba → SP · Vol GRU → CDG (~12h)</div><span class="dtag dt-qt">Q × T</span></div></div></div>
-  <div class="pb"></div>
+ <div class="slbl" data-c="both">Retrouvailles · Les 4 face aux chutes · 24 → 28 oct.</div>
+ <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J9 · Dim 25</div><div class="dm"><div class="dest">Chutes d'Iguazu — Côté brésilien</div><div class="dnote">Retrouvailles — Q×T arrive de Paris via GRU</div><span class="dtag dt-tog">Les 4</span></div></div></div>
+ <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J10 · Lun 26</div><div class="dm"><div class="dest">Chutes d'Iguazu — Côté argentin</div><div class="dnote">Garganta del Diablo · Sentiers immersifs</div><span class="dtag dt-tog">Les 4</span></div></div></div>
+ <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J11 · Mar 27</div><div class="dm"><div class="dest">Iguazu — Jungle &amp; faune</div><div class="dnote">Toucans · Coatis · Option hélicoptère</div><span class="dtag dt-tog">Les 4</span></div></div></div>
+
+
+ <div class="slbl" data-c="both">La grande aventure commune · 28 oct. → 7 nov.</div>
+ <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J12 · Mer 28 ✈</div><div class="dm"><div class="dest">Foz → Salvador de Bahia</div><div class="dnote">Vol matinal ~3h30 · Arrivée début d'après-midi · Installation appart Rio Vermelho</div><span class="dtag dt-tog">Les 4</span></div></div></div>
+ <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J13 · Jeu 29</div><div class="dm"><div class="dest">Salvador de Bahia</div><div class="dnote">Pelourinho UNESCO · Église São Francisco · Capoeira</div><span class="dtag dt-tog">Les 4</span></div></div></div>
+ <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J14 · Ven 30</div><div class="dm"><div class="dest">Salvador de Bahia</div><div class="dnote">Musée Afro-Brésilien · Soirée Olodum · Phare de Barra</div><span class="dtag dt-tog">Les 4</span></div></div></div>
+ <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J15 · Sam 31 ⛵</div><div class="dm"><div class="dest">Salvador → Morro de São Paulo</div><div class="dnote">Catamaran 14h · 2h30 de traversée · Arrivée · Pousada plage</div><span class="dtag dt-tog">Les 4</span></div></div></div>
+ <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J16 · Dim 1 nov.</div><div class="dm"><div class="dest">Morro de São Paulo</div><div class="dnote">Forteresse · Coucher de soleil remparts · 2e plage · Zipline</div><span class="dtag dt-tog">Les 4</span></div></div></div>
+ <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J17 · Lun 2 ⛵</div><div class="dm"><div class="dest">Morro → Boipeba</div><div class="dnote">Bateau 45 min · Piscines naturelles récifs · Snorkeling · Nuit sur place</div><span class="dtag dt-tog">Les 4</span></div></div></div>
+ <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J18 · Mar 3 ⛵✈</div><div class="dm"><div class="dest">Boipeba → Salvador → Rio de Janeiro</div><div class="dnote">Retour Morro · Catamaran → Salvador · Vol ~2h10 · Arrivée Rio soir</div><span class="dtag dt-tog">Les 4</span></div></div></div>
+ <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J19 · Mer 4</div><div class="dm"><div class="dest">Rio de Janeiro</div><div class="dnote">Christ Rédempteur (7h30) · Pain de Sucre coucher de soleil</div><span class="dtag dt-tog">Les 4</span></div></div></div>
+ <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J20 · Jeu 5</div><div class="dm"><div class="dest">Rio de Janeiro</div><div class="dnote">Favela tour Vidigal · Santa Teresa · Samba Lapa</div><span class="dtag dt-tog">Les 4</span></div></div></div>
+ <div class="dr" data-c="both"><div class="ds ds-tog"></div><div class="di"><div class="dd">J21 · Ven 6</div><div class="dm"><div class="dest">Rio de Janeiro</div><div class="dnote">Copacabana · Museu do Amanhã · Grand dîner à 4</div><span class="dtag dt-tog">Les 4</span></div></div></div>
+ <div class="dr" data-c="both"><div class="ds ds-sep"></div><div class="di"><div class="dd">J22 · Sam 7 ✈</div><div class="dm"><div class="dest">Rio — Séparation M×M</div><div class="dnote">Matinée libre · M×M : vol GIG → CDG ~11h35 · Air France direct 🇫🇷</div><span class="dtag dt-sep">Séparation M×M</span></div></div></div>
+ <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J23 · Dim 8</div><div class="dm"><div class="dest">Rio de Janeiro</div><div class="dnote">Q×T · Ipanema · Santa Teresa · Musée Chácara do Céu</div><span class="dtag dt-qt">Q × T</span></div></div></div>
+ <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J24 · Lun 9</div><div class="dm"><div class="dest">Rio → Paraty</div><div class="dnote">Bus Rio → Paraty (4h, ~25€/pers) · Village colonial</div><span class="dtag dt-qt">Q × T</span></div></div></div>
+ <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J25 · Mar 10</div><div class="dm"><div class="dest">Paraty → Ilha Grande</div><div class="dnote">Cachaça artisanale · Bateau → île · Lopes Mendes</div><span class="dtag dt-qt">Q × T</span></div></div></div>
+ <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J26 · Mer 11</div><div class="dm"><div class="dest">Ilha Grande</div><div class="dnote">Lopes Mendes 🏖 · Snorkeling · Dîner d'adieu île</div><span class="dtag dt-qt">Q × T</span></div></div></div>
+
+
+ <div class="slbl" data-c="qt">Q × T prolongent · Famille &amp; nature · 12 → 18 nov.</div>
+ <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J27 · Jeu 12</div><div class="dm"><div class="dest">Ilha Grande → São Paulo</div><div class="dnote">Van Angra → SP · Chez la famille · MASP · Vila Madalena</div><span class="dtag dt-qt">Q × T</span></div></div></div>
+ <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J28 · Ven 13</div><div class="dm"><div class="dest">São Paulo</div><div class="dnote">Beco do Batman · Gastronomie · Famille</div><span class="dtag dt-qt">Q × T</span></div></div></div>
+ <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J29 · Sam 14</div><div class="dm"><div class="dest">São Paulo</div><div class="dnote">Ibirapuera · Liberdade · Repas en famille</div><span class="dtag dt-qt">Q × T</span></div></div></div>
+ <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J30 · Dim 15</div><div class="dm"><div class="dest">São Paulo → Ubatuba</div><div class="dnote">Bus SP → Ubatuba (4h, 18€) · Pousada surf</div><span class="dtag dt-qt">Q × T</span></div></div></div>
+ <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J31 · Lun 16</div><div class="dm"><div class="dest">Ubatuba</div><div class="dnote">Plages sauvages · Tortues marines · Cascades</div><span class="dtag dt-qt">Q × T</span></div></div></div>
+ <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J32 · Mar 17</div><div class="dm"><div class="dest">Ubatuba</div><div class="dnote">Snorkeling · Randos Serra do Mar · Détente</div><span class="dtag dt-qt">Q × T</span></div></div></div>
+ <div class="dr" data-c="qt"><div class="ds ds-qt"></div><div class="di"><div class="dd">J33 · Mer 18</div><div class="dm"><div class="dest">Ubatuba → Paris</div><div class="dnote">Bus Ubatuba → SP · Vol GRU → CDG (~12h)</div><span class="dtag dt-qt">Q × T</span></div></div></div>
+ <div class="pb"></div>
 </div>
+
 
 <!-- ══ CARTE ════════════════════════════════════════════════════════ -->
 <div id="pane-map" class="pane">
-  <div class="mtgs">
-    <button class="mtbtn mb1 on" id="mb1" onclick="setMap(1)">M × M</button>
-    <button class="mtbtn mb0" id="mb0" onclick="setMap(0)">Ensemble</button>
-    <button class="mtbtn mb2" id="mb2" onclick="setMap(2)">Q × T</button>
-  </div>
-  <div id="map"></div>
-  <div class="mleg">
-    <div class="mli"><div class="mline" style="background:var(--mx);border-top:2px dashed var(--mx)"></div>M×M solo</div>
-    <div class="mli"><div class="mline" style="background:var(--tog)"></div>Ensemble — route partagée</div>
-    <div class="mli"><div class="mline" style="background:var(--qt);border-top:2px dashed var(--qt)"></div>Q×T solo</div>
-  </div>
-  <div class="pb"></div>
+ <div class="mtgs">
+ <button class="mtbtn mb1 on" id="mb1" onclick="setMap(1)">M × M</button>
+ <button class="mtbtn mb0" id="mb0" onclick="setMap(0)">Ensemble</button>
+ <button class="mtbtn mb2" id="mb2" onclick="setMap(2)">Q × T</button>
+ </div>
+ <div id="map"></div>
+ <div class="mleg">
+ <div class="mli"><div class="mline" style="background:var(--mx);border-top:2px dashed var(--mx)"></div>M×M solo</div>
+ <div class="mli"><div class="mline" style="background:var(--tog)"></div>Ensemble — route partagée</div>
+ <div class="mli"><div class="mline" style="background:var(--qt);border-top:2px dashed var(--qt)"></div>Q×T solo</div>
+ </div>
+ <div class="pb"></div>
 </div>
+
 
 <!-- ══ TRAJETS ══════════════════════════════════════════════════════ -->
 <div id="pane-traj" class="pane">
 
-  <div class="card ca-mx" data-c="mx">
-    <div class="card-hd">M × M — Vols <span class="tj-confirmed">✓ 2 000€ / pers confirmés</span></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Intl</div></div><div class="tj-body"><div class="tj-route">Paris CDG → Manaus</div><div class="tj-detail">17 oct. · Via São Paulo GRU · ~16h · LATAM / Air France</div></div><div class="tj-r"><div class="tj-price">~780€</div><div class="tj-unit">/pers · estimé</div></div></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Interne</div></div><div class="tj-body"><div class="tj-route">Manaus → Recife</div><div class="tj-detail">21 oct. · Via Belém ~3h30 · Azul (seul direct)</div></div><div class="tj-r"><div class="tj-price">~115€</div><div class="tj-unit">/pers</div></div></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Interne</div></div><div class="tj-body"><div class="tj-route">Recife → Foz do Iguaçu</div><div class="tj-detail">24 oct. · Direct ~3h · Azul (nouvelle ligne juil. 2026)</div></div><div class="tj-r"><div class="tj-price">~140€</div><div class="tj-unit">/pers</div></div></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Interne</div></div><div class="tj-body"><div class="tj-route">Foz do Iguaçu → Salvador</div><div class="tj-detail">28 oct. · Avec escale ~3h30 · LATAM / Gol</div></div><div class="tj-r"><div class="tj-price">~110€</div><div class="tj-unit">/pers</div></div></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Interne</div></div><div class="tj-body"><div class="tj-route">Salvador → Rio de Janeiro</div><div class="tj-detail">1 nov. · Direct ~2h10 · Gol / LATAM (commun M×M + Q×T)</div></div><div class="tj-r"><div class="tj-price">~75€</div><div class="tj-unit">/pers</div></div></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Intl</div></div><div class="tj-body"><div class="tj-route">Rio GIG → Paris CDG</div><div class="tj-detail">7 nov. · ~11h35 direct · Air France (seul direct)</div></div><div class="tj-r"><div class="tj-price">~780€</div><div class="tj-unit">/pers · estimé</div></div></div>
-  </div>
 
-  <div class="card ca-qt" data-c="qt">
-    <div class="card-hd">Q × T — Vols <span>~1 500€ / pers · à sécuriser</span></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Intl</div></div><div class="tj-body"><div class="tj-route">Paris CDG → São Paulo GRU</div><div class="tj-detail">25 oct. · ~12h direct · Air France / LATAM</div></div><div class="tj-r"><div class="tj-price">~620€</div><div class="tj-unit">/pers</div></div></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Interne</div></div><div class="tj-body"><div class="tj-route">São Paulo GRU → Foz do Iguaçu</div><div class="tj-detail">25 oct. · Connexion ~1h · Azul / LATAM</div></div><div class="tj-r"><div class="tj-price">~90€</div><div class="tj-unit">/pers</div></div></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Interne</div></div><div class="tj-body"><div class="tj-route">Foz do Iguaçu → Salvador</div><div class="tj-detail">28 oct. · Avec escale ~3h30 · LATAM</div></div><div class="tj-r"><div class="tj-price">~110€</div><div class="tj-unit">/pers</div></div></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Interne</div></div><div class="tj-body"><div class="tj-route">Salvador → Rio de Janeiro</div><div class="tj-detail">1 nov. · Direct ~2h10 · Gol / LATAM (commun M×M + Q×T)</div></div><div class="tj-r"><div class="tj-price">~75€</div><div class="tj-unit">/pers</div></div></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Intl</div></div><div class="tj-body"><div class="tj-route">São Paulo GRU → Paris CDG</div><div class="tj-detail">18 nov. · ~12h direct · Air France / LATAM</div></div><div class="tj-r"><div class="tj-price">~600€</div><div class="tj-unit">/pers</div></div></div>
-  </div>
+ <div class="card ca-mx" data-c="mx">
+ <div class="card-hd">M × M — Vols <span class="tj-confirmed">✓ 2 000€ / pers confirmés</span></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Intl</div></div><div class="tj-body"><div class="tj-route">Paris CDG → Manaus</div><div class="tj-detail">17 oct. · Via São Paulo GRU · ~16h · LATAM / Air France</div></div><div class="tj-r"><div class="tj-price">~780€</div><div class="tj-unit">/pers · estimé</div></div></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Interne</div></div><div class="tj-body"><div class="tj-route">Manaus → Recife</div><div class="tj-detail">21 oct. · Via Belém ~3h30 · Azul (seul direct)</div></div><div class="tj-r"><div class="tj-price">~115€</div><div class="tj-unit">/pers</div></div></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Interne</div></div><div class="tj-body"><div class="tj-route">Recife → Foz do Iguaçu</div><div class="tj-detail">24 oct. · Direct ~3h · Azul (nouvelle ligne juil. 2026)</div></div><div class="tj-r"><div class="tj-price">~140€</div><div class="tj-unit">/pers</div></div></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Interne</div></div><div class="tj-body"><div class="tj-route">Foz do Iguaçu → Salvador</div><div class="tj-detail">28 oct. · Avec escale ~3h30 · LATAM / Gol</div></div><div class="tj-r"><div class="tj-price">~110€</div><div class="tj-unit">/pers</div></div></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Interne</div></div><div class="tj-body"><div class="tj-route">Salvador → Rio de Janeiro</div><div class="tj-detail">1 nov. · Direct ~2h10 · Gol / LATAM (commun M×M + Q×T)</div></div><div class="tj-r"><div class="tj-price">~75€</div><div class="tj-unit">/pers</div></div></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Intl</div></div><div class="tj-body"><div class="tj-route">Rio GIG → Paris CDG</div><div class="tj-detail">7 nov. · ~11h35 direct · Air France (seul direct)</div></div><div class="tj-r"><div class="tj-price">~780€</div><div class="tj-unit">/pers · estimé</div></div></div>
+ </div>
 
-  <div class="card ca-tog" data-c="both">
-    <div class="card-hd">Transfers communs — bateaux &amp; vans</div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Bateau</div></div><div class="tj-body"><div class="tj-route">Catamaran Salvador ↔ Morro de SP</div><div class="tj-detail">1 nov. (aller) · 4 nov. (retour) · 2h30 · Biotur</div></div><div class="tj-r"><div class="tj-price">~22€</div><div class="tj-unit">/pers/sens</div></div></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Bateau</div></div><div class="tj-body"><div class="tj-route">Morro → Boipeba (excursion)</div><div class="tj-detail">3 nov. · Aller-retour 45 min · Collectif</div></div><div class="tj-r"><div class="tj-price">~15€</div><div class="tj-unit">/pers A/R</div></div></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Bateau</div></div><div class="tj-body"><div class="tj-route">Paraty → Ilha Grande</div><div class="tj-detail">10 nov. · 45 min · Départs réguliers</div></div><div class="tj-r"><div class="tj-price">~18€</div><div class="tj-unit">/pers</div></div></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Frontière</div></div><div class="tj-body"><div class="tj-route">Foz do Iguaçu ↔ Puerto Iguazu</div><div class="tj-detail">Taxi collectif ou micro · 15 min · Très simple</div></div><div class="tj-r"><div class="tj-price">~4€</div><div class="tj-unit">/pers</div></div></div>
-  </div>
 
-  <div class="card" data-c="qt">
-    <div class="card-hd">Q × T — Transfers solo São Paulo</div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Van</div></div><div class="tj-body"><div class="tj-route">Angra dos Reis → São Paulo</div><div class="tj-detail">11 nov. · ~3h · Plusieurs compagnies</div></div><div class="tj-r"><div class="tj-price">~12€</div><div class="tj-unit">/pers</div></div></div>
-    <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Ferry</div></div><div class="tj-body"><div class="tj-route">São Paulo (Caraguatatuba) → Ubatuba</div><div class="tj-detail">15 nov. · Ou bus direct SP → Ubatuba (4h)</div></div><div class="tj-r"><div class="tj-price">~5€</div><div class="tj-unit">/pers</div></div></div>
-  </div>
+ <div class="card ca-qt" data-c="qt">
+ <div class="card-hd">Q × T — Vols <span>~1 500€ / pers · à sécuriser</span></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Intl</div></div><div class="tj-body"><div class="tj-route">Paris CDG → São Paulo GRU</div><div class="tj-detail">25 oct. · ~12h direct · Air France / LATAM</div></div><div class="tj-r"><div class="tj-price">~620€</div><div class="tj-unit">/pers</div></div></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Interne</div></div><div class="tj-body"><div class="tj-route">São Paulo GRU → Foz do Iguaçu</div><div class="tj-detail">25 oct. · Connexion ~1h · Azul / LATAM</div></div><div class="tj-r"><div class="tj-price">~90€</div><div class="tj-unit">/pers</div></div></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Interne</div></div><div class="tj-body"><div class="tj-route">Foz do Iguaçu → Salvador</div><div class="tj-detail">28 oct. · Avec escale ~3h30 · LATAM</div></div><div class="tj-r"><div class="tj-price">~110€</div><div class="tj-unit">/pers</div></div></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Interne</div></div><div class="tj-body"><div class="tj-route">Salvador → Rio de Janeiro</div><div class="tj-detail">1 nov. · Direct ~2h10 · Gol / LATAM (commun M×M + Q×T)</div></div><div class="tj-r"><div class="tj-price">~75€</div><div class="tj-unit">/pers</div></div></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Intl</div></div><div class="tj-body"><div class="tj-route">São Paulo GRU → Paris CDG</div><div class="tj-detail">18 nov. · ~12h direct · Air France / LATAM</div></div><div class="tj-r"><div class="tj-price">~600€</div><div class="tj-unit">/pers</div></div></div>
+ </div>
 
-  <!-- BUS ALTERNATIVES -->
-  <div class="card ca-tog" data-c="both">
-    <div class="card-hd">Options bus — Les 4 ensemble</div>
-    <div class="bus-alt">
-      <div class="bus-alt-hd">Bus longue distance — partagé</div>
-      <div class="bus-row"><div class="bus-mark"></div><div class="bus-body"><div class="bus-route">Rio de Janeiro → Paraty</div><div class="bus-detail">Bus 1001 ou SP Turismo · ~4h · Rodoviária Novo Rio · Semi-leito (sièges inclinables)</div></div><div class="bus-price">~25€/pers</div></div>
-      <div class="bus-row"><div class="bus-mark"></div><div class="bus-body"><div class="bus-route">Salvador → Recife (si vol annulé)</div><div class="bus-detail">~12h · Bus nuit avec lit · Alternative d'urgence</div></div><div class="bus-price">~30€/pers</div></div>
-    </div>
-    <div class="tip" style="margin:0 14px 12px">
-      <strong>Note :</strong> Brésil = pas de train longue distance. Le bus semi-leito est l'alternative confort au vol pour les trajets 3–6h.
-    </div>
-  </div>
 
-  <div class="card ca-qt" data-c="qt">
-    <div class="card-hd">Options bus — Q×T solo <span>SP · Ubatuba</span></div>
-    <div class="bus-alt">
-      <div class="bus-alt-hd">Bus Q×T spécifiques</div>
-      <div class="bus-row"><div class="bus-mark"></div><div class="bus-body"><div class="bus-route">Angra dos Reis → São Paulo</div><div class="bus-detail">~3h30 · Plusieurs compagnies · Climatisé · Très fréquent</div></div><div class="bus-price">~12€/pers</div></div>
-      <div class="bus-row"><div class="bus-mark"></div><div class="bus-body"><div class="bus-route">São Paulo → Ubatuba</div><div class="bus-detail">Litorânea / Normandy · ~4h · Confortable · Gare Rodoviária Tietê</div></div><div class="bus-price">~18€/pers</div></div>
-    </div>
-  </div>
+ <div class="card ca-tog" data-c="both">
+ <div class="card-hd">Transfers communs — bateaux &amp; vans</div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Bateau</div></div><div class="tj-body"><div class="tj-route">Catamaran Salvador ↔ Morro de SP</div><div class="tj-detail">1 nov. (aller) · 4 nov. (retour) · 2h30 · Biotur</div></div><div class="tj-r"><div class="tj-price">~22€</div><div class="tj-unit">/pers/sens</div></div></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Bateau</div></div><div class="tj-body"><div class="tj-route">Morro → Boipeba (excursion)</div><div class="tj-detail">3 nov. · Aller-retour 45 min · Collectif</div></div><div class="tj-r"><div class="tj-price">~15€</div><div class="tj-unit">/pers A/R</div></div></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Bateau</div></div><div class="tj-body"><div class="tj-route">Paraty → Ilha Grande</div><div class="tj-detail">10 nov. · 45 min · Départs réguliers</div></div><div class="tj-r"><div class="tj-price">~18€</div><div class="tj-unit">/pers</div></div></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Frontière</div></div><div class="tj-body"><div class="tj-route">Foz do Iguaçu ↔ Puerto Iguazu</div><div class="tj-detail">Taxi collectif ou micro · 15 min · Très simple</div></div><div class="tj-r"><div class="tj-price">~4€</div><div class="tj-unit">/pers</div></div></div>
+ </div>
 
-  <div class="pb"></div>
+
+ <div class="card" data-c="qt">
+ <div class="card-hd">Q × T — Transfers solo São Paulo</div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Van</div></div><div class="tj-body"><div class="tj-route">Angra dos Reis → São Paulo</div><div class="tj-detail">11 nov. · ~3h · Plusieurs compagnies</div></div><div class="tj-r"><div class="tj-price">~12€</div><div class="tj-unit">/pers</div></div></div>
+ <div class="tj"><div class="tj-kind"><div class="tj-kind-lbl">Ferry</div></div><div class="tj-body"><div class="tj-route">São Paulo (Caraguatatuba) → Ubatuba</div><div class="tj-detail">15 nov. · Ou bus direct SP → Ubatuba (4h)</div></div><div class="tj-r"><div class="tj-price">~5€</div><div class="tj-unit">/pers</div></div></div>
+ </div>
+
+
+ <!-- BUS ALTERNATIVES -->
+ <div class="card ca-tog" data-c="both">
+ <div class="card-hd">Options bus — Les 4 ensemble</div>
+ <div class="bus-alt">
+ <div class="bus-alt-hd">Bus longue distance — partagé</div>
+ <div class="bus-row"><div class="bus-mark"></div><div class="bus-body"><div class="bus-route">Rio de Janeiro → Paraty</div><div class="bus-detail">Bus 1001 ou SP Turismo · ~4h · Rodoviária Novo Rio · Semi-leito (sièges inclinables)</div></div><div class="bus-price">~25€/pers</div></div>
+ <div class="bus-row"><div class="bus-mark"></div><div class="bus-body"><div class="bus-route">Salvador → Recife (si vol annulé)</div><div class="bus-detail">~12h · Bus nuit avec lit · Alternative d'urgence</div></div><div class="bus-price">~30€/pers</div></div>
+ </div>
+ <div class="tip" style="margin:0 14px 12px">
+ <strong>Note :</strong> Brésil = pas de train longue distance. Le bus semi-leito est l'alternative confort au vol pour les trajets 3–6h.
+ </div>
+ </div>
+
+
+ <div class="card ca-qt" data-c="qt">
+ <div class="card-hd">Options bus — Q×T solo <span>SP · Ubatuba</span></div>
+ <div class="bus-alt">
+ <div class="bus-alt-hd">Bus Q×T spécifiques</div>
+ <div class="bus-row"><div class="bus-mark"></div><div class="bus-body"><div class="bus-route">Angra dos Reis → São Paulo</div><div class="bus-detail">~3h30 · Plusieurs compagnies · Climatisé · Très fréquent</div></div><div class="bus-price">~12€/pers</div></div>
+ <div class="bus-row"><div class="bus-mark"></div><div class="bus-body"><div class="bus-route">São Paulo → Ubatuba</div><div class="bus-detail">Litorânea / Normandy · ~4h · Confortable · Gare Rodoviária Tietê</div></div><div class="bus-price">~18€/pers</div></div>
+ </div>
+ </div>
+
+
+ <div class="pb"></div>
 </div>
+
 
 <!-- ══ ACTIVITÉS ════════════════════════════════════════════════════ -->
 <div id="pane-act" class="pane">
-  <div class="card">
+ <div class="card">
 
-    <div class="ac-item" id="ac-manaus" data-c="mx">
-      <div class="ac-hd" onclick="toggleAc('manaus')"><div class="ac-left"><div class="ac-title">Manaus — Amazonie</div><div class="ac-meta">M × M · J2–J5 · 18–21 oct.</div><div class="moods"><span class="mood m-nat">Nature</span><span class="mood m-adv">Aventure</span></div></div><span class="ac-arr">▾</span></div>
-      <div class="ac-body">
-        <div class="ac-sec">
-          <div class="ac-sec-hd">À voir &amp; à faire</div>
-          <ul class="ac-ul ac-visit">
-            <li>Pirogue au lever du soleil sur le rio Negro (5h30) · brume matinale · oiseaux tropicaux rares</li>
-            <li>Dauphins roses boto cor-de-rosa — unique au monde · excursion depuis le lodge</li>
-            <li>Pêche aux piranhas avec guide local · ~8–15€/pers</li>
-            <li>Observation caïmans nocturne en pirogue · lampe torche · frisson garanti</li>
-            <li>Forêt primaire : canopée et biodiversité extraordinaire</li>
-          </ul>
-        </div>
-        <div class="ac-sec">
-          <div class="ac-sec-hd">Manger &amp; boire local</div>
-          <ul class="ac-ul ac-food">
-            <li>Tacacá — soupe épicée aux crevettes séchées (~5 BRL)</li>
-            <li>Tucunaré grillé — poisson du rio Negro, chair délicate</li>
-            <li>Açaí frais pressé sur place (~10 BRL le verre)</li>
-            <li>Mercado Adolpho Lisboa — fruits amazonienses exotiques</li>
-          </ul>
-        </div>
-        <div class="ac-tip">Excursions souvent incluses dans le lodge · DEET 30%+ obligatoire · Aucun réseau en forêt · Lodge recommandé : Anavilhanas ou Juma</div>
-      </div>
-    </div>
 
-    <div class="ac-item" id="ac-porto" data-c="mx">
-      <div class="ac-hd" onclick="toggleAc('porto')"><div class="ac-left"><div class="ac-title">Porto de Galinhas — Recife</div><div class="ac-meta">M × M · J5–J8 · 21–24 oct.</div><div class="moods"><span class="mood m-chil">Chill</span><span class="mood m-sport">Sportif</span><span class="mood m-nat">Nature</span></div></div><span class="ac-arr">▾</span></div>
-      <div class="ac-body">
-        <div class="ac-sec">
-          <div class="ac-sec-hd">À voir &amp; à faire</div>
-          <ul class="ac-ul ac-visit">
-            <li>Jangada vers piscines naturelles (~12€) — marée basse obligatoire · poissons tropicaux · eaux turquoise</li>
-            <li>Plage de Carneiros — 30 km au sud · eaux calmes turquoise · quasi-déserte · restaurant pieds dans l'eau (~8€ en bus)</li>
-            <li>Stand-up paddle &amp; kayak de mer — longer les récifs · ~15€/h · idéal au lever du soleil</li>
-            <li>Balade à cheval sur la plage de Maracaipe au coucher de soleil · ~15–20€/pers</li>
-            <li>Snorkeling dans les récifs de corail — gratuit avec masque</li>
-          </ul>
-        </div>
-        <div class="ac-sec">
-          <div class="ac-sec-hd">Manger &amp; boire local</div>
-          <ul class="ac-ul ac-food">
-            <li>Peixe na telha — poisson à la tuile, spécialité locale (~35 BRL)</li>
-            <li>Tapioca sucrée ou salée — street food du Nordeste (~5 BRL)</li>
-            <li>Sucos de frutas — caju, umbu, siriguela frais</li>
-            <li>Camarão na moranga — crevettes dans la courge</li>
-          </ul>
-        </div>
-        <div class="ac-tip">App Tábua de Marés indispensable · Jangada ~10–15€/pers · Bus local vers Carneiros ~2€ · Nannai Resort recommandé</div>
-      </div>
-    </div>
+ <div class="ac-item" id="ac-manaus" data-c="mx">
+ <div class="ac-hd" onclick="toggleAc('manaus')"><div class="ac-left"><div class="ac-title">Manaus — Amazonie</div><div class="ac-meta">M × M · J2–J5 · 18–21 oct.</div><div class="moods"><span class="mood m-nat">Nature</span><span class="mood m-adv">Aventure</span></div></div><span class="ac-arr">▾</span></div>
+ <div class="ac-body">
+ <div class="ac-sec">
+ <div class="ac-sec-hd">À voir &amp; à faire</div>
+ <ul class="ac-ul ac-visit">
+ <li>Pirogue au lever du soleil sur le rio Negro (5h30) · brume matinale · oiseaux tropicaux rares</li>
+ <li>Dauphins roses boto cor-de-rosa — unique au monde · excursion depuis le lodge</li>
+ <li>Pêche aux piranhas avec guide local · ~8–15€/pers</li>
+ <li>Observation caïmans nocturne en pirogue · lampe torche · frisson garanti</li>
+ <li>Forêt primaire : canopée et biodiversité extraordinaire</li>
+ </ul>
+ </div>
+ <div class="ac-sec">
+ <div class="ac-sec-hd">Manger &amp; boire local</div>
+ <ul class="ac-ul ac-food">
+ <li>Tacacá — soupe épicée aux crevettes séchées (~5 BRL)</li>
+ <li>Tucunaré grillé — poisson du rio Negro, chair délicate</li>
+ <li>Açaí frais pressé sur place (~10 BRL le verre)</li>
+ <li>Mercado Adolpho Lisboa — fruits amazonienses exotiques</li>
+ </ul>
+ </div>
+ <div class="ac-tip">Excursions souvent incluses dans le lodge · DEET 30%+ obligatoire · Aucun réseau en forêt · Lodge recommandé : Anavilhanas ou Juma</div>
+ </div>
+ </div>
 
-    <div class="ac-item" id="ac-iguazu" data-c="both">
-      <div class="ac-hd" onclick="toggleAc('iguazu')"><div class="ac-left"><div class="ac-title">Chutes d'Iguazu 💦 — Mode backpack</div><div class="ac-meta">Les 4 · J8–J12 · 24–28 oct.</div><div class="moods"><span class="mood m-adv">Aventure</span><span class="mood m-nat">Nature</span></div></div><span class="ac-arr">▾</span></div>
-      <div class="ac-body">
-        <div class="ac-sec">
-          <div class="ac-sec-hd">À voir &amp; à faire</div>
-          <ul class="ac-ul ac-visit">
-            <li>Parc côté brésilien — vue panoramique sur les 275 chutes (~22€/pers) · arriver à 8h30 · billet en ligne obligatoire</li>
-            <li>Parc côté argentin — Garganta del Diablo (~18€/pers) · immersion totale · prévoir imperméable</li>
-            <li>Aventura Náutica — bateau sous les chutes (~20€/pers) · sensation garantie</li>
-            <li>Sentiers jungle &amp; faune — toucans, coatis, aras, papillons géants · inclus dans le billet</li>
-            <li>Survol hélicoptère en option (~150€/pers)</li>
-          </ul>
-        </div>
-        <div class="ac-sec">
-          <div class="ac-sec-hd">Manger &amp; boire local</div>
-          <ul class="ac-ul ac-food">
-            <li>Puerto Iguazu (Argentine) — restaurants bien meilleurs et moins chers qu'à Foz</li>
-            <li>Empanadas fraîches côté argentin (~2–3€ pièce)</li>
-            <li>Asado argentin en petit resto (~15€/pers)</li>
-            <li>Alfajores et dulce de leche — douceurs incontournables</li>
-          </ul>
-        </div>
-        <div class="ac-tip">Base côté argentin recommandée · Dragon ou Tetris Hostel ~30€/pers · Imperméable obligatoire côté argentin · Frontière Foz ↔ Puerto Iguazu ~4€ en taxi collectif</div>
-      </div>
-    </div>
 
-    <div class="ac-item" id="ac-salvador" data-c="both">
-      <div class="ac-hd" onclick="toggleAc('salvador')"><div class="ac-left"><div class="ac-title">Salvador de Bahia</div><div class="ac-meta">Les 4 · J12–J15 · 28–31 oct.</div><div class="moods"><span class="mood m-chil">Chill</span><span class="mood m-adv">Culture</span><span class="mood m-nat">Ambiance locale</span></div></div><span class="ac-arr">▾</span></div>
-      <div class="ac-body">
-        <div class="ac-sec">
-          <div class="ac-sec-hd">À voir &amp; à faire</div>
-          <ul class="ac-ul ac-visit">
-            <li>Pelourinho (UNESCO) — centre historique, maisons coloniales colorées, capoeira en rue · gratuit</li>
-            <li>Église São Francisco — intérieur baroque doré unique au Brésil</li>
-            <li>Olodum — percussions afro en rue le dimanche · spectacle gratuit · énergie inoubliable</li>
-            <li>Croisière baie Todos os Santos — goélette, îles, déjeuner à bord, snorkeling (~30–50€/pers)</li>
-            <li>Phare de Barra — coucher de soleil iconique · gratuit</li>
-            <li>Praia do Flamengo &amp; Itapuã — plages sauvages locales · bus ~1€</li>
-          </ul>
-        </div>
-        <div class="ac-sec">
-          <div class="ac-sec-hd">Manger &amp; boire local</div>
-          <ul class="ac-ul ac-food">
-            <li>Acarajé de Dinha (Rio Vermelho) — institution · beignets de haricots frits (~5 BRL/pièce)</li>
-            <li>Moqueca baiana — ragoût crevettes lait de coco (~35 BRL)</li>
-            <li>Vatapá et caruru — spécialités afro-baianas de rue</li>
-            <li>Bars do Rio Vermelho — caipirinhas et ambiance locale authentique</li>
-          </ul>
-        </div>
-        <div class="ac-tip">Loger à Rio Vermelho — plus local et sûr la nuit que Pelourinho · Appart partagé ×4 recommandé pour diviser les coûts</div>
-      </div>
-    </div>
+ <div class="ac-item" id="ac-porto" data-c="mx">
+ <div class="ac-hd" onclick="toggleAc('porto')"><div class="ac-left"><div class="ac-title">Porto de Galinhas — Recife</div><div class="ac-meta">M × M · J5–J8 · 21–24 oct.</div><div class="moods"><span class="mood m-chil">Chill</span><span class="mood m-sport">Sportif</span><span class="mood m-nat">Nature</span></div></div><span class="ac-arr">▾</span></div>
+ <div class="ac-body">
+ <div class="ac-sec">
+ <div class="ac-sec-hd">À voir &amp; à faire</div>
+ <ul class="ac-ul ac-visit">
+ <li>Jangada vers piscines naturelles (~12€) — marée basse obligatoire · poissons tropicaux · eaux turquoise</li>
+ <li>Plage de Carneiros — 30 km au sud · eaux calmes turquoise · quasi-déserte · restaurant pieds dans l'eau (~8€ en bus)</li>
+ <li>Stand-up paddle &amp; kayak de mer — longer les récifs · ~15€/h · idéal au lever du soleil</li>
+ <li>Balade à cheval sur la plage de Maracaipe au coucher de soleil · ~15–20€/pers</li>
+ <li>Snorkeling dans les récifs de corail — gratuit avec masque</li>
+ </ul>
+ </div>
+ <div class="ac-sec">
+ <div class="ac-sec-hd">Manger &amp; boire local</div>
+ <ul class="ac-ul ac-food">
+ <li>Peixe na telha — poisson à la tuile, spécialité locale (~35 BRL)</li>
+ <li>Tapioca sucrée ou salée — street food du Nordeste (~5 BRL)</li>
+ <li>Sucos de frutas — caju, umbu, siriguela frais</li>
+ <li>Camarão na moranga — crevettes dans la courge</li>
+ </ul>
+ </div>
+ <div class="ac-tip">App Tábua de Marés indispensable · Jangada ~10–15€/pers · Bus local vers Carneiros ~2€ · Nannai Resort recommandé</div>
+ </div>
+ </div>
 
-    <div class="ac-item" id="ac-morro" data-c="both">
-      <div class="ac-hd" onclick="toggleAc('morro')"><div class="ac-left"><div class="ac-title">Morro de São Paulo + Boipeba</div><div class="ac-meta">Les 4 · J15–J18 · 31 oct.–3 nov.</div><div class="moods"><span class="mood m-chil">Chill</span><span class="mood m-nat">Nature</span><span class="mood m-sport">Sportif</span></div></div><span class="ac-arr">▾</span></div>
-      <div class="ac-body">
-        <div class="ac-sec">
-          <div class="ac-sec-hd">À voir &amp; à faire</div>
-          <ul class="ac-ul ac-visit">
-            <li>Forteresse portugaise du 17e — coucher de soleil depuis les remparts · y être 30 min avant · gratuit</li>
-            <li>4 plages numérotées à pied — 1ère : village · 2ème : bars · 3ème : calme · 4ème : déserte (40 min)</li>
-            <li>Boipeba — piscines naturelles récifs · bateau collectif ~12€ A/R · marée basse obligatoire</li>
-            <li>Plongée bouteille — visibilité exceptionnelle · ~60–80€/baptême · tortues marines en novembre</li>
-            <li>Tour en goélette autour de l'île — snorkeling aux arrêts · ~25€/pers</li>
-            <li>Zipline depuis la forteresse jusqu'à la 1ère plage · ~10€/pers · adrénaline garantie</li>
-          </ul>
-        </div>
-        <div class="ac-sec">
-          <div class="ac-sec-hd">Manger &amp; boire local</div>
-          <ul class="ac-ul ac-food">
-            <li>Restaurantes de plage — poisson grillé frais (~30 BRL)</li>
-            <li>Caldinho de sururu — soupe de moules locales (~10 BRL)</li>
-            <li>Caipirinha de cachaça artisanale (~12 BRL)</li>
-            <li>Açaí na tigela com frutas da época</li>
-          </ul>
-        </div>
-        <div class="ac-tip">Île sans voitures · App Tábua de Marés obligatoire pour Boipeba · Catamaran Salvador → Morro ~22€/pers</div>
-      </div>
-    </div>
 
-    <div class="ac-item" id="ac-rio" data-c="both">
-      <div class="ac-hd" onclick="toggleAc('rio')"><div class="ac-left"><div class="ac-title">Rio de Janeiro</div><div class="ac-meta">Les 4 · J18–J22 · 3–7 nov.</div><div class="moods"><span class="mood m-adv">Aventure</span><span class="mood m-nat">Nature</span><span class="mood m-chil">Chill</span></div></div><span class="ac-arr">▾</span></div>
-      <div class="ac-body">
-        <div class="ac-sec">
-          <div class="ac-sec-hd">À voir &amp; à faire</div>
-          <ul class="ac-ul ac-visit">
-            <li>Christ Rédempteur — 7h30 max avant foule et nuages (~12€) · billet en ligne obligatoire</li>
-            <li>Pain de Sucre — téléphérique 2 tronçons (~18€) · arriver à 17h pour coucher de soleil + Rio by night</li>
-            <li>Samba à Lapa — Carioca da Gema (vendredi soir ~10€) · ou gratuit dans la rue autour des arcos</li>
-            <li>Favela tour Vidigal — guide local obligatoire (~15€) · vue sur Rio · street art · Mirante do Arvrão en fin</li>
-            <li>Forêt de Tijuca — plus grande forêt urbaine du monde · cascade Taunay 1h A/R · gratuit</li>
-            <li>Museu do Amanhã — architecture Calatrava (~8€) · 2h min · bord de baie</li>
-            <li>Quartier Santa Teresa — bohème, rues pavées, vue panoramique sur la baie</li>
-          </ul>
-        </div>
-        <div class="ac-sec">
-          <div class="ac-sec-hd">Manger &amp; boire local</div>
-          <ul class="ac-ul ac-food">
-            <li>PF local à Botafogo — riz/haricots/viande (~15 BRL) · la valeur brésilienne</li>
-            <li>Açaí bowl à Ipanema — petit-déjeuner de carioca (~15 BRL)</li>
-            <li>Churrascaria à Botafogo (~40 BRL/pers)</li>
-            <li>Pão de queijo chaud — collation incontournable (~3 BRL)</li>
-          </ul>
-        </div>
-        <div class="ac-tip">Loger à Santa Teresa ou Botafogo — plus local qu'Ipanema · Aucun bijou visible en balade · Uber ou 99 recommandés la nuit</div>
-      </div>
-    </div>
+ <div class="ac-item" id="ac-iguazu" data-c="both">
+ <div class="ac-hd" onclick="toggleAc('iguazu')"><div class="ac-left"><div class="ac-title">Chutes d'Iguazu 💦 — Mode backpack</div><div class="ac-meta">Les 4 · J8–J12 · 24–28 oct.</div><div class="moods"><span class="mood m-adv">Aventure</span><span class="mood m-nat">Nature</span></div></div><span class="ac-arr">▾</span></div>
+ <div class="ac-body">
+ <div class="ac-sec">
+ <div class="ac-sec-hd">À voir &amp; à faire</div>
+ <ul class="ac-ul ac-visit">
+ <li>Parc côté brésilien — vue panoramique sur les 275 chutes (~22€/pers) · arriver à 8h30 · billet en ligne obligatoire</li>
+ <li>Parc côté argentin — Garganta del Diablo (~18€/pers) · immersion totale · prévoir imperméable</li>
+ <li>Aventura Náutica — bateau sous les chutes (~20€/pers) · sensation garantie</li>
+ <li>Sentiers jungle &amp; faune — toucans, coatis, aras, papillons géants · inclus dans le billet</li>
+ <li>Survol hélicoptère en option (~150€/pers)</li>
+ </ul>
+ </div>
+ <div class="ac-sec">
+ <div class="ac-sec-hd">Manger &amp; boire local</div>
+ <ul class="ac-ul ac-food">
+ <li>Puerto Iguazu (Argentine) — restaurants bien meilleurs et moins chers qu'à Foz</li>
+ <li>Empanadas fraîches côté argentin (~2–3€ pièce)</li>
+ <li>Asado argentin en petit resto (~15€/pers)</li>
+ <li>Alfajores et dulce de leche — douceurs incontournables</li>
+ </ul>
+ </div>
+ <div class="ac-tip">Base côté argentin recommandée · Dragon ou Tetris Hostel ~30€/pers · Imperméable obligatoire côté argentin · Frontière Foz ↔ Puerto Iguazu ~4€ en taxi collectif</div>
+ </div>
+ </div>
 
-    <div class="ac-item" id="ac-paraty" data-c="both">
-      <div class="ac-hd" onclick="toggleAc('paraty')"><div class="ac-left"><div class="ac-title">Paraty + Ilha Grande</div><div class="ac-meta">Q×T · J24–J26 · 9–11 nov.</div><div class="moods"><span class="mood m-chil">Chill</span><span class="mood m-nat">Nature</span><span class="mood m-adv">Aventure</span></div></div><span class="ac-arr">▾</span></div>
-      <div class="ac-body">
-        <div class="ac-sec">
-          <div class="ac-sec-hd">À voir &amp; à faire</div>
-          <ul class="ac-ul ac-visit">
-            <li>Paraty by night — rues pavées coloniales du 17e s. · inondables à marée haute · très photogénique</li>
-            <li>Alambique Mãe de Ouro — cachaça artisanale parmi les meilleures du Brésil · ~5€ dégustation</li>
-            <li>Excursion bateau baie de Paraty — goélette · 3–4 arrêts snorkeling · plages isolées (~25€/pers)</li>
-            <li>Lopes Mendes — top 10 mondial · 3 km sable blanc · 40 min à pied ou bateau-taxi (~5€)</li>
-            <li>Lagoa Azul &amp; Lagoa Verde — eaux d'un bleu irréel · excursion bateau ~20€/pers</li>
-            <li>Randonnée sentier côtier — ~4h · Forêt Atlantique · vues sur la baie</li>
-            <li>Praia do Aventureiro — l'une des plus isolées du Brésil · bateau uniquement (~10€)</li>
-          </ul>
-        </div>
-        <div class="ac-sec">
-          <div class="ac-sec-hd">Manger &amp; boire local</div>
-          <ul class="ac-ul ac-food">
-            <li>Punto Divino Paraty — pasta et fruits de mer en terrasse (~40€ pour 2)</li>
-            <li>Tapioca na rua — petit-déjeuner colonial (~5 BRL)</li>
-            <li>Restaurante Lua e Mar Ilha Grande — poisson grillé vue mer (~40 BRL/pers)</li>
-            <li>Frutos do mar au marché local — ultra-frais</li>
-            <li>Sucos tropicais frais — maracujá, goiaba, manga</li>
-          </ul>
-        </div>
-        <div class="ac-tip">Bus Rio → Paraty ~25€ (4h) · Bateau Paraty → Ilha Grande ~18€ · Île sans voitures · Aucun commerce à Lopes Mendes — tout apporter</div>
-      </div>
-    </div>
 
-    <div class="ac-item" id="ac-sp" data-c="qt">
-      <div class="ac-hd" onclick="toggleAc('sp')"><div class="ac-left"><div class="ac-title">São Paulo + Ubatuba</div><div class="ac-meta">Q × T · J27–J33 · 12–18 nov.</div><div class="moods"><span class="mood m-chil">Famille</span><span class="mood m-nat">Nature</span><span class="mood m-sport">Surf</span></div></div><span class="ac-arr">▾</span></div>
-      <div class="ac-body">
-        <div class="ac-sec">
-          <div class="ac-sec-hd">À voir &amp; à faire</div>
-          <ul class="ac-ul ac-visit">
-            <li>SP chez la famille — découvrir la ville avec des locaux · hébergement gratuit · cuisine maison</li>
-            <li>MASP + Avenida Paulista (~5€ · gratuit le mardi) — l'une des plus grandes collections du monde</li>
-            <li>Vila Madalena — Beco do Batman · ruelle entière en murales · bars, cafés · gratuit</li>
-            <li>Parc Ibirapuera — poumon vert de SP · musée d'art moderne · marché dominical</li>
-            <li>Ubatuba — 100+ plages sauvages · tortues marines TAMAR · surf · cascades · Serra do Mar</li>
-            <li>Mercado Municipal — sandwiche mortadelle légendaire (~8€) · fruits exotiques</li>
-          </ul>
-        </div>
-        <div class="ac-sec">
-          <div class="ac-sec-hd">Manger &amp; boire local</div>
-          <ul class="ac-ul ac-food">
-            <li>Repas chez la famille — cuisine brésilienne maison · expérience authentique</li>
-            <li>Izakaya à Liberdade — fusion japonaise-brésilienne · quartier japonais</li>
-            <li>PF local partout en ville (~15 BRL/pers)</li>
-            <li>Peixe de pêcheur à Ubatuba — ultra-frais (~25 BRL)</li>
-            <li>Pastel de camarão frit — street food de plage (~5 BRL)</li>
-          </ul>
-        </div>
-        <div class="ac-tip">MASP gratuit le mardi · Bus SP → Ubatuba ~18€ (4h, Litorânea depuis Rodoviária Tietê) · Hébergement famille = économie ~300€ · Vol retour GRU → CDG le 18 nov.</div>
-      </div>
-    </div>
+ <div class="ac-item" id="ac-salvador" data-c="both">
+ <div class="ac-hd" onclick="toggleAc('salvador')"><div class="ac-left"><div class="ac-title">Salvador de Bahia</div><div class="ac-meta">Les 4 · J12–J15 · 28–31 oct.</div><div class="moods"><span class="mood m-chil">Chill</span><span class="mood m-adv">Culture</span><span class="mood m-nat">Ambiance locale</span></div></div><span class="ac-arr">▾</span></div>
+ <div class="ac-body">
+ <div class="ac-sec">
+ <div class="ac-sec-hd">À voir &amp; à faire</div>
+ <ul class="ac-ul ac-visit">
+ <li>Pelourinho (UNESCO) — centre historique, maisons coloniales colorées, capoeira en rue · gratuit</li>
+ <li>Église São Francisco — intérieur baroque doré unique au Brésil</li>
+ <li>Olodum — percussions afro en rue le dimanche · spectacle gratuit · énergie inoubliable</li>
+ <li>Croisière baie Todos os Santos — goélette, îles, déjeuner à bord, snorkeling (~30–50€/pers)</li>
+ <li>Phare de Barra — coucher de soleil iconique · gratuit</li>
+ <li>Praia do Flamengo &amp; Itapuã — plages sauvages locales · bus ~1€</li>
+ </ul>
+ </div>
+ <div class="ac-sec">
+ <div class="ac-sec-hd">Manger &amp; boire local</div>
+ <ul class="ac-ul ac-food">
+ <li>Acarajé de Dinha (Rio Vermelho) — institution · beignets de haricots frits (~5 BRL/pièce)</li>
+ <li>Moqueca baiana — ragoût crevettes lait de coco (~35 BRL)</li>
+ <li>Vatapá et caruru — spécialités afro-baianas de rue</li>
+ <li>Bars do Rio Vermelho — caipirinhas et ambiance locale authentique</li>
+ </ul>
+ </div>
+ <div class="ac-tip">Loger à Rio Vermelho — plus local et sûr la nuit que Pelourinho · Appart partagé ×4 recommandé pour diviser les coûts</div>
+ </div>
+ </div>
 
-  </div>
-  <div class="pb"></div>
+
+ <div class="ac-item" id="ac-morro" data-c="both">
+ <div class="ac-hd" onclick="toggleAc('morro')"><div class="ac-left"><div class="ac-title">Morro de São Paulo + Boipeba</div><div class="ac-meta">Les 4 · J15–J18 · 31 oct.–3 nov.</div><div class="moods"><span class="mood m-chil">Chill</span><span class="mood m-nat">Nature</span><span class="mood m-sport">Sportif</span></div></div><span class="ac-arr">▾</span></div>
+ <div class="ac-body">
+ <div class="ac-sec">
+ <div class="ac-sec-hd">À voir &amp; à faire</div>
+ <ul class="ac-ul ac-visit">
+ <li>Forteresse portugaise du 17e — coucher de soleil depuis les remparts · y être 30 min avant · gratuit</li>
+ <li>4 plages numérotées à pied — 1ère : village · 2ème : bars · 3ème : calme · 4ème : déserte (40 min)</li>
+ <li>Boipeba — piscines naturelles récifs · bateau collectif ~12€ A/R · marée basse obligatoire</li>
+ <li>Plongée bouteille — visibilité exceptionnelle · ~60–80€/baptême · tortues marines en novembre</li>
+ <li>Tour en goélette autour de l'île — snorkeling aux arrêts · ~25€/pers</li>
+ <li>Zipline depuis la forteresse jusqu'à la 1ère plage · ~10€/pers · adrénaline garantie</li>
+ </ul>
+ </div>
+ <div class="ac-sec">
+ <div class="ac-sec-hd">Manger &amp; boire local</div>
+ <ul class="ac-ul ac-food">
+ <li>Restaurantes de plage — poisson grillé frais (~30 BRL)</li>
+ <li>Caldinho de sururu — soupe de moules locales (~10 BRL)</li>
+ <li>Caipirinha de cachaça artisanale (~12 BRL)</li>
+ <li>Açaí na tigela com frutas da época</li>
+ </ul>
+ </div>
+ <div class="ac-tip">Île sans voitures · App Tábua de Marés obligatoire pour Boipeba · Catamaran Salvador → Morro ~22€/pers</div>
+ </div>
+ </div>
+
+
+ <div class="ac-item" id="ac-rio" data-c="both">
+ <div class="ac-hd" onclick="toggleAc('rio')"><div class="ac-left"><div class="ac-title">Rio de Janeiro</div><div class="ac-meta">Les 4 · J18–J22 · 3–7 nov.</div><div class="moods"><span class="mood m-adv">Aventure</span><span class="mood m-nat">Nature</span><span class="mood m-chil">Chill</span></div></div><span class="ac-arr">▾</span></div>
+ <div class="ac-body">
+ <div class="ac-sec">
+ <div class="ac-sec-hd">À voir &amp; à faire</div>
+ <ul class="ac-ul ac-visit">
+ <li>Christ Rédempteur — 7h30 max avant foule et nuages (~12€) · billet en ligne obligatoire</li>
+ <li>Pain de Sucre — téléphérique 2 tronçons (~18€) · arriver à 17h pour coucher de soleil + Rio by night</li>
+ <li>Samba à Lapa — Carioca da Gema (vendredi soir ~10€) · ou gratuit dans la rue autour des arcos</li>
+ <li>Favela tour Vidigal — guide local obligatoire (~15€) · vue sur Rio · street art · Mirante do Arvrão en fin</li>
+ <li>Forêt de Tijuca — plus grande forêt urbaine du monde · cascade Taunay 1h A/R · gratuit</li>
+ <li>Museu do Amanhã — architecture Calatrava (~8€) · 2h min · bord de baie</li>
+ <li>Quartier Santa Teresa — bohème, rues pavées, vue panoramique sur la baie</li>
+ </ul>
+ </div>
+ <div class="ac-sec">
+ <div class="ac-sec-hd">Manger &amp; boire local</div>
+ <ul class="ac-ul ac-food">
+ <li>PF local à Botafogo — riz/haricots/viande (~15 BRL) · la valeur brésilienne</li>
+ <li>Açaí bowl à Ipanema — petit-déjeuner de carioca (~15 BRL)</li>
+ <li>Churrascaria à Botafogo (~40 BRL/pers)</li>
+ <li>Pão de queijo chaud — collation incontournable (~3 BRL)</li>
+ </ul>
+ </div>
+ <div class="ac-tip">Loger à Santa Teresa ou Botafogo — plus local qu'Ipanema · Aucun bijou visible en balade · Uber ou 99 recommandés la nuit</div>
+ </div>
+ </div>
+
+
+ <div class="ac-item" id="ac-paraty" data-c="both">
+ <div class="ac-hd" onclick="toggleAc('paraty')"><div class="ac-left"><div class="ac-title">Paraty + Ilha Grande</div><div class="ac-meta">Q×T · J24–J26 · 9–11 nov.</div><div class="moods"><span class="mood m-chil">Chill</span><span class="mood m-nat">Nature</span><span class="mood m-adv">Aventure</span></div></div><span class="ac-arr">▾</span></div>
+ <div class="ac-body">
+ <div class="ac-sec">
+ <div class="ac-sec-hd">À voir &amp; à faire</div>
+ <ul class="ac-ul ac-visit">
+ <li>Paraty by night — rues pavées coloniales du 17e s. · inondables à marée haute · très photogénique</li>
+ <li>Alambique Mãe de Ouro — cachaça artisanale parmi les meilleures du Brésil · ~5€ dégustation</li>
+ <li>Excursion bateau baie de Paraty — goélette · 3–4 arrêts snorkeling · plages isolées (~25€/pers)</li>
+ <li>Lopes Mendes — top 10 mondial · 3 km sable blanc · 40 min à pied ou bateau-taxi (~5€)</li>
+ <li>Lagoa Azul &amp; Lagoa Verde — eaux d'un bleu irréel · excursion bateau ~20€/pers</li>
+ <li>Randonnée sentier côtier — ~4h · Forêt Atlantique · vues sur la baie</li>
+ <li>Praia do Aventureiro — l'une des plus isolées du Brésil · bateau uniquement (~10€)</li>
+ </ul>
+ </div>
+ <div class="ac-sec">
+ <div class="ac-sec-hd">Manger &amp; boire local</div>
+ <ul class="ac-ul ac-food">
+ <li>Punto Divino Paraty — pasta et fruits de mer en terrasse (~40€ pour 2)</li>
+ <li>Tapioca na rua — petit-déjeuner colonial (~5 BRL)</li>
+ <li>Restaurante Lua e Mar Ilha Grande — poisson grillé vue mer (~40 BRL/pers)</li>
+ <li>Frutos do mar au marché local — ultra-frais</li>
+ <li>Sucos tropicais frais — maracujá, goiaba, manga</li>
+ </ul>
+ </div>
+ <div class="ac-tip">Bus Rio → Paraty ~25€ (4h) · Bateau Paraty → Ilha Grande ~18€ · Île sans voitures · Aucun commerce à Lopes Mendes — tout apporter</div>
+ </div>
+ </div>
+
+
+ <div class="ac-item" id="ac-sp" data-c="qt">
+ <div class="ac-hd" onclick="toggleAc('sp')"><div class="ac-left"><div class="ac-title">São Paulo + Ubatuba</div><div class="ac-meta">Q × T · J27–J33 · 12–18 nov.</div><div class="moods"><span class="mood m-chil">Famille</span><span class="mood m-nat">Nature</span><span class="mood m-sport">Surf</span></div></div><span class="ac-arr">▾</span></div>
+ <div class="ac-body">
+ <div class="ac-sec">
+ <div class="ac-sec-hd">À voir &amp; à faire</div>
+ <ul class="ac-ul ac-visit">
+ <li>SP chez la famille — découvrir la ville avec des locaux · hébergement gratuit · cuisine maison</li>
+ <li>MASP + Avenida Paulista (~5€ · gratuit le mardi) — l'une des plus grandes collections du monde</li>
+ <li>Vila Madalena — Beco do Batman · ruelle entière en murales · bars, cafés · gratuit</li>
+ <li>Parc Ibirapuera — poumon vert de SP · musée d'art moderne · marché dominical</li>
+ <li>Ubatuba — 100+ plages sauvages · tortues marines TAMAR · surf · cascades · Serra do Mar</li>
+ <li>Mercado Municipal — sandwiche mortadelle légendaire (~8€) · fruits exotiques</li>
+ </ul>
+ </div>
+ <div class="ac-sec">
+ <div class="ac-sec-hd">Manger &amp; boire local</div>
+ <ul class="ac-ul ac-food">
+ <li>Repas chez la famille — cuisine brésilienne maison · expérience authentique</li>
+ <li>Izakaya à Liberdade — fusion japonaise-brésilienne · quartier japonais</li>
+ <li>PF local partout en ville (~15 BRL/pers)</li>
+ <li>Peixe de pêcheur à Ubatuba — ultra-frais (~25 BRL)</li>
+ <li>Pastel de camarão frit — street food de plage (~5 BRL)</li>
+ </ul>
+ </div>
+ <div class="ac-tip">MASP gratuit le mardi · Bus SP → Ubatuba ~18€ (4h, Litorânea depuis Rodoviária Tietê) · Hébergement famille = économie ~300€ · Vol retour GRU → CDG le 18 nov.</div>
+ </div>
+ </div>
+
+
+ </div>
+ <div class="pb"></div>
 </div>
+
 
 <!-- ══ BUDGET ════════════════════════════════════════════════════════ -->
 <div id="pane-bud" class="pane">
-  <div class="btabs">
-    <button class="btab on" onclick="showBud('c1')">M × M</button>
-    <button class="btab" onclick="showBud('c2')">Q × T</button>
-    <button class="btab" onclick="showBud('all')">Total ×4</button>
-  </div>
+ <div class="btabs">
+ <button class="btab on" onclick="showBud('c1')">M × M</button>
+ <button class="btab" onclick="showBud('c2')">Q × T</button>
+ <button class="btab" onclick="showBud('all')">Total ×4</button>
+ </div>
 
-  <div id="bp-c1" class="bpane on">
-    <div class="kgrid">
-      <div class="kpi"><div class="kpi-l">Total M × M</div><div class="kpi-v">~8 100€</div><div class="kpi-s">Couple · 25 jours · 🍹 non comptées</div></div>
-      <div class="kpi"><div class="kpi-l">Par personne</div><div class="kpi-v">~4 050€</div><div class="kpi-s">Budget aventure locale</div></div>
-    </div>
-    <div class="card"><div class="cpb">
-      <div class="brow"><div class="bdot" style="background:var(--mx)"></div><div class="bwrap"><div class="btop"><div class="bname">Vols (6 trajets)</div><div class="bval">4 000€</div></div><div class="btrack"><div class="bfill" style="width:100%;background:var(--mx)"></div></div><div class="bhint">Confirmé · 2 000€/pers · Intl + 4 vols internes Brésil</div></div></div>
-      <div class="brow"><div class="bdot" style="background:var(--tog)"></div><div class="bwrap"><div class="btop"><div class="bname">Hébergement (24 nuits)</div><div class="bval">1 950€</div></div><div class="btrack"><div class="bfill" style="width:49%;background:var(--tog)"></div></div><div class="bhint">2 exceptions (lodge + Recife romantique) · Pousadas locales + hostel Iguazu</div></div></div>
-      <div class="brow"><div class="bdot" style="background:var(--qt)"></div><div class="bwrap"><div class="btop"><div class="bname">Restauration</div><div class="bval">875€</div></div><div class="btrack"><div class="bfill" style="width:22%;background:var(--qt)"></div></div><div class="bhint">~35€/jour/couple · PF + street food + petits restos · (caipirinhas à part 🍋)</div></div></div>
-      <div class="brow"><div class="bdot" style="background:#8B7CF6"></div><div class="bwrap"><div class="btop"><div class="bname">Activités &amp; billets</div><div class="bval">480€</div></div><div class="btrack"><div class="bfill" style="width:12%;background:#8B7CF6"></div></div><div class="bhint">Parcs Iguazu · Jangada · Catamarans · Christ · Pain de Sucre · Favela tour</div></div></div>
-      <div class="brow"><div class="bdot" style="background:var(--sep)"></div><div class="bwrap"><div class="btop"><div class="bname">Transfers locaux</div><div class="bval">250€</div></div><div class="btrack"><div class="bfill" style="width:6%;background:var(--sep)"></div></div><div class="bhint">Bus Rio→Paraty · Bateaux · Taxis · Frontière Iguazu</div></div></div>
-      <div class="brow"><div class="bdot" style="background:var(--t3)"></div><div class="bwrap"><div class="btop"><div class="bname">Divers</div><div class="bval">545€</div></div><div class="btrack"><div class="bfill" style="width:14%;background:var(--t3)"></div></div><div class="bhint">Assurance ~300€ (obligatoire) · SIM ~25€ · Vaccins/médoc ~120€ · Imprévus</div></div></div>
-    </div></div>
-    <div class="card"><div class="card-hd">Hébergement — détail par étape</div><div class="cpb">
-      <div class="det-row"><div class="det-stripe" style="background:var(--mx)"></div><div class="det-body"><div class="det-name">Manaus — Lodge (3n) · exception</div><div class="det-hint">~200€/nuit/couple · Excursions souvent incluses</div></div><div class="det-val">600€</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--mx)"></div><div class="det-body"><div class="det-name">Porto de Galinhas pousada (4n) · exception romantique</div><div class="det-hint">~90€/nuit · Vue mer · Carneiros area</div></div><div class="det-val">360€</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Iguazu — Hostel Puerto Iguazu (3n)</div><div class="det-hint">~60€/couple/nuit · ~30€/pers · Chambre privée + SDB</div></div><div class="det-val">180€</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Salvador — Appart/chambre Rio Vermelho (4n)</div><div class="det-hint">~40€/couple/nuit · Appart Airbnb ×4 ou chambre guesthouse</div></div><div class="det-val">160€</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Morro de São Paulo — Pousada (3n)</div><div class="det-hint">~45€/couple/nuit · Chambre propre avec SDB</div></div><div class="det-val">135€</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Rio — Appart Botafogo/Santa Teresa (5n)</div><div class="det-hint">~70€/couple/nuit · Appart ×4 ou chambre 3★</div></div><div class="det-val">350€</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Paraty + Ilha Grande — Pousada (2n)</div><div class="det-hint">~82€/nuit · Chambres simples et propres</div></div><div class="det-val">165€</div></div>
-    </div></div>
-    <div class="card"><div class="card-hd">Repas — budget journalier couple</div><div class="cpb">
-      <div class="det-row"><div class="det-stripe" style="background:var(--tog)"></div><div class="det-body"><div class="det-name">Petit-déjeuner — Padaria locale</div><div class="det-hint">Pão de queijo + café + jus de fruit · ~10–18 BRL/pers</div></div><div class="det-val">~4€</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--tog)"></div><div class="det-body"><div class="det-name">Déjeuner — Prato Feito (PF)</div><div class="det-hint">Plat complet riz/haricots/viande/salade · ~12–20 BRL/pers · La valeur brésilienne</div></div><div class="det-val">~8€</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--qt)"></div><div class="det-body"><div class="det-name">Dîner — Petit resto local</div><div class="det-hint">Poisson grillé, moqueca, churrasco · ~80–120 BRL pour 2</div></div><div class="det-val">~16€</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--mx)"></div><div class="det-body"><div class="det-name">Drinks — bières, caipirinha, sucos</div><div class="det-hint">Caipirinha ~12 BRL · Skol/Brahma ~8 BRL · Suco açaí ~15 BRL</div></div><div class="det-val">~7€</div></div>
-      <div style="border-top:1px solid var(--bd);padding-top:8px;margin-top:4px;display:flex;justify-content:space-between;font-size:12px;font-weight:700"><span>Total / jour / couple</span><span style="color:var(--tog)">~35€</span></div>
-    </div></div>
-  </div>
 
-  <div id="bp-c2" class="bpane">
-    <div class="kgrid">
-      <div class="kpi"><div class="kpi-l">Total Q × T</div><div class="kpi-v">~6 800€</div><div class="kpi-s">Couple · 24 jours</div></div>
-      <div class="kpi"><div class="kpi-l">Par personne</div><div class="kpi-v">~3 400€</div><div class="kpi-s">Famille à SP = jackpot · 🍹 non comptées</div></div>
-    </div>
-    <div class="card"><div class="cpb">
-      <div class="brow"><div class="bdot" style="background:var(--qt)"></div><div class="bwrap"><div class="btop"><div class="bname">Vols (4 trajets)</div><div class="bval">~3 000€</div></div><div class="btrack"><div class="bfill" style="width:100%;background:var(--qt)"></div></div><div class="bhint">~1 500€/pers estimé · À sécuriser maintenant</div></div></div>
-      <div class="brow"><div class="bdot" style="background:var(--tog)"></div><div class="bwrap"><div class="btop"><div class="bname">Hébergement (24 nuits)</div><div class="bval">1 040€</div></div><div class="btrack"><div class="bfill" style="width:35%;background:var(--tog)"></div></div><div class="bhint">~4–5 nuits chez famille (gratuit) · Pousadas abordables partagées avec M×M</div></div></div>
-      <div class="brow"><div class="bdot" style="background:var(--qt)"></div><div class="bwrap"><div class="btop"><div class="bname">Restauration</div><div class="bval">780€</div></div><div class="btrack"><div class="bfill" style="width:26%;background:var(--qt)"></div></div><div class="bhint">~35€/j · Repas famille gratuits certains soirs à SP</div></div></div>
-      <div class="brow"><div class="bdot" style="background:#8B7CF6"></div><div class="bwrap"><div class="btop"><div class="bname">Activités &amp; billets</div><div class="bval">430€</div></div><div class="btrack"><div class="bfill" style="width:14%;background:#8B7CF6"></div></div><div class="bhint">Mêmes activités communes + Ubatuba (plages et randos gratuites)</div></div></div>
-      <div class="brow"><div class="bdot" style="background:var(--sep)"></div><div class="bwrap"><div class="btop"><div class="bname">Transfers locaux</div><div class="bval">250€</div></div><div class="btrack"><div class="bfill" style="width:8%;background:var(--sep)"></div></div><div class="bhint">Bus SP↔Ubatuba · Bateaux communs · Angra→SP</div></div></div>
-      <div class="brow"><div class="bdot" style="background:var(--t3)"></div><div class="bwrap"><div class="btop"><div class="bname">Divers</div><div class="bval">480€</div></div><div class="btrack"><div class="bfill" style="width:16%;background:var(--t3)"></div></div><div class="bhint">Assurance ~300€ · SIM · Médicaments · Cadeaux famille</div></div></div>
-    </div></div>
-    <div class="card"><div class="card-hd">Hébergement — détail par étape</div><div class="cpb">
-      <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Iguazu — Hostel Puerto Iguazu (3n)</div><div class="det-hint">~60€/couple/nuit · Chambre privée + SDB</div></div><div class="det-val">180€</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Salvador — Appart partagé ×4 (4n)</div><div class="det-hint">~40€/couple/nuit · Rio Vermelho · Partagé avec M×M</div></div><div class="det-val">160€</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Morro de São Paulo — Pousada (3n)</div><div class="det-hint">~45€/couple/nuit · Chambre propre avec SDB</div></div><div class="det-val">135€</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Rio — Appart partagé ×4 (5n)</div><div class="det-hint">~70€/couple/nuit · Partagé avec M×M · Botafogo</div></div><div class="det-val">350€</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Paraty + Ilha Grande — Pousada (2n)</div><div class="det-hint">~82€/nuit · Partagé avec M×M</div></div><div class="det-val">165€</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--qt)"></div><div class="det-body"><div class="det-name">São Paulo chez la famille (4–5n)</div><div class="det-hint">Hébergement gratuit · Économie ~250–350€</div></div><div class="det-val" style="color:var(--tog)">Gratuit</div></div>
-      <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Ubatuba — Pousada (3n)</div><div class="det-hint">~50€/couple/nuit · Simple et propre</div></div><div class="det-val">150€</div></div>
-    </div></div>
-  </div>
+ <div id="bp-c1" class="bpane on">
+ <div class="kgrid">
+ <div class="kpi"><div class="kpi-l">Total M × M</div><div class="kpi-v">~8 100€</div><div class="kpi-s">Couple · 25 jours · 🍹 non comptées</div></div>
+ <div class="kpi"><div class="kpi-l">Par personne</div><div class="kpi-v">~4 050€</div><div class="kpi-s">Budget aventure locale</div></div>
+ </div>
+ <div class="card"><div class="cpb">
+ <div class="brow"><div class="bdot" style="background:var(--mx)"></div><div class="bwrap"><div class="btop"><div class="bname">Vols (6 trajets)</div><div class="bval">4 000€</div></div><div class="btrack"><div class="bfill" style="width:100%;background:var(--mx)"></div></div><div class="bhint">Confirmé · 2 000€/pers · Intl + 4 vols internes Brésil</div></div></div>
+ <div class="brow"><div class="bdot" style="background:var(--tog)"></div><div class="bwrap"><div class="btop"><div class="bname">Hébergement (24 nuits)</div><div class="bval">1 950€</div></div><div class="btrack"><div class="bfill" style="width:49%;background:var(--tog)"></div></div><div class="bhint">2 exceptions (lodge + Recife romantique) · Pousadas locales + hostel Iguazu</div></div></div>
+ <div class="brow"><div class="bdot" style="background:var(--qt)"></div><div class="bwrap"><div class="btop"><div class="bname">Restauration</div><div class="bval">875€</div></div><div class="btrack"><div class="bfill" style="width:22%;background:var(--qt)"></div></div><div class="bhint">~35€/jour/couple · PF + street food + petits restos · (caipirinhas à part 🍋)</div></div></div>
+ <div class="brow"><div class="bdot" style="background:#8B7CF6"></div><div class="bwrap"><div class="btop"><div class="bname">Activités &amp; billets</div><div class="bval">480€</div></div><div class="btrack"><div class="bfill" style="width:12%;background:#8B7CF6"></div></div><div class="bhint">Parcs Iguazu · Jangada · Catamarans · Christ · Pain de Sucre · Favela tour</div></div></div>
+ <div class="brow"><div class="bdot" style="background:var(--sep)"></div><div class="bwrap"><div class="btop"><div class="bname">Transfers locaux</div><div class="bval">250€</div></div><div class="btrack"><div class="bfill" style="width:6%;background:var(--sep)"></div></div><div class="bhint">Bus Rio→Paraty · Bateaux · Taxis · Frontière Iguazu</div></div></div>
+ <div class="brow"><div class="bdot" style="background:var(--t3)"></div><div class="bwrap"><div class="btop"><div class="bname">Divers</div><div class="bval">545€</div></div><div class="btrack"><div class="bfill" style="width:14%;background:var(--t3)"></div></div><div class="bhint">Assurance ~300€ (obligatoire) · SIM ~25€ · Vaccins/médoc ~120€ · Imprévus</div></div></div>
+ </div></div>
+ <div class="card"><div class="card-hd">Hébergement — détail par étape</div><div class="cpb">
+ <div class="det-row"><div class="det-stripe" style="background:var(--mx)"></div><div class="det-body"><div class="det-name">Manaus — Lodge (3n) · exception</div><div class="det-hint">~200€/nuit/couple · Excursions souvent incluses</div></div><div class="det-val">600€</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--mx)"></div><div class="det-body"><div class="det-name">Porto de Galinhas pousada (4n) · exception romantique</div><div class="det-hint">~90€/nuit · Vue mer · Carneiros area</div></div><div class="det-val">360€</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Iguazu — Hostel Puerto Iguazu (3n)</div><div class="det-hint">~60€/couple/nuit · ~30€/pers · Chambre privée + SDB</div></div><div class="det-val">180€</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Salvador — Appart/chambre Rio Vermelho (4n)</div><div class="det-hint">~40€/couple/nuit · Appart Airbnb ×4 ou chambre guesthouse</div></div><div class="det-val">160€</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Morro de São Paulo — Pousada (3n)</div><div class="det-hint">~45€/couple/nuit · Chambre propre avec SDB</div></div><div class="det-val">135€</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Rio — Appart Botafogo/Santa Teresa (5n)</div><div class="det-hint">~70€/couple/nuit · Appart ×4 ou chambre 3★</div></div><div class="det-val">350€</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Paraty + Ilha Grande — Pousada (2n)</div><div class="det-hint">~82€/nuit · Chambres simples et propres</div></div><div class="det-val">165€</div></div>
+ </div></div>
+ <div class="card"><div class="card-hd">Repas — budget journalier couple</div><div class="cpb">
+ <div class="det-row"><div class="det-stripe" style="background:var(--tog)"></div><div class="det-body"><div class="det-name">Petit-déjeuner — Padaria locale</div><div class="det-hint">Pão de queijo + café + jus de fruit · ~10–18 BRL/pers</div></div><div class="det-val">~4€</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--tog)"></div><div class="det-body"><div class="det-name">Déjeuner — Prato Feito (PF)</div><div class="det-hint">Plat complet riz/haricots/viande/salade · ~12–20 BRL/pers · La valeur brésilienne</div></div><div class="det-val">~8€</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--qt)"></div><div class="det-body"><div class="det-name">Dîner — Petit resto local</div><div class="det-hint">Poisson grillé, moqueca, churrasco · ~80–120 BRL pour 2</div></div><div class="det-val">~16€</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--mx)"></div><div class="det-body"><div class="det-name">Drinks — bières, caipirinha, sucos</div><div class="det-hint">Caipirinha ~12 BRL · Skol/Brahma ~8 BRL · Suco açaí ~15 BRL</div></div><div class="det-val">~7€</div></div>
+ <div style="border-top:1px solid var(--bd);padding-top:8px;margin-top:4px;display:flex;justify-content:space-between;font-size:12px;font-weight:700"><span>Total / jour / couple</span><span style="color:var(--tog)">~35€</span></div>
+ </div></div>
+ </div>
 
-  <div id="bp-all" class="bpane">
-    <div class="kgrid">
-      <div class="kpi"><div class="kpi-l">Total 4 personnes</div><div class="kpi-v">~14 900€</div><div class="kpi-s">Estimation réaliste (les caipirinhas en extra 🍋)</div></div>
-      <div class="kpi"><div class="kpi-l">Par personne</div><div class="kpi-v">~3 725€</div><div class="kpi-s">Budget aventure locale</div></div>
-    </div>
-    <div class="card"><div class="cpb">
-      <div class="brow"><div class="bdot" style="background:var(--mx)"></div><div class="bwrap"><div class="btop"><div class="bname">Vols totaux ×4</div><div class="bval">~7 000€</div></div><div class="btrack"><div class="bfill" style="width:100%;background:var(--mx)"></div></div><div class="bhint">M×M 4 000€ ✓ · Q×T ~3 000€ à sécuriser</div></div></div>
-      <div class="brow"><div class="bdot" style="background:var(--tog)"></div><div class="bwrap"><div class="btop"><div class="bname">Hébergement total</div><div class="bval">~2 990€</div></div><div class="btrack"><div class="bfill" style="width:43%;background:var(--tog)"></div></div><div class="bhint">M×M 1 950€ + Q×T 1 040€ · Appart partagé sur parties communes</div></div></div>
-      <div class="brow"><div class="bdot" style="background:var(--qt)"></div><div class="bwrap"><div class="btop"><div class="bname">Restauration totale</div><div class="bval">~1 655€</div></div><div class="btrack"><div class="bfill" style="width:24%;background:var(--qt)"></div></div><div class="bhint">M×M 875€ + Q×T 780€ · Street food + PF + petits restos</div></div></div>
-      <div class="brow"><div class="bdot" style="background:#8B7CF6"></div><div class="bwrap"><div class="btop"><div class="bname">Activités totales</div><div class="bval">~910€</div></div><div class="btrack"><div class="bfill" style="width:13%;background:#8B7CF6"></div></div><div class="bhint">M×M 480€ + Q×T 430€</div></div></div>
-      <div class="brow"><div class="bdot" style="background:var(--sep)"></div><div class="bwrap"><div class="btop"><div class="bname">Transfers</div><div class="bval">~500€</div></div><div class="btrack"><div class="bfill" style="width:7%;background:var(--sep)"></div></div><div class="bhint">Bus + bateaux + taxis</div></div></div>
-      <div class="brow"><div class="bdot" style="background:var(--t3)"></div><div class="bwrap"><div class="btop"><div class="bname">Divers</div><div class="bval">~1 025€</div></div><div class="btrack"><div class="bfill" style="width:15%;background:var(--t3)"></div></div><div class="bhint">Assurances (obligatoires) + SIM + santé + imprévus</div></div></div>
-    </div></div>
-    <div class="card"><div class="card-hd">Fourchettes</div><div class="cpb">
-      <div class="brow"><div class="bdot" style="background:var(--tog)"></div><div class="bwrap"><div class="btop"><div class="bname">Serré (max street food, dortoirs)</div><div class="bval">~12 000€</div></div><div class="btrack"><div class="bfill" style="width:61%;background:var(--tog)"></div></div><div class="bhint">PF à chaque repas, dortoirs partagés</div></div></div>
-      <div class="brow"><div class="bdot" style="background:var(--qt)"></div><div class="bwrap"><div class="btop"><div class="bname">Réaliste — ce plan</div><div class="bval">~14 900€</div></div><div class="btrack"><div class="bfill" style="width:76%;background:var(--qt)"></div></div><div class="bhint">2 exceptions hébergement · PF + dîners sympa · Quelques extras</div></div></div>
-      <div class="brow"><div class="bdot" style="background:var(--sep)"></div><div class="bwrap"><div class="btop"><div class="bname">Confort (hôtels boutique + restos)</div><div class="bval">~20 000€</div></div><div class="btrack"><div class="bfill" style="width:100%;background:var(--sep)"></div></div><div class="bhint">Hôtels partout · Restaurants tous les soirs · Tours privatifs</div></div></div>
-    </div></div>
-  </div>
-  <div class="pb"></div>
+
+ <div id="bp-c2" class="bpane">
+ <div class="kgrid">
+ <div class="kpi"><div class="kpi-l">Total Q × T</div><div class="kpi-v">~6 800€</div><div class="kpi-s">Couple · 24 jours</div></div>
+ <div class="kpi"><div class="kpi-l">Par personne</div><div class="kpi-v">~3 400€</div><div class="kpi-s">Famille à SP = jackpot · 🍹 non comptées</div></div>
+ </div>
+ <div class="card"><div class="cpb">
+ <div class="brow"><div class="bdot" style="background:var(--qt)"></div><div class="bwrap"><div class="btop"><div class="bname">Vols (4 trajets)</div><div class="bval">~3 000€</div></div><div class="btrack"><div class="bfill" style="width:100%;background:var(--qt)"></div></div><div class="bhint">~1 500€/pers estimé · À sécuriser maintenant</div></div></div>
+ <div class="brow"><div class="bdot" style="background:var(--tog)"></div><div class="bwrap"><div class="btop"><div class="bname">Hébergement (24 nuits)</div><div class="bval">1 040€</div></div><div class="btrack"><div class="bfill" style="width:35%;background:var(--tog)"></div></div><div class="bhint">~4–5 nuits chez famille (gratuit) · Pousadas abordables partagées avec M×M</div></div></div>
+ <div class="brow"><div class="bdot" style="background:var(--qt)"></div><div class="bwrap"><div class="btop"><div class="bname">Restauration</div><div class="bval">780€</div></div><div class="btrack"><div class="bfill" style="width:26%;background:var(--qt)"></div></div><div class="bhint">~35€/j · Repas famille gratuits certains soirs à SP</div></div></div>
+ <div class="brow"><div class="bdot" style="background:#8B7CF6"></div><div class="bwrap"><div class="btop"><div class="bname">Activités &amp; billets</div><div class="bval">430€</div></div><div class="btrack"><div class="bfill" style="width:14%;background:#8B7CF6"></div></div><div class="bhint">Mêmes activités communes + Ubatuba (plages et randos gratuites)</div></div></div>
+ <div class="brow"><div class="bdot" style="background:var(--sep)"></div><div class="bwrap"><div class="btop"><div class="bname">Transfers locaux</div><div class="bval">250€</div></div><div class="btrack"><div class="bfill" style="width:8%;background:var(--sep)"></div></div><div class="bhint">Bus SP↔Ubatuba · Bateaux communs · Angra→SP</div></div></div>
+ <div class="brow"><div class="bdot" style="background:var(--t3)"></div><div class="bwrap"><div class="btop"><div class="bname">Divers</div><div class="bval">480€</div></div><div class="btrack"><div class="bfill" style="width:16%;background:var(--t3)"></div></div><div class="bhint">Assurance ~300€ · SIM · Médicaments · Cadeaux famille</div></div></div>
+ </div></div>
+ <div class="card"><div class="card-hd">Hébergement — détail par étape</div><div class="cpb">
+ <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Iguazu — Hostel Puerto Iguazu (3n)</div><div class="det-hint">~60€/couple/nuit · Chambre privée + SDB</div></div><div class="det-val">180€</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Salvador — Appart partagé ×4 (4n)</div><div class="det-hint">~40€/couple/nuit · Rio Vermelho · Partagé avec M×M</div></div><div class="det-val">160€</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Morro de São Paulo — Pousada (3n)</div><div class="det-hint">~45€/couple/nuit · Chambre propre avec SDB</div></div><div class="det-val">135€</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Rio — Appart partagé ×4 (5n)</div><div class="det-hint">~70€/couple/nuit · Partagé avec M×M · Botafogo</div></div><div class="det-val">350€</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Paraty + Ilha Grande — Pousada (2n)</div><div class="det-hint">~82€/nuit · Partagé avec M×M</div></div><div class="det-val">165€</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--qt)"></div><div class="det-body"><div class="det-name">São Paulo chez la famille (4–5n)</div><div class="det-hint">Hébergement gratuit · Économie ~250–350€</div></div><div class="det-val" style="color:var(--tog)">Gratuit</div></div>
+ <div class="det-row"><div class="det-stripe" style="background:var(--t3)"></div><div class="det-body"><div class="det-name">Ubatuba — Pousada (3n)</div><div class="det-hint">~50€/couple/nuit · Simple et propre</div></div><div class="det-val">150€</div></div>
+ </div></div>
+ </div>
+
+
+ <div id="bp-all" class="bpane">
+ <div class="kgrid">
+ <div class="kpi"><div class="kpi-l">Total 4 personnes</div><div class="kpi-v">~14 900€</div><div class="kpi-s">Estimation réaliste (les caipirinhas en extra 🍋)</div></div>
+ <div class="kpi"><div class="kpi-l">Par personne</div><div class="kpi-v">~3 725€</div><div class="kpi-s">Budget aventure locale</div></div>
+ </div>
+ <div class="card"><div class="cpb">
+ <div class="brow"><div class="bdot" style="background:var(--mx)"></div><div class="bwrap"><div class="btop"><div class="bname">Vols totaux ×4</div><div class="bval">~7 000€</div></div><div class="btrack"><div class="bfill" style="width:100%;background:var(--mx)"></div></div><div class="bhint">M×M 4 000€ ✓ · Q×T ~3 000€ à sécuriser</div></div></div>
+ <div class="brow"><div class="bdot" style="background:var(--tog)"></div><div class="bwrap"><div class="btop"><div class="bname">Hébergement total</div><div class="bval">~2 990€</div></div><div class="btrack"><div class="bfill" style="width:43%;background:var(--tog)"></div></div><div class="bhint">M×M 1 950€ + Q×T 1 040€ · Appart partagé sur parties communes</div></div></div>
+ <div class="brow"><div class="bdot" style="background:var(--qt)"></div><div class="bwrap"><div class="btop"><div class="bname">Restauration totale</div><div class="bval">~1 655€</div></div><div class="btrack"><div class="bfill" style="width:24%;background:var(--qt)"></div></div><div class="bhint">M×M 875€ + Q×T 780€ · Street food + PF + petits restos</div></div></div>
+ <div class="brow"><div class="bdot" style="background:#8B7CF6"></div><div class="bwrap"><div class="btop"><div class="bname">Activités totales</div><div class="bval">~910€</div></div><div class="btrack"><div class="bfill" style="width:13%;background:#8B7CF6"></div></div><div class="bhint">M×M 480€ + Q×T 430€</div></div></div>
+ <div class="brow"><div class="bdot" style="background:var(--sep)"></div><div class="bwrap"><div class="btop"><div class="bname">Transfers</div><div class="bval">~500€</div></div><div class="btrack"><div class="bfill" style="width:7%;background:var(--sep)"></div></div><div class="bhint">Bus + bateaux + taxis</div></div></div>
+ <div class="brow"><div class="bdot" style="background:var(--t3)"></div><div class="bwrap"><div class="btop"><div class="bname">Divers</div><div class="bval">~1 025€</div></div><div class="btrack"><div class="bfill" style="width:15%;background:var(--t3)"></div></div><div class="bhint">Assurances (obligatoires) + SIM + santé + imprévus</div></div></div>
+ </div></div>
+ <div class="card"><div class="card-hd">Fourchettes</div><div class="cpb">
+ <div class="brow"><div class="bdot" style="background:var(--tog)"></div><div class="bwrap"><div class="btop"><div class="bname">Serré (max street food, dortoirs)</div><div class="bval">~12 000€</div></div><div class="btrack"><div class="bfill" style="width:61%;background:var(--tog)"></div></div><div class="bhint">PF à chaque repas, dortoirs partagés</div></div></div>
+ <div class="brow"><div class="bdot" style="background:var(--qt)"></div><div class="bwrap"><div class="btop"><div class="bname">Réaliste — ce plan</div><div class="bval">~14 900€</div></div><div class="btrack"><div class="bfill" style="width:76%;background:var(--qt)"></div></div><div class="bhint">2 exceptions hébergement · PF + dîners sympa · Quelques extras</div></div></div>
+ <div class="brow"><div class="bdot" style="background:var(--sep)"></div><div class="bwrap"><div class="btop"><div class="bname">Confort (hôtels boutique + restos)</div><div class="bval">~20 000€</div></div><div class="btrack"><div class="bfill" style="width:100%;background:var(--sep)"></div></div><div class="bhint">Hôtels partout · Restaurants tous les soirs · Tours privatifs</div></div></div>
+ </div></div>
+ </div>
+ <div class="pb"></div>
 </div>
+
 
 <!-- ══ INFOS ══════════════════════════════════════════════════════════ -->
 <div id="pane-inf" class="pane">
 
-  <div class="card" data-c="both">
-    <div class="card-hd">Santé &amp; Documents <span>Les deux couples</span></div><div class="cpb">
-    <div class="irow"><div class="istripe" style="background:var(--sep)"></div><div class="ibody"><div class="iname">Vaccin fièvre jaune</div><div class="idesc">Obligatoire Amazonie · Recommandé partout · Min. 10 jours avant départ</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--t3)"></div><div class="ibody"><div class="iname">Passeport</div><div class="idesc">Valide 6 mois après la date de retour · Aucun visa pour les Français au Brésil</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Assurance voyage</div><div class="idesc">Avec rapatriement médical — obligatoire · AXA Travel ou Chapka · ~150€/pers</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--t3)"></div><div class="ibody"><div class="iname">Pharmacie de voyage</div><div class="idesc">DEET 30%+ · SPF 50+ · Anti-diarrhéiques · Antibiotiques Cipro · Antidouleurs</div></div></div>
-  </div></div>
 
-  <div class="card ca-mx" data-c="mx">
-    <div class="card-hd">Santé spécifique M×M <span>Amazonie</span></div><div class="cpb">
-    <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Antipaludéen</div><div class="idesc">Obligatoire Manaus / Amazonie · Lariam ou Malarone · Consulter médecin 4–6 semaines avant (non, la caïpirinha ne remplace pas)</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Lodge Amazonie — réserver maintenant</div><div class="idesc">Anavilhanas ou Juma Lodge · Capacité très limitée · Excursions souvent incluses · ~200€/nuit/couple</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Tábua de Marés</div><div class="idesc">Indispensable pour Porto de Galinhas et Boipeba · Vérifier chaque matin avant jangada</div></div></div>
-  </div></div>
+ <div class="card" data-c="both">
+ <div class="card-hd">Santé &amp; Documents <span>Les deux couples</span></div><div class="cpb">
+ <div class="irow"><div class="istripe" style="background:var(--sep)"></div><div class="ibody"><div class="iname">Vaccin fièvre jaune</div><div class="idesc">Obligatoire Amazonie · Recommandé partout · Min. 10 jours avant départ</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--t3)"></div><div class="ibody"><div class="iname">Passeport</div><div class="idesc">Valide 6 mois après la date de retour · Aucun visa pour les Français au Brésil</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Assurance voyage</div><div class="idesc">Avec rapatriement médical — obligatoire · AXA Travel ou Chapka · ~150€/pers</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--t3)"></div><div class="ibody"><div class="iname">Pharmacie de voyage</div><div class="idesc">DEET 30%+ · SPF 50+ · Anti-diarrhéiques · Antibiotiques Cipro · Antidouleurs</div></div></div>
+ </div></div>
 
-  <div class="card ca-tog" data-c="both">
-    <div class="card-hd">Logement commun <span>Salvador · Rio · Paraty</span></div><div class="cpb">
-    <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Airbnb appartement ×4 — stratégie clé</div><div class="idesc">1 appart pour 4 à Salvador, Rio, Paraty · Divise le coût par 2 · Cuisine commune = économies repas</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--t3)"></div><div class="ibody"><div class="iname">Pousadas — vocabulaire utile</div><div class="idesc">"Café da manhã incluso" · "Ar condicionado" · "Banheiro privativo" · Budget : 150–300 BRL/nuit</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Îles sans voitures</div><div class="idesc">Morro de São Paulo et Ilha Grande · Tout à pied · Prévoir sacs légers</div></div></div>
-  </div></div>
 
-  <div class="card ca-qt" data-c="qt">
-    <div class="card-hd">Logement Q×T solo <span>SP · Ubatuba</span></div><div class="cpb">
-    <div class="irow"><div class="istripe" style="background:var(--qt)"></div><div class="ibody"><div class="iname">São Paulo — chez la famille</div><div class="idesc">Hébergement gratuit · Économie directe ~300€ · Prévoir cadeaux et moments ensemble</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--qt)"></div><div class="ibody"><div class="iname">Ubatuba — pousadas surf</div><div class="idesc">~50€/couple/nuit · Bus SP→Ubatuba ~18€ (4h) · Litorânea depuis Rodoviária Tietê</div></div></div>
-  </div></div>
+ <div class="card ca-mx" data-c="mx">
+ <div class="card-hd">Santé spécifique M×M <span>Amazonie</span></div><div class="cpb">
+ <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Antipaludéen</div><div class="idesc">Obligatoire Manaus / Amazonie · Lariam ou Malarone · Consulter médecin 4–6 semaines avant (non, la caïpirinha ne remplace pas)</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Lodge Amazonie — réserver maintenant</div><div class="idesc">Anavilhanas ou Juma Lodge · Capacité très limitée · Excursions souvent incluses · ~200€/nuit/couple</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Tábua de Marés</div><div class="idesc">Indispensable pour Porto de Galinhas et Boipeba · Vérifier chaque matin avant jangada</div></div></div>
+ </div></div>
 
-  <div class="card" data-c="both">
-    <div class="card-hd">Apps &amp; Pratique <span>Les deux couples</span></div><div class="cpb">
-    <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Google Maps</div><div class="idesc">Cartes hors-ligne Brésil AVANT départ · Indispensable partout</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">99 (VTC brésilien)</div><div class="idesc">Équivalent Uber · Plus fiable dans certaines villes · Télécharger avant départ</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Revolut ou Wise</div><div class="idesc">Sans frais de change · 1€ ≈ 5,5–6 BRL · DAB Banco do Brasil recommandé</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--t3)"></div><div class="ibody"><div class="iname">SIM Claro / Vivo ou eSIM Airalo</div><div class="idesc">~30€/30j illimités · eSIM = configurer avant le départ</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--t3)"></div><div class="ibody"><div class="iname">Prises type N · Adaptateur universel</div><div class="idesc">127V ou 220V selon ville · Retirer cash à l'arrivée · 1€ ≈ 5,5 BRL</div></div></div>
-  </div></div>
 
-  <div class="card ca-mx" data-c="mx">
-    <div class="card-hd">Apps spécifiques M×M</div><div class="cpb">
-    <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Tábua de Marés</div><div class="idesc">Marées Porto de Galinhas et Boipeba · Vérifier chaque matin avant excursion</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">iNaturalist</div><div class="idesc">Identifier faune et flore en Amazonie · Fonctionne offline · Parfait pour les espèces rares</div></div></div>
-  </div></div>
+ <div class="card ca-tog" data-c="both">
+ <div class="card-hd">Logement commun <span>Salvador · Rio · Paraty</span></div><div class="cpb">
+ <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Airbnb appartement ×4 — stratégie clé</div><div class="idesc">1 appart pour 4 à Salvador, Rio, Paraty · Divise le coût par 2 · Cuisine commune = économies repas</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--t3)"></div><div class="ibody"><div class="iname">Pousadas — vocabulaire utile</div><div class="idesc">"Café da manhã incluso" · "Ar condicionado" · "Banheiro privativo" · Budget : 150–300 BRL/nuit</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Îles sans voitures</div><div class="idesc">Morro de São Paulo et Ilha Grande · Tout à pied · Prévoir sacs légers</div></div></div>
+ </div></div>
 
-  <div class="card ca-tog" data-c="both">
-    <div class="card-hd">Restaurants partagés <span>Salvador → Ilha Grande</span></div><div class="cpb">
-    <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Acarajé de Dinha — Salvador (Rio Vermelho)</div><div class="idesc">Institution locale · Beignets de haricots · ~5 BRL pièce</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Carioca da Gema — Rio (Lapa)</div><div class="idesc">Meilleure samba live · ~8–15€ entrée · Vendredi soir impératif</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Mirante do Arvrão — Rio (Vidigal)</div><div class="idesc">Bar · Vue nocturne sur Rio · Spot secret des cariocas · Gratuit</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Punto Divino — Paraty</div><div class="idesc">Terrasse sur les pavés · Pasta + fruits de mer · ~40€ pour 2</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Lua e Mar — Ilha Grande</div><div class="idesc">Poisson grillé vue mer · ~40 BRL/pers · Dîner d'adieu idéal</div></div></div>
-  </div></div>
 
-  <div class="card ca-mx" data-c="mx">
-    <div class="card-hd">Restaurants M×M <span>Manaus · Porto de Galinhas</span></div><div class="cpb">
-    <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Tacacá — Manaus</div><div class="idesc">Soupe épicée aux crevettes séchées · Marchés locaux · ~5 BRL</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Tucunaré grillé — Manaus</div><div class="idesc">Poisson emblématique du rio Negro · Restaurants du port · Chair délicate</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Peixe na telha — Porto de Galinhas</div><div class="idesc">Poisson à la tuile, spécialité locale · ~35 BRL · Restaurants de plage</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Tapioca nordestine</div><div class="idesc">Street food du Nordeste · Sucrée ou salée · ~5 BRL · Partout à Porto de Galinhas</div></div></div>
-  </div></div>
+ <div class="card ca-qt" data-c="qt">
+ <div class="card-hd">Logement Q×T solo <span>SP · Ubatuba</span></div><div class="cpb">
+ <div class="irow"><div class="istripe" style="background:var(--qt)"></div><div class="ibody"><div class="iname">São Paulo — chez la famille</div><div class="idesc">Hébergement gratuit · Économie directe ~300€ · Prévoir cadeaux et moments ensemble</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--qt)"></div><div class="ibody"><div class="iname">Ubatuba — pousadas surf</div><div class="idesc">~50€/couple/nuit · Bus SP→Ubatuba ~18€ (4h) · Litorânea depuis Rodoviária Tietê</div></div></div>
+ </div></div>
 
-  <div class="card ca-qt" data-c="qt">
-    <div class="card-hd">Restaurants Q×T <span>São Paulo · Ubatuba</span></div><div class="cpb">
-    <div class="irow"><div class="istripe" style="background:var(--qt)"></div><div class="ibody"><div class="iname">Mercado Municipal — São Paulo</div><div class="idesc">Mortadela sandwich légendaire · ~8€ · Fruits exotiques · Visite gratuite</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--qt)"></div><div class="ibody"><div class="iname">Izakaya à Liberdade — São Paulo</div><div class="idesc">Fusion japonaise-brésilienne · Quartier japonais · Excellent rapport qualité/prix</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--qt)"></div><div class="ibody"><div class="iname">Repas chez la famille</div><div class="idesc">Cuisine brésilienne maison · Expérience authentique · Découvrir SP avec des locaux</div></div></div>
-    <div class="irow"><div class="istripe" style="background:var(--qt)"></div><div class="ibody"><div class="iname">Peixe de pêcheur — Ubatuba</div><div class="idesc">Ultra-frais · Restaurants de plage · ~25 BRL · Pastel de camarão ~5 BRL</div></div></div>
-  </div></div>
 
-  <div class="pb"></div>
+ <div class="card" data-c="both">
+ <div class="card-hd">Apps &amp; Pratique <span>Les deux couples</span></div><div class="cpb">
+ <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Google Maps</div><div class="idesc">Cartes hors-ligne Brésil AVANT départ · Indispensable partout</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">99 (VTC brésilien)</div><div class="idesc">Équivalent Uber · Plus fiable dans certaines villes · Télécharger avant départ</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Revolut ou Wise</div><div class="idesc">Sans frais de change · 1€ ≈ 5,5–6 BRL · DAB Banco do Brasil recommandé</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--t3)"></div><div class="ibody"><div class="iname">SIM Claro / Vivo ou eSIM Airalo</div><div class="idesc">~30€/30j illimités · eSIM = configurer avant le départ</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--t3)"></div><div class="ibody"><div class="iname">Prises type N · Adaptateur universel</div><div class="idesc">127V ou 220V selon ville · Retirer cash à l'arrivée · 1€ ≈ 5,5 BRL</div></div></div>
+ </div></div>
+
+
+ <div class="card ca-mx" data-c="mx">
+ <div class="card-hd">Apps spécifiques M×M</div><div class="cpb">
+ <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Tábua de Marés</div><div class="idesc">Marées Porto de Galinhas et Boipeba · Vérifier chaque matin avant excursion</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">iNaturalist</div><div class="idesc">Identifier faune et flore en Amazonie · Fonctionne offline · Parfait pour les espèces rares</div></div></div>
+ </div></div>
+
+
+ <div class="card ca-tog" data-c="both">
+ <div class="card-hd">Restaurants partagés <span>Salvador → Ilha Grande</span></div><div class="cpb">
+ <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Acarajé de Dinha — Salvador (Rio Vermelho)</div><div class="idesc">Institution locale · Beignets de haricots · ~5 BRL pièce</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Carioca da Gema — Rio (Lapa)</div><div class="idesc">Meilleure samba live · ~8–15€ entrée · Vendredi soir impératif</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Mirante do Arvrão — Rio (Vidigal)</div><div class="idesc">Bar · Vue nocturne sur Rio · Spot secret des cariocas · Gratuit</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Punto Divino — Paraty</div><div class="idesc">Terrasse sur les pavés · Pasta + fruits de mer · ~40€ pour 2</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--tog)"></div><div class="ibody"><div class="iname">Lua e Mar — Ilha Grande</div><div class="idesc">Poisson grillé vue mer · ~40 BRL/pers · Dîner d'adieu idéal</div></div></div>
+ </div></div>
+
+
+ <div class="card ca-mx" data-c="mx">
+ <div class="card-hd">Restaurants M×M <span>Manaus · Porto de Galinhas</span></div><div class="cpb">
+ <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Tacacá — Manaus</div><div class="idesc">Soupe épicée aux crevettes séchées · Marchés locaux · ~5 BRL</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Tucunaré grillé — Manaus</div><div class="idesc">Poisson emblématique du rio Negro · Restaurants du port · Chair délicate</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Peixe na telha — Porto de Galinhas</div><div class="idesc">Poisson à la tuile, spécialité locale · ~35 BRL · Restaurants de plage</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--mx)"></div><div class="ibody"><div class="iname">Tapioca nordestine</div><div class="idesc">Street food du Nordeste · Sucrée ou salée · ~5 BRL · Partout à Porto de Galinhas</div></div></div>
+ </div></div>
+
+
+ <div class="card ca-qt" data-c="qt">
+ <div class="card-hd">Restaurants Q×T <span>São Paulo · Ubatuba</span></div><div class="cpb">
+ <div class="irow"><div class="istripe" style="background:var(--qt)"></div><div class="ibody"><div class="iname">Mercado Municipal — São Paulo</div><div class="idesc">Mortadela sandwich légendaire · ~8€ · Fruits exotiques · Visite gratuite</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--qt)"></div><div class="ibody"><div class="iname">Izakaya à Liberdade — São Paulo</div><div class="idesc">Fusion japonaise-brésilienne · Quartier japonais · Excellent rapport qualité/prix</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--qt)"></div><div class="ibody"><div class="iname">Repas chez la famille</div><div class="idesc">Cuisine brésilienne maison · Expérience authentique · Découvrir SP avec des locaux</div></div></div>
+ <div class="irow"><div class="istripe" style="background:var(--qt)"></div><div class="ibody"><div class="iname">Peixe de pêcheur — Ubatuba</div><div class="idesc">Ultra-frais · Restaurants de plage · ~25 BRL · Pastel de camarão ~5 BRL</div></div></div>
+ </div></div>
+
+
+ <div class="pb"></div>
 </div>
+
 
 <!-- ══ CITY BOTTOM SHEET ═══════════════════════════════════════════ -->
 <div class="sh-ov" id="sh-ov" onclick="closeSheet()"></div>
 <div class="sheet" id="sheet">
-  <div class="sh-drag"></div>
-  <img class="sh-img" id="sh-img" src="" alt="" onerror="this.style.minHeight='60px';this.style.background='var(--s3)'">
-  <div class="sh-body">
-    <span class="sh-phase" id="sh-phase"></span>
-    <div class="sh-name" id="sh-name"></div>
-    <div class="sh-dates" id="sh-dates"></div>
-    <div class="sh-sec">
-      <div class="sh-sec-hd">À voir &amp; à faire</div>
-      <ul class="sh-ul sh-visit" id="sh-visit"></ul>
-    </div>
-    <div class="sh-sec">
-      <div class="sh-sec-hd">Manger &amp; boire local</div>
-      <ul class="sh-ul sh-food" id="sh-food"></ul>
-    </div>
-    <div class="sh-tip-box" id="sh-tip"></div>
-  </div>
-  <button class="sh-close" onclick="closeSheet()">Fermer</button>
+ <div class="sh-drag"></div>
+ <img class="sh-img" id="sh-img" src="" alt="" onerror="this.style.minHeight='60px';this.style.background='var(--s3)'">
+ <div class="sh-body">
+ <span class="sh-phase" id="sh-phase"></span>
+ <div class="sh-name" id="sh-name"></div>
+ <div class="sh-dates" id="sh-dates"></div>
+ <div class="sh-sec">
+ <div class="sh-sec-hd">À voir &amp; à faire</div>
+ <ul class="sh-ul sh-visit" id="sh-visit"></ul>
+ </div>
+ <div class="sh-sec">
+ <div class="sh-sec-hd">Manger &amp; boire local</div>
+ <ul class="sh-ul sh-food" id="sh-food"></ul>
+ </div>
+ <div class="sh-tip-box" id="sh-tip"></div>
+ </div>
+ <button class="sh-close" onclick="closeSheet()">Fermer</button>
 </div>
 </main>
 
+
 <nav class="nav">
-  <button class="nb on" id="nb-cal" onclick="showTab('cal')"><div class="nb-ico">📅</div><div class="nb-lbl">Programme</div></button>
-  <button class="nb" id="nb-map" onclick="showTab('map')"><div class="nb-ico">🗺</div><div class="nb-lbl">Carte</div></button>
-  <button class="nb" id="nb-traj" onclick="showTab('traj')"><div class="nb-ico">✈</div><div class="nb-lbl">Trajets</div></button>
-  <button class="nb" id="nb-act" onclick="showTab('act')"><div class="nb-ico">🌴</div><div class="nb-lbl">Activités</div></button>
-  <button class="nb" id="nb-bud" onclick="showTab('bud')"><div class="nb-ico">🍹</div><div class="nb-lbl">Budget</div></button>
-  <button class="nb" id="nb-inf" onclick="showTab('inf')"><div class="nb-ico">💡</div><div class="nb-lbl">Infos</div></button>
+ <button class="nb on" id="nb-cal" onclick="showTab('cal')"><div class="nb-ico">📅</div><div class="nb-lbl">Programme</div></button>
+ <button class="nb" id="nb-map" onclick="showTab('map')"><div class="nb-ico">🗺</div><div class="nb-lbl">Carte</div></button>
+ <button class="nb" id="nb-traj" onclick="showTab('traj')"><div class="nb-ico">✈</div><div class="nb-lbl">Trajets</div></button>
+ <button class="nb" id="nb-act" onclick="showTab('act')"><div class="nb-ico">🌴</div><div class="nb-lbl">Activités</div></button>
+ <button class="nb" id="nb-bud" onclick="showTab('bud')"><div class="nb-ico">🍹</div><div class="nb-lbl">Budget</div></button>
+ <button class="nb" id="nb-inf" onclick="showTab('inf')"><div class="nb-ico">💡</div><div class="nb-lbl">Infos</div></button>
 </nav>
 
+
 </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 // ── TABS ──────────────────────────────────────────────────────────
 function showTab(id){
-  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
-  document.getElementById('pane-'+id).classList.add('on');
-  document.getElementById('nb-'+id).classList.add('on');
-  document.querySelector('.content').scrollTop=0;
-  if(id==='map') setTimeout(initMap,80);
-  // Masquer le filtre couple sur les onglets avec leur propre filtre
-  const noFilter=['map','bud'];
-  document.querySelector('.app').classList.toggle('hide-ctabs', noFilter.includes(id));
+ document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+ document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+ document.getElementById('pane-'+id).classList.add('on');
+ document.getElementById('nb-'+id).classList.add('on');
+ document.querySelector('.content').scrollTop=0;
+ if(id==='map') setTimeout(initMap,80);
+ // Masquer le filtre couple sur les onglets avec leur propre filtre
+ const noFilter=['map','bud'];
+ document.querySelector('.app').classList.toggle('hide-ctabs', noFilter.includes(id));
 }
 function setCouple(c){
-  document.body.className='view-'+c;
-  document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('on'));
-  document.getElementById('ct-'+c).classList.add('on');
+ document.body.className='view-'+c;
+ document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('on'));
+ document.getElementById('ct-'+c).classList.add('on');
 }
 function showBud(id){
-  document.querySelectorAll('.bpane').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.btab').forEach(b=>b.classList.remove('on'));
-  document.getElementById('bp-'+id).classList.add('on');
-  event.currentTarget.classList.add('on');
+ document.querySelectorAll('.bpane').forEach(p=>p.classList.remove('on'));
+ document.querySelectorAll('.btab').forEach(b=>b.classList.remove('on'));
+ document.getElementById('bp-'+id).classList.add('on');
+ event.currentTarget.classList.add('on');
 }
 function toggleAc(id){ document.getElementById('ac-'+id).classList.toggle('open'); }
 
+
 // ── CITY DATA ─────────────────────────────────────────────────────
 const CITIES = {
-  'Manaus':{p:'mx',ph:'M×M · J1–J3',dt:'17 – 19 oct.',
-    img:'https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=600&q=80',
-    v:['Pirogue au lever du soleil sur le rio Negro (5h30)','Dauphins roses boto cor-de-rosa — unique au monde','Pêche aux piranhas avec guide local','Observation caïmans nocturne en pirogue','Forêt primaire : canopée et biodiversité extraordinaire'],
-    f:['Tacacá — soupe épicée aux crevettes séchées (~5 BRL)','Tucunaré grillé — poisson du rio Negro, chair délicate','Açaí frais pressé sur place (~10 BRL le verre)','Mercado Adolpho Lisboa — fruits amazonienses exotiques'],
-    t:'Excursions souvent incluses dans le lodge · DEET 30%+ obligatoire · Aucun réseau en forêt · Lodge recommandé : Anavilhanas ou Juma'},
-  'Porto de Galinhas':{p:'mx',ph:'M×M · J4–J7',dt:'20 – 23 oct.',
-    img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80',
-    v:['Jangada vers piscines naturelles (~12€) — marée basse obligatoire !','Snorkeling dans les récifs de corail (gratuit avec masque)','Plage de Carneiros — eaux calmes turquoise, romantique','Kitesurf à Maracaipe (~55€/2h de cours pour débutants)','Balade à cheval sur la plage au coucher de soleil (~18€)'],
-    f:['Peixe na telha — poisson à la tuile, spécialité locale (~35 BRL)','Tapioca sucrée ou salée — street food du Nordeste (~5 BRL)','Sucos de frutas — caju, umbu, siriguela frais','Camarão na moranga — crevettes dans la courge'],
-    t:'App Tábua de Marés obligatoire · Jangada ~10–15€/pers · Bus local vers Carneiros ~2€'},
-  'Foz do Iguaçu':{p:'tog',ph:'Les 4 · J9–J11',dt:'25 – 27 oct.',
-    img:'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=600&q=80',
-    v:['Parc côté brésilien — panorama sur les 275 chutes (~22€/pers)','Parc côté argentin — Garganta del Diablo (~18€/pers)','Aventura Náutica — bateau sous les chutes (~20€/pers)','Sentiers jungle : toucans, coatis, papillons géants (inclus billet)','Survol hélicoptère en option (~150€/pers)'],
-    f:['Puerto Iguazu (Argentine) — restaurants bien mieux et moins chers','Empanadas fraîches côté argentin (~2–3€ pièce)','Asado argentin en petit resto (~15€/pers)','Alfajores et dulce de leche — douceurs argentines'],
-    t:'Base côté argentin recommandée · Dragon ou Tetris Hostel ~30€/pers · Imperméable obligatoire côté argentin · Frontière Foz↔Puerto Iguazu ~4€'},
-  'Salvador de Bahia':{p:'tog',ph:'Les 4 · J12–J15',dt:'28 – 31 oct.',
-    img:'https://images.unsplash.com/photo-1569074187119-c87815b476da?w=600&q=80',
-    v:['Pelourinho — centre historique UNESCO, ruelles coloniales (gratuit)','Église São Francisco — intérieur baroque doré unique au Brésil','Olodum — percussions afro en rue le dimanche (gratuit)','Croisière baie Todos os Santos (~30–50€/pers)','Phare de Barra — coucher de soleil iconique (gratuit)','Praia do Flamengo et Itapuã — plages sauvages locales (bus ~1€)'],
-    f:['Acarajé de Dinha (Rio Vermelho) — institution (~5 BRL/pièce)','Moqueca baiana — ragoût crevettes lait de coco (~35 BRL)','Vatapá et caruru — spécialités afro-baianas de rue','Bars do Rio Vermelho — caipirinhas et ambiance locale authentique'],
-    t:'Loger à Rio Vermelho (plus local et sûr la nuit que Pelourinho) · Appart partagé ×4 recommandé'},
-  'Morro de São Paulo':{p:'tog',ph:'Les 4 · J15–J18',dt:'31 oct. – 3 nov.',
-    img:'https://images.unsplash.com/photo-1559494007-e9f57b2ce7b7?w=600&q=80',
-    v:['Forteresse portugaise — coucher de soleil depuis les remparts (gratuit)','2e plage — la plus animée avec bars et restaurants','4e plage — 40 min à pied, quasi-déserte et sauvage','Excursion Boipeba — piscines naturelles récifs (bateau ~12€ A/R)','Snorkeling dans les récifs à marée basse (gratuit avec masque)'],
-    f:['Restaurantes de plage — poisson grillé frais (~30 BRL)','Caldinho de sururu — soupe de moules locales (~10 BRL)','Caipirinha de cachaça artisanale (~12 BRL)','Açaí na tigela com frutas da época'],
-    t:'Île sans voitures · Vérifier marée pour Boipeba (Tábua de Marés) · Catamaran Salvador→Morro ~22€/pers'},
-  'Rio de Janeiro':{p:'tog',ph:'Les 4 · J16–J21',dt:'1 – 6 nov.',
-    img:'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=600&q=80',
-    v:['Christ Rédempteur — 7h30 max avant foule (~12€, billet en ligne obligatoire)','Pain de Sucre — téléphérique (~18€, arriver à 17h pour coucher de soleil)','Samba à Lapa — Carioca da Gema (vendredi ~10€, ou gratuit dans la rue)','Favela tour Vidigal (~15€, guide local absolument obligatoire)','Bar Mirante do Arvrão — vue nocturne sur Rio (gratuit)','Forêt de Tijuca — cascade Taunay, 1h A/R (gratuit)','Museu do Amanhã — architecture Calatrava (~8€)'],
-    f:['PF local à Botafogo — riz/haricots/viande (~15 BRL)','Açaí bowl à Ipanema — petit-déj de carioca (~15 BRL)','Churrascaria à Botafogo (~40 BRL/pers)','Pão de queijo chaud — collation incontournable (~3 BRL)'],
-    t:'Loger à Santa Teresa ou Botafogo (plus local qu\'Ipanema) · Pas de bijoux visibles en balade'},
-  'Paraty':{p:'tog',ph:'Les 4 · J24',dt:'9 nov.',
-    img:'https://images.unsplash.com/photo-1571566882372-1598d88abd90?w=600&q=80',
-    v:['Rues pavées coloniales du 17e — flânerie nocturne (gratuit)','Alambique Mãe de Ouro — cachaça artisanale (~5€ dégustation)','Kayak dans la baie de Paraty (~20€)','Centre historique préservé — une des meilleures architectures coloniales du Brésil'],
-    f:['Punto Divino — pasta et fruits de mer en terrasse (~40€ pour 2)','Restaurante Bartholomeu — cuisine créative locale','Tapioca na rua — petit-déj colonial (~5 BRL)','Cachaça de Paraty — parmi les meilleures du Brésil'],
-    t:'Bus Rio→Paraty ~25€ (4h) · 1 nuit suffit · Bateau Paraty→Ilha Grande ~18€'},
-  'Ilha Grande':{p:'tog',ph:'Les 4 · J25–J26',dt:'10 – 11 nov.',
-    img:'https://images.unsplash.com/photo-1590056038587-c6ea28ce5f1e?w=600&q=80',
-    v:['Lopes Mendes — top 10 mondial (40 min à pied, apporter eau et nourriture !)','Snorkeling depuis la plage (gratuit avec masque)','Lagoa Azul — eaux d\'un bleu extraordinaire','Randonnée côtière ~4h autour de l\'île','Praia do Aventureiro — l\'une des plus isolées du Brésil'],
-    f:['Restaurante Lua e Mar — poisson grillé vue mer (~40 BRL/pers)','Frutos do mar au marché local — ultra-frais','Sucos tropicais frais — maracujá, goiaba, manga','Moqueca de peixe en pousada locale'],
-    t:'Île sans voitures ni motos · Aucun commerce à Lopes Mendes (tout apporter) · Séparation M×M→Paris / Q×T→SP le 11 nov.'},
-  'São Paulo':{p:'qt',ph:'Q×T · J27–J29',dt:'12 – 14 nov.',
-    img:'https://images.unsplash.com/photo-1578255321055-d3d35f1eabd2?w=600&q=80',
-    v:['MASP Avenida Paulista (~5€, gratuit le mardi)','Vila Madalena — Beco do Batman, street art (gratuit)','Parc Ibirapuera — poumon vert de SP (gratuit)','Liberdade — quartier japonais, marché dominical (gratuit)','Mercado Municipal — sandwiche mortadelle légendaire (~8€)'],
-    f:['PF local partout en ville (~15 BRL/pers)','Izakaya à Liberdade — fusion japonaise-brésilienne','Mercado Municipal — toutes spécialités brésiliennes','Repas chez la famille — expérience et économie maximales'],
-    t:'Hébergement chez la famille = économie ~300€ · SP = gastronomie mondiale accessible · MASP gratuit le mardi'},
-  'Ubatuba':{p:'qt',ph:'Q×T · J30–J32',dt:'15 – 17 nov.',
-    img:'https://images.unsplash.com/photo-1516887159320-a736b92f5c51?w=600&q=80',
-    v:['Praia do Félix — eaux cristallines, snorkeling gratuit depuis la plage','Projeto TAMAR — protection tortues marines (gratuit)','Praia Brava — vagues puissantes, spot de surf','Trilha Picinguaba — randonnée côtière forêt Atlantique (gratuit)','100+ plages accessibles en moto-taxi local (~5€)'],
-    f:['Peixe assado de pêcheur local — ultra-frais (~25 BRL)','Pastel de camarão frit — street food de plage (~5 BRL)','Açaí com granola post-surf (~12 BRL)','Restaurante Maresia — fruits de mer vue mer (~50 BRL/pers)'],
-    t:'Bus SP→Ubatuba ~18€ (4h) · Compagnie Litorânea depuis Rodoviária Tietê · Vol retour GRU→CDG le 18 nov.'},
+ 'Manaus':{p:'mx',ph:'M×M · J1–J3',dt:'17 – 19 oct.',
+ img:'https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=600&q=80',
+ v:['Pirogue au lever du soleil sur le rio Negro (5h30)','Dauphins roses boto cor-de-rosa — unique au monde','Pêche aux piranhas avec guide local','Observation caïmans nocturne en pirogue','Forêt primaire : canopée et biodiversité extraordinaire'],
+ f:['Tacacá — soupe épicée aux crevettes séchées (~5 BRL)','Tucunaré grillé — poisson du rio Negro, chair délicate','Açaí frais pressé sur place (~10 BRL le verre)','Mercado Adolpho Lisboa — fruits amazonienses exotiques'],
+ t:'Excursions souvent incluses dans le lodge · DEET 30%+ obligatoire · Aucun réseau en forêt · Lodge recommandé : Anavilhanas ou Juma'},
+ 'Porto de Galinhas':{p:'mx',ph:'M×M · J4–J7',dt:'20 – 23 oct.',
+ img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80',
+ v:['Jangada vers piscines naturelles (~12€) — marée basse obligatoire !','Snorkeling dans les récifs de corail (gratuit avec masque)','Plage de Carneiros — eaux calmes turquoise, romantique','Kitesurf à Maracaipe (~55€/2h de cours pour débutants)','Balade à cheval sur la plage au coucher de soleil (~18€)'],
+ f:['Peixe na telha — poisson à la tuile, spécialité locale (~35 BRL)','Tapioca sucrée ou salée — street food du Nordeste (~5 BRL)','Sucos de frutas — caju, umbu, siriguela frais','Camarão na moranga — crevettes dans la courge'],
+ t:'App Tábua de Marés obligatoire · Jangada ~10–15€/pers · Bus local vers Carneiros ~2€'},
+ 'Foz do Iguaçu':{p:'tog',ph:'Les 4 · J9–J11',dt:'25 – 27 oct.',
+ img:'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=600&q=80',
+ v:['Parc côté brésilien — panorama sur les 275 chutes (~22€/pers)','Parc côté argentin — Garganta del Diablo (~18€/pers)','Aventura Náutica — bateau sous les chutes (~20€/pers)','Sentiers jungle : toucans, coatis, papillons géants (inclus billet)','Survol hélicoptère en option (~150€/pers)'],
+ f:['Puerto Iguazu (Argentine) — restaurants bien mieux et moins chers','Empanadas fraîches côté argentin (~2–3€ pièce)','Asado argentin en petit resto (~15€/pers)','Alfajores et dulce de leche — douceurs argentines'],
+ t:'Base côté argentin recommandée · Dragon ou Tetris Hostel ~30€/pers · Imperméable obligatoire côté argentin · Frontière Foz↔Puerto Iguazu ~4€'},
+ 'Salvador de Bahia':{p:'tog',ph:'Les 4 · J12–J15',dt:'28 – 31 oct.',
+ img:'https://images.unsplash.com/photo-1569074187119-c87815b476da?w=600&q=80',
+ v:['Pelourinho — centre historique UNESCO, ruelles coloniales (gratuit)','Église São Francisco — intérieur baroque doré unique au Brésil','Olodum — percussions afro en rue le dimanche (gratuit)','Croisière baie Todos os Santos (~30–50€/pers)','Phare de Barra — coucher de soleil iconique (gratuit)','Praia do Flamengo et Itapuã — plages sauvages locales (bus ~1€)'],
+ f:['Acarajé de Dinha (Rio Vermelho) — institution (~5 BRL/pièce)','Moqueca baiana — ragoût crevettes lait de coco (~35 BRL)','Vatapá et caruru — spécialités afro-baianas de rue','Bars do Rio Vermelho — caipirinhas et ambiance locale authentique'],
+ t:'Loger à Rio Vermelho (plus local et sûr la nuit que Pelourinho) · Appart partagé ×4 recommandé'},
+ 'Morro de São Paulo':{p:'tog',ph:'Les 4 · J15–J18',dt:'31 oct. – 3 nov.',
+ img:'https://images.unsplash.com/photo-1559494007-e9f57b2ce7b7?w=600&q=80',
+ v:['Forteresse portugaise — coucher de soleil depuis les remparts (gratuit)','2e plage — la plus animée avec bars et restaurants','4e plage — 40 min à pied, quasi-déserte et sauvage','Excursion Boipeba — piscines naturelles récifs (bateau ~12€ A/R)','Snorkeling dans les récifs à marée basse (gratuit avec masque)'],
+ f:['Restaurantes de plage — poisson grillé frais (~30 BRL)','Caldinho de sururu — soupe de moules locales (~10 BRL)','Caipirinha de cachaça artisanale (~12 BRL)','Açaí na tigela com frutas da época'],
+ t:'Île sans voitures · Vérifier marée pour Boipeba (Tábua de Marés) · Catamaran Salvador→Morro ~22€/pers'},
+ 'Rio de Janeiro':{p:'tog',ph:'Les 4 · J16–J21',dt:'1 – 6 nov.',
+ img:'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=600&q=80',
+ v:['Christ Rédempteur — 7h30 max avant foule (~12€, billet en ligne obligatoire)','Pain de Sucre — téléphérique (~18€, arriver à 17h pour coucher de soleil)','Samba à Lapa — Carioca da Gema (vendredi ~10€, ou gratuit dans la rue)','Favela tour Vidigal (~15€, guide local absolument obligatoire)','Bar Mirante do Arvrão — vue nocturne sur Rio (gratuit)','Forêt de Tijuca — cascade Taunay, 1h A/R (gratuit)','Museu do Amanhã — architecture Calatrava (~8€)'],
+ f:['PF local à Botafogo — riz/haricots/viande (~15 BRL)','Açaí bowl à Ipanema — petit-déj de carioca (~15 BRL)','Churrascaria à Botafogo (~40 BRL/pers)','Pão de queijo chaud — collation incontournable (~3 BRL)'],
+ t:'Loger à Santa Teresa ou Botafogo (plus local qu\'Ipanema) · Pas de bijoux visibles en balade'},
+ 'Paraty':{p:'tog',ph:'Les 4 · J24',dt:'9 nov.',
+ img:'https://images.unsplash.com/photo-1571566882372-1598d88abd90?w=600&q=80',
+ v:['Rues pavées coloniales du 17e — flânerie nocturne (gratuit)','Alambique Mãe de Ouro — cachaça artisanale (~5€ dégustation)','Kayak dans la baie de Paraty (~20€)','Centre historique préservé — une des meilleures architectures coloniales du Brésil'],
+ f:['Punto Divino — pasta et fruits de mer en terrasse (~40€ pour 2)','Restaurante Bartholomeu — cuisine créative locale','Tapioca na rua — petit-déj colonial (~5 BRL)','Cachaça de Paraty — parmi les meilleures du Brésil'],
+ t:'Bus Rio→Paraty ~25€ (4h) · 1 nuit suffit · Bateau Paraty→Ilha Grande ~18€'},
+ 'Ilha Grande':{p:'tog',ph:'Les 4 · J25–J26',dt:'10 – 11 nov.',
+ img:'https://images.unsplash.com/photo-1590056038587-c6ea28ce5f1e?w=600&q=80',
+ v:['Lopes Mendes — top 10 mondial (40 min à pied, apporter eau et nourriture !)','Snorkeling depuis la plage (gratuit avec masque)','Lagoa Azul — eaux d\'un bleu extraordinaire','Randonnée côtière ~4h autour de l\'île','Praia do Aventureiro — l\'une des plus isolées du Brésil'],
+ f:['Restaurante Lua e Mar — poisson grillé vue mer (~40 BRL/pers)','Frutos do mar au marché local — ultra-frais','Sucos tropicais frais — maracujá, goiaba, manga','Moqueca de peixe en pousada locale'],
+ t:'Île sans voitures ni motos · Aucun commerce à Lopes Mendes (tout apporter) · Séparation M×M→Paris / Q×T→SP le 11 nov.'},
+ 'São Paulo':{p:'qt',ph:'Q×T · J27–J29',dt:'12 – 14 nov.',
+ img:'https://images.unsplash.com/photo-1578255321055-d3d35f1eabd2?w=600&q=80',
+ v:['MASP Avenida Paulista (~5€, gratuit le mardi)','Vila Madalena — Beco do Batman, street art (gratuit)','Parc Ibirapuera — poumon vert de SP (gratuit)','Liberdade — quartier japonais, marché dominical (gratuit)','Mercado Municipal — sandwiche mortadelle légendaire (~8€)'],
+ f:['PF local partout en ville (~15 BRL/pers)','Izakaya à Liberdade — fusion japonaise-brésilienne','Mercado Municipal — toutes spécialités brésiliennes','Repas chez la famille — expérience et économie maximales'],
+ t:'Hébergement chez la famille = économie ~300€ · SP = gastronomie mondiale accessible · MASP gratuit le mardi'},
+ 'Ubatuba':{p:'qt',ph:'Q×T · J30–J32',dt:'15 – 17 nov.',
+ img:'https://images.unsplash.com/photo-1516887159320-a736b92f5c51?w=600&q=80',
+ v:['Praia do Félix — eaux cristallines, snorkeling gratuit depuis la plage','Projeto TAMAR — protection tortues marines (gratuit)','Praia Brava — vagues puissantes, spot de surf','Trilha Picinguaba — randonnée côtière forêt Atlantique (gratuit)','100+ plages accessibles en moto-taxi local (~5€)'],
+ f:['Peixe assado de pêcheur local — ultra-frais (~25 BRL)','Pastel de camarão frit — street food de plage (~5 BRL)','Açaí com granola post-surf (~12 BRL)','Restaurante Maresia — fruits de mer vue mer (~50 BRL/pers)'],
+ t:'Bus SP→Ubatuba ~18€ (4h) · Compagnie Litorânea depuis Rodoviária Tietê · Vol retour GRU→CDG le 18 nov.'},
 };
+
 
 // ── BOTTOM SHEET ──────────────────────────────────────────────────
 function openSheet(name){
-  const d=CITIES[name]; if(!d) return;
-  const ph=document.getElementById('sh-phase');
-  ph.textContent=d.ph;
-  const bg=d.p==='mx'?['var(--mxd)','var(--mx)']:d.p==='qt'?['var(--qtd)','var(--qt)']:['var(--togd)','var(--tog)'];
-  ph.style.cssText=`background:${bg[0]};color:${bg[1]}`;
-  document.getElementById('sh-name').textContent=name;
-  document.getElementById('sh-dates').textContent=d.dt;
-  const img=document.getElementById('sh-img');
-  img.src=d.img; img.alt=name;
-  document.getElementById('sh-visit').innerHTML=d.v.map(x=>`<li>${x}</li>`).join('');
-  document.getElementById('sh-food').innerHTML=d.f.map(x=>`<li>${x}</li>`).join('');
-  document.getElementById('sh-tip').textContent=d.t;
-  document.getElementById('sh-ov').classList.add('open');
-  document.getElementById('sheet').classList.add('open');
+ const d=CITIES[name]; if(!d) return;
+ const ph=document.getElementById('sh-phase');
+ ph.textContent=d.ph;
+ const bg=d.p==='mx'?['var(--mxd)','var(--mx)']:d.p==='qt'?['var(--qtd)','var(--qt)']:['var(--togd)','var(--tog)'];
+ ph.style.cssText=`background:${bg[0]};color:${bg[1]}`;
+ document.getElementById('sh-name').textContent=name;
+ document.getElementById('sh-dates').textContent=d.dt;
+ const img=document.getElementById('sh-img');
+ img.src=d.img; img.alt=name;
+ document.getElementById('sh-visit').innerHTML=d.v.map(x=>`<li>${x}</li>`).join('');
+ document.getElementById('sh-food').innerHTML=d.f.map(x=>`<li>${x}</li>`).join('');
+ document.getElementById('sh-tip').textContent=d.t;
+ document.getElementById('sh-ov').classList.add('open');
+ document.getElementById('sheet').classList.add('open');
 }
 function closeSheet(){
-  document.getElementById('sh-ov').classList.remove('open');
-  document.getElementById('sheet').classList.remove('open');
+ document.getElementById('sh-ov').classList.remove('open');
+ document.getElementById('sheet').classList.remove('open');
 }
+
 
 // ── MAP ───────────────────────────────────────────────────────────
 let map,layers={},mapReady=false;
 const C={mx:'#34D96A',tog:'#F5A623',qt:'#FF6B6B'};
 const cities=[
-  {n:'Manaus',lat:-3.119,lng:-60.022,p:'mx'},
-  {n:'Porto de Galinhas',lat:-8.507,lng:-35.006,p:'mx'},
-  {n:'Foz do Iguaçu',lat:-25.517,lng:-54.585,p:'tog'},
-  {n:'Salvador de Bahia',lat:-12.974,lng:-38.510,p:'tog'},
-  {n:'Morro de São Paulo',lat:-13.382,lng:-38.912,p:'tog'},
-  {n:'Boipeba',lat:-13.623,lng:-38.938,p:'tog'},
-  {n:'Rio de Janeiro',lat:-22.907,lng:-43.173,p:'tog'},
-  {n:'Paraty',lat:-23.220,lng:-44.717,p:'qt'},
-  {n:'Ilha Grande',lat:-23.152,lng:-44.229,p:'qt'},
-  {n:'São Paulo',lat:-23.541,lng:-46.632,p:'qt'},
-  {n:'Ubatuba',lat:-23.433,lng:-45.083,p:'qt'},
+ {n:'Manaus',lat:-3.119,lng:-60.022,p:'mx'},
+ {n:'Porto de Galinhas',lat:-8.507,lng:-35.006,p:'mx'},
+ {n:'Foz do Iguaçu',lat:-25.517,lng:-54.585,p:'tog'},
+ {n:'Salvador de Bahia',lat:-12.974,lng:-38.510,p:'tog'},
+ {n:'Morro de São Paulo',lat:-13.382,lng:-38.912,p:'tog'},
+ {n:'Boipeba',lat:-13.623,lng:-38.938,p:'tog'},
+ {n:'Rio de Janeiro',lat:-22.907,lng:-43.173,p:'tog'},
+ {n:'Paraty',lat:-23.220,lng:-44.717,p:'qt'},
+ {n:'Ilha Grande',lat:-23.152,lng:-44.229,p:'qt'},
+ {n:'São Paulo',lat:-23.541,lng:-46.632,p:'qt'},
+ {n:'Ubatuba',lat:-23.433,lng:-45.083,p:'qt'},
 ];
 // r1 = M×M : Manaus→Porto→Foz→Salvador→Morro→Boipeba→Rio
 const r1=[[-3.119,-60.022],[-8.507,-35.006],[-25.517,-54.585],[-12.974,-38.510],[-13.382,-38.912],[-13.623,-38.938],[-22.907,-43.173]];
@@ -926,42 +975,42 @@ const r2=[[-25.517,-54.585],[-12.974,-38.510],[-13.382,-38.912],[-13.623,-38.938
 // ensemble = route partagée : Foz→Salvador→Morro→Boipeba→Rio
 const rAll=[[-25.517,-54.585],[-12.974,-38.510],[-13.382,-38.912],[-13.623,-38.938],[-22.907,-43.173]];
 function mkIco(col){
-  return L.divIcon({html:`<div style="width:14px;height:14px;background:${col};border:2.5px solid rgba(255,255,255,.9);border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.7);cursor:pointer;transition:transform .15s" onmouseenter="this.style.transform='scale(1.4)'" onmouseleave="this.style.transform='scale(1)'"></div>`,iconSize:[14,14],iconAnchor:[7,7],className:''});
+ return L.divIcon({html:`<div style="width:14px;height:14px;background:${col};border:2.5px solid rgba(255,255,255,.9);border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.7);cursor:pointer;transition:transform .15s" onmouseenter="this.style.transform='scale(1.4)'" onmouseleave="this.style.transform='scale(1)'"></div>`,iconSize:[14,14],iconAnchor:[7,7],className:''});
 }
 function initMap(){
-  if(mapReady)return; mapReady=true;
-  map=L.map('map',{zoomControl:true}).setView([-15,-47],4);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:17,attribution:'© CartoDB'}).addTo(map);
-  layers.mx=L.layerGroup(); layers.qt=L.layerGroup(); layers.all=L.layerGroup();
-  // M×M : Manaus→Porto en pointillés (solo), Foz→Rio en plein (commun)
-  L.polyline(r1.slice(0,3),{color:C.mx,weight:3,dashArray:'8 5',opacity:.9}).addTo(layers.mx);
-  L.polyline(r1.slice(2),{color:C.tog,weight:3,opacity:.9}).addTo(layers.mx);
-  // Q×T : Foz→Rio en plein (commun), Paraty→Ubatuba en pointillés (solo)
-  L.polyline(r2.slice(0,5),{color:C.tog,weight:3,opacity:.9}).addTo(layers.qt);
-  L.polyline(r2.slice(4),{color:C.qt,weight:3,dashArray:'8 5',opacity:.9}).addTo(layers.qt);
-  // Ensemble : route partagée uniquement Foz→Salvador→Morro→Boipeba→Rio
-  L.polyline(rAll,{color:C.tog,weight:3.5,opacity:.95}).addTo(layers.all);
-  cities.forEach(c=>{
-    const col=C[c.p];
-    const mkr=()=>{
-      const m=L.marker([c.lat,c.lng],{icon:mkIco(col)});
-      m.on('click',()=>openSheet(c.n));
-      return m;
-    };
-    if(c.p==='mx'){mkr().addTo(layers.mx);} // pas dans layers.all
-    else if(c.p==='qt'){mkr().addTo(layers.qt);} // pas dans layers.all
-    else{mkr().addTo(layers.mx);mkr().addTo(layers.qt);mkr().addTo(layers.all);}
-  });
-  layers.mx.addTo(map);
-  map.fitBounds(L.latLngBounds(r1).pad(.08));
+ if(mapReady)return; mapReady=true;
+ map=L.map('map',{zoomControl:true}).setView([-15,-47],4);
+ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:17,attribution:'© CartoDB'}).addTo(map);
+ layers.mx=L.layerGroup(); layers.qt=L.layerGroup(); layers.all=L.layerGroup();
+ // M×M : Manaus→Porto en pointillés (solo), Foz→Rio en plein (commun)
+ L.polyline(r1.slice(0,3),{color:C.mx,weight:3,dashArray:'8 5',opacity:.9}).addTo(layers.mx);
+ L.polyline(r1.slice(2),{color:C.tog,weight:3,opacity:.9}).addTo(layers.mx);
+ // Q×T : Foz→Rio en plein (commun), Paraty→Ubatuba en pointillés (solo)
+ L.polyline(r2.slice(0,5),{color:C.tog,weight:3,opacity:.9}).addTo(layers.qt);
+ L.polyline(r2.slice(4),{color:C.qt,weight:3,dashArray:'8 5',opacity:.9}).addTo(layers.qt);
+ // Ensemble : route partagée uniquement Foz→Salvador→Morro→Boipeba→Rio
+ L.polyline(rAll,{color:C.tog,weight:3.5,opacity:.95}).addTo(layers.all);
+ cities.forEach(c=>{
+ const col=C[c.p];
+ const mkr=()=>{
+ const m=L.marker([c.lat,c.lng],{icon:mkIco(col)});
+ m.on('click',()=>openSheet(c.n));
+ return m;
+ };
+ if(c.p==='mx'){mkr().addTo(layers.mx);} // pas dans layers.all
+ else if(c.p==='qt'){mkr().addTo(layers.qt);} // pas dans layers.all
+ else{mkr().addTo(layers.mx);mkr().addTo(layers.qt);mkr().addTo(layers.all);}
+ });
+ layers.mx.addTo(map);
+ map.fitBounds(L.latLngBounds(r1).pad(.08));
 }
 function setMap(n){
-  if(!mapReady){initMap();setTimeout(()=>setMap(n),300);return;}
-  Object.values(layers).forEach(l=>map.removeLayer(l));
-  document.querySelectorAll('.mtbtn').forEach(b=>b.classList.remove('on'));
-  if(n===1){layers.mx.addTo(map);document.getElementById('mb1').classList.add('on');map.fitBounds(L.latLngBounds(r1).pad(.08));}
-  else if(n===2){layers.qt.addTo(map);document.getElementById('mb2').classList.add('on');map.fitBounds(L.latLngBounds(r2).pad(.08));}
-  else{layers.all.addTo(map);document.getElementById('mb0').classList.add('on');map.fitBounds(L.latLngBounds(rAll).pad(.12));}
+ if(!mapReady){initMap();setTimeout(()=>setMap(n),300);return;}
+ Object.values(layers).forEach(l=>map.removeLayer(l));
+ document.querySelectorAll('.mtbtn').forEach(b=>b.classList.remove('on'));
+ if(n===1){layers.mx.addTo(map);document.getElementById('mb1').classList.add('on');map.fitBounds(L.latLngBounds(r1).pad(.08));}
+ else if(n===2){layers.qt.addTo(map);document.getElementById('mb2').classList.add('on');map.fitBounds(L.latLngBounds(r2).pad(.08));}
+ else{layers.all.addTo(map);document.getElementById('mb0').classList.add('on');map.fitBounds(L.latLngBounds(rAll).pad(.12));}
 }
 </script>
 </body>
